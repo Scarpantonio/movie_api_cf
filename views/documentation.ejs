@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang>
+  <head>
+    <meta charset="utf-8" />
+    <title>Movie API Documentation</title>
+    <link rel="stylesheet" type="text/css" href="./css/styles.css" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+  </head>
+  <body>
+    <h1>Documentation Instructions</h1>
+    <h2>End points descriptions:</h2>
+
+    <section>
+      <h3 class="end-point-title"><strong>Get list of all movies</strong></h3>
+      <ul>
+        <li>
+          <p><strong>URL:</strong> /movies/[title]</p>
+          <p><strong>Method: </strong>GET</p>
+          <p><strong>Request Body data format: </strong>none</p>
+          <p>
+            <strong>Response body data format: </strong>A JSON object holding
+            data about all the movies
+          </p>
+        </li>
+      </ul>
+
+      <h3 class="end-point-title"><strong>Get singular movie info</strong></h3>
+      <ul>
+        <li>
+          <p><strong>URL:</strong> /movies</p>
+          <p><strong>Method: </strong>GET</p>
+          <p><strong>Request Body data format: </strong>none</p>
+          <p>
+            <strong>Response body data format: </strong>A JSON object holding
+            data about a single movie, containing a description, title,
+            director, genre, image, and featured, Example: { Title: ”harry
+            potter”, description: “ex description”, director: ”Steven Trol”,
+            genre: "comedy", Image: URL, Featured: true }
+          </p>
+        </li>
+      </ul>
+
+      <h3 class="end-point-title"><strong>Get movie info by genre</strong></h3>
+      <ul>
+        <li>
+          <p><strong>URL:</strong> /movies/[genre]</p>
+          <p><strong>Method: </strong>GET</p>
+          <p><strong>Request Body data format: </strong>none</p>
+          <p>
+            <strong>Response body data format: </strong>A JSON object holding
+            data about movie genre, containing a description and movie title,
+            Example: { description: “ex description”, genre: "comedy" }
+          </p>
+        </li>
+      </ul>
+
+      <h3 class="end-point-title">
+        <strong>Get director info by name</strong>
+      </h3>
+      <ul>
+        <li>
+          <p><strong>URL:</strong> /movies/[name]</p>
+          <p><strong>Method: </strong>GET</p>
+          <p><strong>Request Body data format: </strong>none</p>
+          <p>
+            <strong>Response body data format: </strong>A JSON object holding
+            data about director bio, birth year, and death year Example: { bio:
+            “ex description”, birth year: "09/12/1944", death year: "03/05/2010"
+            }
+          </p>
+        </li>
+      </ul>
+
+      <h3 class="end-point-title"><strong>Create new user </strong></h3>
+      <ul>
+        <li>
+          <p><strong>URL:</strong> /sigup</p>
+          <p><strong>Method: </strong>POST</p>
+          <p>
+            <strong>Request Body data format: </strong>A JSON object holding
+            data about the new user to add, structured like: { name : "Jennifer
+            perez", Email:”@” Birth:11/22/78Password:123 } }
+          </p>
+          <p>
+            <strong>Response body data format: </strong>A JSON object holding
+            data about the new user that was added, including an ID: { Id:
+            98123498913 name : "Paulina Gomez", Email: ”@”, Birth:11/22/78,
+            Password:123 } }
+          </p>
+        </li>
+      </ul>
+
+      <h3 class="end-point-title">
+        <strong>Update user profile info </strong>
+      </h3>
+      <ul>
+        <li>
+          <p><strong>URL:</strong> user/update</p>
+          <p><strong>Method: </strong>PUT</p>
+          <p><strong>Request Body data format: </strong>none</p>
+          <p>
+            <strong>Response body data format: </strong>An email indicating the
+            username, password, email, birth that was updated
+          </p>
+        </li>
+      </ul>
+
+      <h3 class="end-point-title">
+        <strong>Add favorite movie by user</strong>
+      </h3>
+      <ul>
+        <li>
+          <p><strong>URL:</strong> user/favoriteMovies</p>
+          <p><strong>Method: </strong>POST</p>
+          <p>
+            <strong>Request Body data format: </strong>A JSON object holding
+            data about user favorite movies.
+          </p>
+          <p>
+            <strong>Response body data format: </strong>A JSON object holding
+            data about the user favorite movies that were added.
+          </p>
+        </li>
+      </ul>
+
+      <h3 class="end-point-title"><strong>Delete favorite movie </strong></h3>
+      <ul>
+        <li>
+          <p><strong>URL:</strong> /movies/favorites/delete</p>
+          <p><strong>Method: </strong>DELETE</p>
+          <p><strong>Request Body data format: </strong>none</p>
+          <p>
+            <strong>Response body data format: </strong>A email indicating
+            whether the favorite movie was successfully removed
+          </p>
+        </li>
+      </ul>
+
+      <h3 class="end-point-title"><strong>Delete user account </strong></h3>
+      <ul>
+        <li>
+          <p><strong>URL:</strong> /user/delete</p>
+          <p><strong>Method: </strong>DELETE</p>
+          <p><strong>Request Body data format: </strong>none</p>
+          <p>
+            <strong>Response body data format: </strong>A email indicating the
+            user was successfully removed
+          </p>
+        </li>
+      </ul>
+    </section>
+  </body>
+</html>
