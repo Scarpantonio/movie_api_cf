@@ -33,10 +33,29 @@
           <p>
             <strong>Response body data format: </strong>A JSON object holding
             data about a single movie, containing a description, title,
-            director, genre, image, and featured, Example: { Title: ”harry
-            potter”, description: “ex description”, director: ”Steven Trol”,
-            genre: "comedy", Image: URL, Featured: true }
-          </p>
+            director, genre, image, and featured, Example: {
+
+              <xmp>
+              "Director": {
+                  "Name": "Jonathan Demme",
+                  "Bio": "Robert Jonathan Demme was an American director, producer, and screenwriter.",
+                  "Birth": "1944",
+                  "Death": "2017"
+              },
+              "Actors": [],
+              "_id": "5ef35d036d47ecabd2fba4d1",
+              "Title": "Silence of the Lambs",
+              "Description": "A young FBI cadet must receive the help of an incarcerated and manipulative cannibal killer to help catch another serial killer.",
+              "Genre": {
+                  "Name": "Thriller",
+                  "Description": "Thriller film, also known as suspense film or suspense thriller, is a broad film genre that involves excitement and suspense in the audience."
+              },
+              "ImagePath": "silenceofthelambs.png",
+              "Featured": true
+          }
+        
+        </xmp> 
+      </p>  
         </li>
       </ul>
 
@@ -49,7 +68,28 @@
           <p>
             <strong>Response body data format: </strong>A JSON object holding
             data about movie genre, containing a description and movie title,
-            Example: { description: “ex description”, genre: "comedy" }
+            Example: 
+            <xmp>
+                {
+                  "Director": {
+                      "Name": "Jonathan Demme",
+                      "Bio": "Robert Jonathan Demme was an American director, producer, and screenwriter.",
+                      "Birth": "1944",
+                      "Death": "2017"
+                  },
+                  "Actors": [],
+                  "_id": "5ef35e0b6d47ecabd2fba4d2",
+                  "Title": " Ricki and the Flash",
+                  "Description": "Its been a roller-coaster ride for Ricki Rendazzo (Meryl Streep), a one-time wife and mother of three who left her family behind to follow her dreams of rock and roll stardom in California",
+                  "Genre": {
+                      "Name": "Comedy",
+                      "Description": "Comedy is a genre of film in which the main emphasis is on humor. These films are designed to make the audience laugh through amusement and most often work by exaggerating characteristics for humorous effect."
+                  },
+                  "ImagePath": "silenceofthelambs.png",
+                  "Featured": true,
+                  "description": "This Is a new description for the movie we just update for the purpuses of thsi exercise."
+              },
+              </xmp>
           </p>
         </li>
       </ul>
@@ -64,9 +104,29 @@
           <p><strong>Request Body data format: </strong>none</p>
           <p>
             <strong>Response body data format: </strong>A JSON object holding
-            data about director bio, birth year, and death year Example: { bio:
-            “ex description”, birth year: "09/12/1944", death year: "03/05/2010"
-            }
+            data about director bio, birth year, and death year Example:
+            <xmp>
+                {
+                  "Director": {
+                      "Name": "Chuck Russell",
+                      "Bio": "Charles Russell is an American film director, producer, screenwriter and actor, known for his work on several genre films",
+                      "Birth": "1958"
+                  },
+                  "Actors": [],
+                  "_id": "5ef3622f6d47ecabd2fba4d4",
+                  "Title": "The Mask",
+                  "Description": " When timid bank clerk Stanley Ipkiss (Jim Carrey) discovers a magical mask containing the spirit of the Norse god Loki, his entire life changes. While wearing the mask",
+                  "Genre": {
+                      "Name": "Comedy",
+                      "Description": "Comedy is a genre of film in which the main emphasis is on humor. These films are designed to make the audience laugh through amusement and most often work by exaggerating characteristics for humorous effect."
+                  },
+                  "ImagePath": "theMask.png",
+                  "Featured": true,
+                  "Bio": "This Is a new bio for the movie director Chuck Ruseel for the movie we just update for the purpuses of thsi exercise."
+              }
+            </xmp>
+            
+            
           </p>
         </li>
       </ul>
@@ -120,6 +180,19 @@
             <strong>Response body data format: </strong>A JSON object holding
             data about the user favorite movies that were added.
           </p>
+          <xmp>
+              {
+                "FavoriteMovies": [
+                    "5ef364416d47ecabd2fba4d6"
+                ],
+                "_id": "5ef0f5c43202b64334bc0d2f",
+                "Username": "Ros",
+                "Password": "123456",
+                "Email": "Ros@gmail.com",
+                "Birthday": "1988-08-21T06:00:00.000Z",
+                "__v": 0
+            }
+          </xmp>
         </li>
       </ul>
 
