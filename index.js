@@ -6,6 +6,8 @@ const uuid = require('uuid');
 const ejs = require('ejs')
 const mongoose = require('mongoose');
 const Models = require('./models.js');
+const passport = require('passport');
+require('./passport');
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -14,6 +16,7 @@ mongoose.connect('mongodb://localhost:27017/myFlix', { useNewUrlParser: true, us
 
 // Middleware
 app.use(bodyParser.json());
+let auth = require('./auth')(app); // app so express is available in /auth. 
 app.set('view engine', 'ejs');
 app.use(express.static('public'))
 app.use(morgan('common'));
@@ -24,42 +27,12 @@ app.use((err, req, res, next) => {
 
 let favMovies = [];
 
-let user = [
-  {
-   name:"Eduardo",
-  }
-];
-
-let movies = [
-  {
-    title: 'Harry Potter',
-    description:"Harry Potter is an orphaned boy brought up by his unkind Muggle (non-magical) aunt and uncle. ... Harry became extremely famous in the Wizarding World as a result. Harry begins his first year at Hogwarts School of Witchcraft and Wizardry and learns about magic.",
-    director: 'J.K. Rowling',
-    genre: 'fantasy',
-    featured: true,
-  },
-  {
-    title: 'Lord of the Rings',
-    description:"The Lord of the Rings is the saga of a group of sometimes reluctant heroes who set forth to save their world from consummate evil. Its many worlds and creatures were drawn from Tolkien's extensive knowledge of philology and folklore.",
-    director: 'Peter Jackson',
-    genre: 'fantasy',
-    featured: true,
-  },
-  {
-    title: 'Transformers',
-    description:"Synopsis. The movie opens with Optimus Prime, an Autobot, narrating the history of the AllSpark, a cube-shaped artifact capable of granting independent life to normal electronic and mechanical objects, which is the source of life for all Transformers, both Autobots and the evil Decepticons.",
-    director: 'Michael Bay',
-    genre: 'fantasy',
-    featured: true,
-  }
-];
-
 app.get('/', (req, res) => {
   res.send('Welcome to my movie API!');
 });
 
 // GET all movies
-app.get('/movies', (req, res) => {
+app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) => {
   Movies.find()
   .then((movies) => {
     res.status(200).send(movies);  
@@ -74,7 +47,7 @@ app.get('/movies', (req, res) => {
 
 
 // GET movie by title
-app.get('/movies/:Title', (req, res) => {
+app.get('/movies/:Title', passport.authenticate('jwt', {session: false}), (req, res) => {
   Movies.findOne({ Title: req.params.Title })
     .then((movie) => {
       if (!movie) {
@@ -88,7 +61,7 @@ app.get('/movies/:Title', (req, res) => {
 });
 
 // GET movie by genre
-app.get('/movies/genre/:Name', (req, res) => {
+app.get('/movies/genre/:Name', passport.authenticate('jwt', {session: false}), (req, res) => {
   Movies.find({"Genre.Name": req.params.Name})
   .then((movie)=>{
     if(!movie){
@@ -104,7 +77,7 @@ app.get('/movies/genre/:Name', (req, res) => {
 });
 
 //get directors info by their names
-app.get('/Director/:Name',(req,res)=>{
+app.get('/Director/:Name', passport.authenticate('jwt', {session: false}), (req,res)=>{
   Movies.find({"Director.Name": req.params.Name})
   .then((Director)=>{
     if(!Director){
@@ -119,48 +92,8 @@ app.get('/Director/:Name',(req,res)=>{
   })
 })
 
-
-// //Add new movies 
-// app.post('/movies/addMovies', (req, res) => {
-//   Movies.findOne({ title: req.body.title })
-//     .then((movie) => {
-//       if (!movie) {
-//         return res.status(400).send(req.body.title + 'already exists');
-//       } else {
-
-//         Movies.create({
-
-//           title: req.body.title,
-//           description: req.body.description,
-
-//             genre: {
-//               name:req.body.name,
-//               description:req.body.description
-//             },
-
-//             Director: {
-//               name:req.body.name,
-//               bio:req.body.bio, 
-//             },  
-
-//           ImagePath: req.body.ImagePath,
-//         featured: req.body.featured
-//           })
-//           .then((movie) =>{res.status(201).json(movie) })
-//         .catch((error) => {
-//           console.error(error);
-//           res.status(500).send('Error: ' + error);
-//         })
-//       }
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//       res.status(500).send('Error: ' + error);
-//     });
-// });
-
 //delete movies by title
-app.delete('/movies/:title', (req,res) => {
+app.delete('/movies/:title', passport.authenticate('jwt', {session: false}), (req,res) => {
   Movies.findOneAndRemove({title:req.params.title})
   .then((movie)=>{
     if(!movie) {
@@ -176,7 +109,7 @@ app.delete('/movies/:title', (req,res) => {
 })
 
 //DELETE movie by id
-app.delete('/movies/:_id', (req,res) => {
+app.delete('/movies/:_id', passport.authenticate('jwt', {session: false}), (req,res) => {
   Movies.findByIdAndDelete()({_id:req.params._id})
   .then((movie)=>{
     if(!movie) {
@@ -217,8 +150,8 @@ app.post('/users', (req, res) => {
     });
 });
 
-// Get all users
-app.get('/users', (req, res) => {
+// Get all users, here only admin should be able to do this. a new authenticate is necessary
+app.get('/users', passport.authenticate('jwt', {session: false}), (req, res) => {
   Users.find()
     .then((users) => {
       res.status(201).json(users);
@@ -230,7 +163,7 @@ app.get('/users', (req, res) => {
 });
 
 //Update user => por algua razon da null la repsuesta hay ver porque. 
-app.put('/users/:Username', (req, res) => {
+app.put('/users/:Username', passport.authenticate('jwt', {session: false}), (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, { $set:
     {
       Username: req.body.Username,
@@ -251,7 +184,7 @@ app.put('/users/:Username', (req, res) => {
 });
 
 // Add a movie to a user's list of favorites
-app.post('/users/:Username/Movies/:MovieID', (req, res) => {
+app.post('/users/:Username/Movies/:MovieID',passport.authenticate('jwt', {session: false}), (req, res) => {
   Users.findOneAndUpdate({ Username: req.params.Username }, {
      $push: { FavoriteMovies: req.params.MovieID }
    },
@@ -267,7 +200,7 @@ app.post('/users/:Username/Movies/:MovieID', (req, res) => {
 });
 
 //Delete user by name
-app.delete('/users/:Username', (req, res) => {
+app.delete('/users/:Username', passport.authenticate('jwt', {session: false}), (req, res) => {
   Users.findOneAndRemove({ Username: req.params.Username })
     .then((user) => {
       if (!user) {
@@ -284,7 +217,7 @@ app.delete('/users/:Username', (req, res) => {
   
 
 // delete users favorite movies
-app.delete('/users/:Username/Movies/:FavoriteMoviesID', (req, res) => {
+app.delete('/users/:Username/Movies/:FavoriteMoviesID',passport.authenticate('jwt', {session: false}), (req, res) => {
   // primero encontamos al usuario/ update porque queremos cambiar info que ese user contiene. 
   Users.findOneAndUpdate({ Username : req.params.Username }, {
     //Luego indicamos con pull el array especifico que queremos eliminar. 
@@ -302,7 +235,7 @@ app.delete('/users/:Username/Movies/:FavoriteMoviesID', (req, res) => {
 });
 
 // API documentation
-app.get('/documentation', (req, res) => {                  
+app.get('/documentation', passport.authenticate('jwt', {session: false}),(req, res) => {                  
   // res.sendFile(path.join(__dirname, '.public/documentation.html'));
   res.render('documentation')
 });
@@ -320,6 +253,46 @@ app.listen(8080, () => {
 
 
 
+//preguntar a jay como hacer con nested schemas/models
+
+// //Add new movies 
+// app.post('/movies/addMovies', (req, res) => {
+//   Movies.findOne({ title: req.body.title })
+//     .then((movie) => {
+//       if (!movie) {
+//         return res.status(400).send(req.body.title + 'already exists');
+//       } else {
+
+//         Movies.create({
+
+//           title: req.body.title,
+//           description: req.body.description,
+
+//             genre: {
+//               name:req.body.name,
+//               description:req.body.description
+//             },
+
+//             Director: {
+//               name:req.body.name,
+//               bio:req.body.bio, 
+//             },  
+
+//           ImagePath: req.body.ImagePath,
+//         featured: req.body.featured
+//           })
+//           .then((movie) =>{res.status(201).json(movie) })
+//         .catch((error) => {
+//           console.error(error);
+//           res.status(500).send('Error: ' + error);
+//         })
+//       }
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//       res.status(500).send('Error: ' + error);
+//     });
+// });
 
 
 // add new user
