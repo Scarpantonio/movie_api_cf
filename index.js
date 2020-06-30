@@ -43,6 +43,9 @@ app.get('/movies', passport.authenticate('jwt', {session: false}), (req, res) =>
   })
 });
 
+//  else {
+
+
 // GET movie by title
 app.get('/movies/:Title', passport.authenticate('jwt', {session: false}), (req, res) => {
   Movies.findOne({ Title: req.params.Title })
@@ -238,15 +241,9 @@ app.get('/documentation', passport.authenticate('jwt', {session: false}),(req, r
 });
 
 // Server port
-const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0',() => {
- console.log('Listening on Port ' + port);
+app.listen(8080, () => {
+  console.log('Your app is listening on port 8080.');
 });
-
-//old code
-// app.listen(8080, () => {
-//   console.log('Your app is listening on port 8080.');
-// });
 
 
 
