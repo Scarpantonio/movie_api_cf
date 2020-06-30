@@ -8,9 +8,6 @@ const mongoose = require('mongoose');
 const Models = require('./models.js');
 const passport = require('passport');
 require('./passport');
-const cors = require('cors');
-const { check, validationResult } = require('express-validator');
-
 
 const Movies = Models.Movie;
 const Users = Models.User;
@@ -23,24 +20,12 @@ let auth = require('./auth')(app); // app so express is available in /auth.
 app.set('view engine', 'ejs');
 app.use(express.static('public'))
 app.use(morgan('common'));
-app.use(cors());
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
 });
 
-// let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
-
-// app.use(cors({
-//   origin: (origin, callback) => {
-//     if(!origin) return callback(null, true);
-//     if(allowedOrigins.indexOf(origin) === -1){ // If a specific origin isn’t found on the list of allowed origins
-//       let message = 'The CORS policy for this application doesn’t allow access from origin ' + origin;
-//       return callback(new Error(message ), false);
-//     }
-//     return callback(null, true);
-//   }
-// }));
+let favMovies = [];
 
 app.get('/', (req, res) => {
   res.send('Welcome to my movie API!');
@@ -139,53 +124,31 @@ app.delete('/movies/:_id', passport.authenticate('jwt', {session: false}), (req,
   })
 })
 
-//Add new user with mongoose
-app.post('/users',
-  // Validation logic here for request
-  //you can either use a chain of methods like .not().isEmpty()
-  //which means "opposite of isEmpty" in plain english "is not empty"
-  //or use .isLength({min: 5}) which means
-  //minimum value of 5 characters are only allowed
-  [
-    check('Username', 'Username is required').isLength({min: 5}),
-    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-    check('Password', 'Password is required').not().isEmpty(),
-    check('Email', 'Email does not appear to be valid').isEmail()
-  ], (req, res) => {
-
-  // check the validation object for errors
-    let errors = validationResult(req);
-
-    if (!errors.isEmpty()) {
-      return res.status(422).json({ errors: errors.array() });
-    }
-
-    let hashedPassword = Users.hashPassword(req.body.Password);
-    Users.findOne({ Username: req.body.Username }) // Search to see if a user with the requested username already exists
-      .then((user) => {
-        if (user) {
-          //If the user is found, send a response that it already exists
-          return res.status(400).send(req.body.Username + ' already exists');
-        } else {
-          Users
-            .create({
-              Username: req.body.Username,
-              Password: hashedPassword,
-              Email: req.body.Email,
-              Birthday: req.body.Birthday
-            })
-            .then((user) => { res.status(201).json(user) })
-            .catch((error) => {
-              console.error(error);
-              res.status(500).send('Error: ' + error);
-            });
-        }
-      })
-      .catch((error) => {
-        console.error(error);
-        res.status(500).send('Error: ' + error);
-      });
-  });
+//Add new user : using mongoose
+app.post('/users', (req, res) => {
+  Users.findOne({ Username: req.body.Username })
+    .then((user) => {
+      if (user) {
+        return res.status(400).send(req.body.Username + 'already exists');
+      } else {
+        Users.create({
+            Username: req.body.Username,
+            Password: req.body.Password,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday
+          })
+          .then((user) =>{res.status(201).json(user) })
+        .catch((error) => {
+          console.error(error);
+          res.status(500).send('Error: ' + error);
+        })
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).send('Error: ' + error);
+    });
+});
 
 // Get all users, here only admin should be able to do this. a new authenticate is necessary
 app.get('/users', passport.authenticate('jwt', {session: false}), (req, res) => {
@@ -272,15 +235,14 @@ app.delete('/users/:Username/Movies/:FavoriteMoviesID',passport.authenticate('jw
 });
 
 // API documentation
-app.get('/documentation', passport.authenticate('jwt', {session: false}), (req, res) => {                  
+app.get('/documentation', passport.authenticate('jwt', {session: false}),(req, res) => {                  
   // res.sendFile(path.join(__dirname, '.public/documentation.html'));
   res.render('documentation')
 });
 
 // Server port
-const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0',() => {
- console.log('Listening on Port ' + port);
+app.listen(8080, () => {
+  console.log('Your app is listening on port 8080.');
 });
 
 
