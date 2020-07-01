@@ -25,7 +25,9 @@ app.use((err, req, res, next) => {
 
 let auth = require('./auth')(app);
 
-mongoose.connect('process.env.CONECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect('process.env.CONECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true })
+.then(() => console.log('MongoDB Connected...'))
+.catch((err) => console.log(err))
 
 
 app.get('/', (req, res) => {
@@ -39,7 +41,7 @@ app.get('/documentation', (req, res) => {
 
 // List all movies
 app.get('/movies', 
-//passport.authenticate("jwt", { session: false }),
+passport.authenticate("jwt", { session: false }),
 (req, res) => {
   Movies.find()
   .then((movies) => {
