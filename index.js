@@ -5,16 +5,14 @@ const bodyParser = require('body-parser');
 const uuid = require('uuid');
 const ejs = require('ejs')
 const mongoose = require('mongoose');
+const cors = require('cors');
 const Models = require('./models.js');
 const passport = require('passport');
 require('./passport');
-
 const Movies = Models.Movie;
 const Users = Models.User;
 
-mongoose.connect('process.emv.CONECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true });
-
-
+mongoose.connect('process.env.CONECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true });
 
 // Middleware
 app.use(bodyParser.json());
@@ -22,6 +20,7 @@ let auth = require('./auth')(app); // app so express is available in /auth.
 app.set('view engine', 'ejs');
 app.use(express.static('public'))
 app.use(morgan('common'));
+app.use(cors());
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).send('Something broke!');
