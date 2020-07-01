@@ -18,16 +18,14 @@ app.use(morgan("common"));
 app.set('view engine', 'ejs');
 app.use(express.static('public'))
 app.use(bodyParser.json());
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).send('Something broke!');
-});
 
 let auth = require('./auth')(app);
 
-mongoose.connect('process.env.CONECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true })
-.then(() => console.log('MongoDB Connected...'))
-.catch((err) => console.log(err))
+mongoose.connect("mongodb://localhost:27017/myFlixDB", { useNewUrlParser: true, useUnifiedTopology: true }).catch(error => handleError(error));
+
+// mongoose.connect('process.env.CONECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true })
+// .then(() => console.log('MongoDB Connected...'))
+// .catch((err) => console.log(err))
 
 
 app.get('/', (req, res) => {
