@@ -24,9 +24,6 @@ let auth = require('./auth')(app);
 // mongoose.connect("mongodb://localhost:27017/myFlixDB", { useNewUrlParser: true, useUnifiedTopology: true }).catch(error => handleError(error));
 
 mongoose.connect('process.env.CONECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true })
-// .then(() => console.log('MongoDB Connected...'))
-// .catch((err) => console.log(err))
-
 
 app.get('/', (req, res) => {
   res.send('Welcome to the myFlix app!');

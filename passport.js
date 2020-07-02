@@ -1,7 +1,7 @@
 // each strategy is a module that allows us to authenticate and authorice users.
 
 const passport = require('passport'),
-      LocalStrategy = require('passport-local').Strategy,
+      LocalStrategy = require('passport-local').Strategy,  
       Models = require('./models.js'),
       passportJWT = require('passport-jwt');
 
@@ -19,7 +19,7 @@ passport.use(new LocalStrategy({
   Users.findOne({ Username: username }, (error, user) => {
     if (error) {
       console.log(error);
-      return callback(error);
+      return callback(error); // return done
     }
     if (!user) {
       console.log('incorrect username');
@@ -30,7 +30,7 @@ passport.use(new LocalStrategy({
       return callback(null, false, {message: 'Incorrect password.'});
     }
     console.log('finished');
-    return callback(null, user);
+    return callback(null, user); // retorn user, y en las otras false xq el verufy callback tuvo problemas al encontrar al usuario/passwrod.  
   });
 }));
   
