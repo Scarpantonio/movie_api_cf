@@ -10,6 +10,7 @@ let   Users = Models.User,
       ExtractJWT = passportJWT.ExtractJwt;
 
 passport.use(new LocalStrategy({
+  // colocamos fields que queremos autenticar
   usernameField: 'Username',
   passwordField: 'Password'
   }, 

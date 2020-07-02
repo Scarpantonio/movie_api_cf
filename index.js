@@ -8,12 +8,12 @@ const Movies = Models.Movie;
 const Users = Models.User;
 const { check, validationResult } = require("express-validator");
 uuid = require("uuid");
-const cors = require("cors");
+// const cors = require("cors");
 const passport = require("passport");
 require("./passport");
 
 app.use(express.static("public"));
-app.use(cors());
+// app.use(cors());
 app.use(morgan("common"));
 app.set('view engine', 'ejs');
 app.use(express.static('public'))
@@ -21,9 +21,9 @@ app.use(bodyParser.json());
 
 let auth = require('./auth')(app);
 
-mongoose.connect("mongodb://localhost:27017/myFlixDB", { useNewUrlParser: true, useUnifiedTopology: true }).catch(error => handleError(error));
+// mongoose.connect("mongodb://localhost:27017/myFlixDB", { useNewUrlParser: true, useUnifiedTopology: true }).catch(error => handleError(error));
 
-// mongoose.connect('process.env.CONECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('process.env.CONECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true })
 // .then(() => console.log('MongoDB Connected...'))
 // .catch((err) => console.log(err))
 
@@ -218,10 +218,12 @@ app.delete(
   }
 );
  
-//required use after all middleware and route calls
+// required use after all middleware and route calls
 app.use((err, req, res, next) => {
+  // console.error(req);
+  // console.error(res);
   console.error(err.stack);
-  res.status(500).send('Something broke!');
+  res.status(500).send('is not working!');
  });
 
 var port = process.env.PORT || 8080;
