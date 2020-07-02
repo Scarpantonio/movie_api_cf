@@ -223,7 +223,7 @@ app.use((err, req, res, next) => {
   // console.error(req);
   // console.error(res);
   console.error(err.stack);
-  res.status(500).send('is not working!');
+  res.status(500).send('JA!');
  });
 
 var port = process.env.PORT || 8080;
@@ -235,13 +235,6 @@ app.listen(port, "0.0.0.0", function() {
 // app.listen(8080, () => {
 //   console.log('Your app is listening on port 8080.');
 // });
-
-
-
-
-
-
-
 
 
 //preguntar a jay como hacer con nested schemas/models
