@@ -11,6 +11,7 @@ uuid = require("uuid");
 const cors = require("cors");
 const passport = require("passport");
 require("./passport");
+require('dotenv').config()
 
 app.use(cors());
 app.use(morgan("common"));
@@ -34,7 +35,7 @@ app.get('/documentation', (req, res) => {
 
 // List all movies
 app.get('/movies', 
-// passport.authenticate("jwt", { session: false }),
+passport.authenticate("jwt", { session: false }),
 (req, res) => {
   Movies.find()
   .then((movies) => {
@@ -110,7 +111,7 @@ app.post('/users',
       return res.status(422).json({ errors: errors.array() });
     }
 
-  // let hashedPassword = Users.hashPassword(req.body.Password);
+  let hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
@@ -119,8 +120,7 @@ app.post('/users',
         Users
           .create({
             Username: req.body.Username,
-            // hashedPassword
-            Password: req.body.Password,
+            Password:  hashedPassword,
             Email: req.body.Email,
             Birthday: req.body.Birthday
           })
