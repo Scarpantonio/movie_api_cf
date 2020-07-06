@@ -219,7 +219,7 @@ app.use((err, req, res, next) => {
   // console.error(req);
   // console.error(res);
   console.error(err.stack);
-  res.status(500).send('something broke');
+  res.status(500).send(err);
  });
 
 var port = process.env.PORT || 8080;
