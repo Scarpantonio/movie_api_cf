@@ -36,18 +36,5 @@ module.exports = (router) => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // Revisar capitulo para mas detalles. This is the code we'll use to create authorization in our endpoints 
 // The code below first uses the the LocalStrategy you defined in the previous section to check that the username and password in the body of the request exist in the database. If they do, you use the

@@ -8,12 +8,11 @@ const Movies = Models.Movie;
 const Users = Models.User;
 const { check, validationResult } = require("express-validator");
 uuid = require("uuid");
-// const cors = require("cors");
+const cors = require("cors");
 const passport = require("passport");
 require("./passport");
 
-app.use(express.static("public"));
-// app.use(cors());
+app.use(cors());
 app.use(morgan("common"));
 app.set('view engine', 'ejs');
 app.use(express.static('public'))
@@ -23,7 +22,7 @@ let auth = require('./auth')(app);
 
 // mongoose.connect("mongodb://localhost:27017/myFlixDB", { useNewUrlParser: true, useUnifiedTopology: true }).catch(error => handleError(error));
 
-mongoose.connect('process.env.CONECTION_URI', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('process.env.DB_URI', { useNewUrlParser: true, useUnifiedTopology: true })
 
 app.get('/', (req, res) => {
   res.send('Welcome to the myFlix app!');
@@ -32,7 +31,6 @@ app.get('/', (req, res) => {
 app.get('/documentation', (req, res) => {
   res.render('documentation');
 });
-
 
 // List all movies
 app.get('/movies', 
@@ -112,7 +110,7 @@ app.post('/users',
       return res.status(422).json({ errors: errors.array() });
     }
 
-  let hashedPassword = Users.hashPassword(req.body.Password);
+  // let hashedPassword = Users.hashPassword(req.body.Password);
   Users.findOne({ Username: req.body.Username })
     .then((user) => {
       if (user) {
@@ -121,7 +119,8 @@ app.post('/users',
         Users
           .create({
             Username: req.body.Username,
-            Password: hashedPassword,
+            // hashedPassword
+            Password: req.body.Password,
             Email: req.body.Email,
             Birthday: req.body.Birthday
           })
@@ -220,11 +219,11 @@ app.use((err, req, res, next) => {
   // console.error(req);
   // console.error(res);
   console.error(err.stack);
-  res.status(500).send('JA!');
+  res.status(500).send('something broke');
  });
 
 var port = process.env.PORT || 8080;
-app.listen(port, "0.0.0.0", function() {
+app.listen(port, "0.0.0.0", () => {
   console.log("Listening on Port 8080");
 });
 
