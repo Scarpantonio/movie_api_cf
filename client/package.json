@@ -2,5 +2,9 @@
   "devDependencies": {
     "babel-core": "^6.26.3",
     "sass": "^1.26.10"
+  },
+  "dependencies": {
+    "components": "^0.1.0",
+    "src": "^1.1.2"
   }
 }
