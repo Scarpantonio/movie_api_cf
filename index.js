@@ -22,7 +22,6 @@ app.use(bodyParser.json());
 let auth = require('./auth')(app);
 
 // mongoose.connect("mongodb://localhost:27017/myFlixDB", { useNewUrlParser: true, useUnifiedTopology: true }).catch(error => handleError(error));
-
 mongoose.connect(process.env.DB_URI, { useNewUrlParser: true, useUnifiedTopology: true})
 
 app.get('/', (req, res) => {
@@ -218,7 +217,7 @@ app.delete(
 app.use((err, req, res, next) => {
   // console.error(req);
   // console.error(res);
-  console.error(err.stack);
+  console.error(err.stack + 'something broke');
   res.status(500).send(err);
  });
 
@@ -226,93 +225,3 @@ var port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
   console.log("Listening on Port 8080");
 });
-
-// Server port
-// app.listen(8080, () => {
-//   console.log('Your app is listening on port 8080.');
-// });
-
-
-//preguntar a jay como hacer con nested schemas/models
-
-// //Add new movies 
-// app.post('/movies/addMovies', (req, res) => {
-//   Movies.findOne({ title: req.body.title })
-//     .then((movie) => {
-//       if (!movie) {
-//         return res.status(400).send(req.body.title + 'already exists');
-//       } else {
-
-//         Movies.create({
-
-//           title: req.body.title,
-//           description: req.body.description,
-
-//             genre: {
-//               name:req.body.name,
-//               description:req.body.description
-//             },
-
-//             Director: {
-//               name:req.body.name,
-//               bio:req.body.bio, 
-//             },  
-
-//           ImagePath: req.body.ImagePath,
-//         featured: req.body.featured
-//           })
-//           .then((movie) =>{res.status(201).json(movie) })
-//         .catch((error) => {
-//           console.error(error);
-//           res.status(500).send('Error: ' + error);
-//         })
-//       }
-//     })
-//     .catch((error) => {
-//       console.error(error);
-//       res.status(500).send('Error: ' + error);
-//     });
-// });
-
-
-// add new user
-// app.post('/user', (req, res) => {
-//   let newUser = req.body;
-//   // res.send("create new user route") 
-//   if(!newUser.name) {
-//     const errMessage = 'Username is required'
-//     res.status(400).send(errMessage);
-//   } else {
-//     newUser.id = uuid.v4();
-//     user.push(newUser);
-//     res.status(201).send(newUser);
-//   }
-// });
-
-// delete favorite movies 
-// app.delete('/user/favoriteMovies/delete', (req, res) => {
-//   // res.send("delete fav user movies route") 
-//   let deleteMovie = req.body;
-//   if(!deleteMovie.title) {
-//     const errMessage = 'there is no movies to delete'
-//     res.status(400).send(errMessage);
-//   } else {
-//     favMovies.filter(deleteMovie);
-//     res.status(201).send(deleteMovie);
-//   }
-// });
-
-// update user
-// app.put('/user/update', (req, res) => {
-//   res.send("update user route") 
-// });
-
-// // delete user
-// app.delete('/user/delete/:id', (req, res) => {
-//   res.send("delete user route") 
-// });
-
-// // Add favorite movie by user 
-// app.post('/user/favoriteMovies', (req, res) => {
-//   res.send("favorite movie route") 
-// });
