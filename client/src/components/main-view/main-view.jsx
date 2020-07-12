@@ -14,12 +14,13 @@ export class MainView extends React.Component {
           movies: response.data
         });
       })
-      .catch(function(error) {
-        console.log(error);
+      .catch(function(err) {
+        console.log(err);
       });
   }
 
   render() {
+    console.log(movies);
     const { movies } = this.state;
     if (!movies) return <div className="main-view" />;
 
