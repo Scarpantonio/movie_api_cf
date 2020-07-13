@@ -13,24 +13,19 @@ const passport = require("passport");
 require("./passport");
 require("dotenv").config();
 
+app.use(cors());
+app.use(morgan("common"));
+app.set("view engine", "ejs");
+app.use(express.static("public"));
+app.use(bodyParser.json());
+
+let auth = require("./auth")(app);
+
 // mongoose.connect("mongodb://localhost:27017/myFlixDB", { useNewUrlParser: true, useUnifiedTopology: true }).catch(error => handleError(error));
 mongoose.connect(process.env.DB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 });
-
-app.set("view engine", "ejs");
-app.use(express.static("public"));
-app.use(bodyParser.json());
-app.use(morgan("common"));
-app.use(express.static(path.resolve("dist")));
-app.use(cors());
-app.use(function(err, req, res, next) {
-  console.error(err.stack);
-  res.status(500).send("Something ain't working right!");
-});
-
-let auth = require("./auth")(app);
 
 app.get("/", (req, res) => {
   res.send("Welcome to the myFlix app!");
