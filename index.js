@@ -8,7 +8,8 @@ const Movies = Models.Movie;
 const Users = Models.User;
 const { check, validationResult } = require("express-validator");
 uuid = require("uuid");
-// const cors = require("cors");
+
+const cors = require("cors");
 const passport = require("passport");
 require("./passport");
 require("dotenv").config();
