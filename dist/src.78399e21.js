@@ -28285,7 +28285,7 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"../../node_modules/react-dom/cjs/react-dom.development.js"}],"../../node_modules/axios/lib/helpers/bind.js":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"../../node_modules/react-dom/cjs/react-dom.development.js"}],"../node_modules/axios/lib/helpers/bind.js":[function(require,module,exports) {
 'use strict';
 
 module.exports = function bind(fn, thisArg) {
@@ -28298,7 +28298,7 @@ module.exports = function bind(fn, thisArg) {
   };
 };
 
-},{}],"../../node_modules/axios/lib/utils.js":[function(require,module,exports) {
+},{}],"../node_modules/axios/lib/utils.js":[function(require,module,exports) {
 'use strict';
 
 var bind = require('./helpers/bind');
@@ -28644,7 +28644,7 @@ module.exports = {
   trim: trim
 };
 
-},{"./helpers/bind":"../../node_modules/axios/lib/helpers/bind.js"}],"../../node_modules/axios/lib/helpers/buildURL.js":[function(require,module,exports) {
+},{"./helpers/bind":"../node_modules/axios/lib/helpers/bind.js"}],"../node_modules/axios/lib/helpers/buildURL.js":[function(require,module,exports) {
 'use strict';
 
 var utils = require('./../utils');
@@ -28717,7 +28717,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
   return url;
 };
 
-},{"./../utils":"../../node_modules/axios/lib/utils.js"}],"../../node_modules/axios/lib/core/InterceptorManager.js":[function(require,module,exports) {
+},{"./../utils":"../node_modules/axios/lib/utils.js"}],"../node_modules/axios/lib/core/InterceptorManager.js":[function(require,module,exports) {
 'use strict';
 
 var utils = require('./../utils');
@@ -28771,7 +28771,7 @@ InterceptorManager.prototype.forEach = function forEach(fn) {
 
 module.exports = InterceptorManager;
 
-},{"./../utils":"../../node_modules/axios/lib/utils.js"}],"../../node_modules/axios/lib/core/transformData.js":[function(require,module,exports) {
+},{"./../utils":"../node_modules/axios/lib/utils.js"}],"../node_modules/axios/lib/core/transformData.js":[function(require,module,exports) {
 'use strict';
 
 var utils = require('./../utils');
@@ -28793,14 +28793,14 @@ module.exports = function transformData(data, headers, fns) {
   return data;
 };
 
-},{"./../utils":"../../node_modules/axios/lib/utils.js"}],"../../node_modules/axios/lib/cancel/isCancel.js":[function(require,module,exports) {
+},{"./../utils":"../node_modules/axios/lib/utils.js"}],"../node_modules/axios/lib/cancel/isCancel.js":[function(require,module,exports) {
 'use strict';
 
 module.exports = function isCancel(value) {
   return !!(value && value.__CANCEL__);
 };
 
-},{}],"../../node_modules/axios/lib/helpers/normalizeHeaderName.js":[function(require,module,exports) {
+},{}],"../node_modules/axios/lib/helpers/normalizeHeaderName.js":[function(require,module,exports) {
 'use strict';
 
 var utils = require('../utils');
@@ -28814,7 +28814,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
   });
 };
 
-},{"../utils":"../../node_modules/axios/lib/utils.js"}],"../../node_modules/axios/lib/core/enhanceError.js":[function(require,module,exports) {
+},{"../utils":"../node_modules/axios/lib/utils.js"}],"../node_modules/axios/lib/core/enhanceError.js":[function(require,module,exports) {
 'use strict';
 
 /**
@@ -28858,7 +28858,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
   return error;
 };
 
-},{}],"../../node_modules/axios/lib/core/createError.js":[function(require,module,exports) {
+},{}],"../node_modules/axios/lib/core/createError.js":[function(require,module,exports) {
 'use strict';
 
 var enhanceError = require('./enhanceError');
@@ -28878,7 +28878,7 @@ module.exports = function createError(message, config, code, request, response) 
   return enhanceError(error, config, code, request, response);
 };
 
-},{"./enhanceError":"../../node_modules/axios/lib/core/enhanceError.js"}],"../../node_modules/axios/lib/core/settle.js":[function(require,module,exports) {
+},{"./enhanceError":"../node_modules/axios/lib/core/enhanceError.js"}],"../node_modules/axios/lib/core/settle.js":[function(require,module,exports) {
 'use strict';
 
 var createError = require('./createError');
@@ -28905,7 +28905,7 @@ module.exports = function settle(resolve, reject, response) {
   }
 };
 
-},{"./createError":"../../node_modules/axios/lib/core/createError.js"}],"../../node_modules/axios/lib/helpers/isAbsoluteURL.js":[function(require,module,exports) {
+},{"./createError":"../node_modules/axios/lib/core/createError.js"}],"../node_modules/axios/lib/helpers/isAbsoluteURL.js":[function(require,module,exports) {
 'use strict';
 
 /**
@@ -28921,7 +28921,7 @@ module.exports = function isAbsoluteURL(url) {
   return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
 };
 
-},{}],"../../node_modules/axios/lib/helpers/combineURLs.js":[function(require,module,exports) {
+},{}],"../node_modules/axios/lib/helpers/combineURLs.js":[function(require,module,exports) {
 'use strict';
 
 /**
@@ -28937,7 +28937,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
     : baseURL;
 };
 
-},{}],"../../node_modules/axios/lib/core/buildFullPath.js":[function(require,module,exports) {
+},{}],"../node_modules/axios/lib/core/buildFullPath.js":[function(require,module,exports) {
 'use strict';
 
 var isAbsoluteURL = require('../helpers/isAbsoluteURL');
@@ -28959,7 +28959,7 @@ module.exports = function buildFullPath(baseURL, requestedURL) {
   return requestedURL;
 };
 
-},{"../helpers/isAbsoluteURL":"../../node_modules/axios/lib/helpers/isAbsoluteURL.js","../helpers/combineURLs":"../../node_modules/axios/lib/helpers/combineURLs.js"}],"../../node_modules/axios/lib/helpers/parseHeaders.js":[function(require,module,exports) {
+},{"../helpers/isAbsoluteURL":"../node_modules/axios/lib/helpers/isAbsoluteURL.js","../helpers/combineURLs":"../node_modules/axios/lib/helpers/combineURLs.js"}],"../node_modules/axios/lib/helpers/parseHeaders.js":[function(require,module,exports) {
 'use strict';
 
 var utils = require('./../utils');
@@ -29014,7 +29014,7 @@ module.exports = function parseHeaders(headers) {
   return parsed;
 };
 
-},{"./../utils":"../../node_modules/axios/lib/utils.js"}],"../../node_modules/axios/lib/helpers/isURLSameOrigin.js":[function(require,module,exports) {
+},{"./../utils":"../node_modules/axios/lib/utils.js"}],"../node_modules/axios/lib/helpers/isURLSameOrigin.js":[function(require,module,exports) {
 'use strict';
 
 var utils = require('./../utils');
@@ -29084,7 +29084,7 @@ module.exports = (
     })()
 );
 
-},{"./../utils":"../../node_modules/axios/lib/utils.js"}],"../../node_modules/axios/lib/helpers/cookies.js":[function(require,module,exports) {
+},{"./../utils":"../node_modules/axios/lib/utils.js"}],"../node_modules/axios/lib/helpers/cookies.js":[function(require,module,exports) {
 'use strict';
 
 var utils = require('./../utils');
@@ -29139,7 +29139,7 @@ module.exports = (
     })()
 );
 
-},{"./../utils":"../../node_modules/axios/lib/utils.js"}],"../../node_modules/axios/lib/adapters/xhr.js":[function(require,module,exports) {
+},{"./../utils":"../node_modules/axios/lib/utils.js"}],"../node_modules/axios/lib/adapters/xhr.js":[function(require,module,exports) {
 'use strict';
 
 var utils = require('./../utils');
@@ -29321,7 +29321,7 @@ module.exports = function xhrAdapter(config) {
   });
 };
 
-},{"./../utils":"../../node_modules/axios/lib/utils.js","./../core/settle":"../../node_modules/axios/lib/core/settle.js","./../helpers/buildURL":"../../node_modules/axios/lib/helpers/buildURL.js","../core/buildFullPath":"../../node_modules/axios/lib/core/buildFullPath.js","./../helpers/parseHeaders":"../../node_modules/axios/lib/helpers/parseHeaders.js","./../helpers/isURLSameOrigin":"../../node_modules/axios/lib/helpers/isURLSameOrigin.js","../core/createError":"../../node_modules/axios/lib/core/createError.js","./../helpers/cookies":"../../node_modules/axios/lib/helpers/cookies.js"}],"../../../../../../../usr/local/lib/node_modules/parcel-bundler/node_modules/process/browser.js":[function(require,module,exports) {
+},{"./../utils":"../node_modules/axios/lib/utils.js","./../core/settle":"../node_modules/axios/lib/core/settle.js","./../helpers/buildURL":"../node_modules/axios/lib/helpers/buildURL.js","../core/buildFullPath":"../node_modules/axios/lib/core/buildFullPath.js","./../helpers/parseHeaders":"../node_modules/axios/lib/helpers/parseHeaders.js","./../helpers/isURLSameOrigin":"../node_modules/axios/lib/helpers/isURLSameOrigin.js","../core/createError":"../node_modules/axios/lib/core/createError.js","./../helpers/cookies":"../node_modules/axios/lib/helpers/cookies.js"}],"../../../../../../../usr/local/lib/node_modules/parcel-bundler/node_modules/process/browser.js":[function(require,module,exports) {
 
 // shim for using process in browser
 var process = module.exports = {}; // cached from whatever global is present so that test runners that stub it
@@ -29530,7 +29530,7 @@ process.chdir = function (dir) {
 process.umask = function () {
   return 0;
 };
-},{}],"../../node_modules/axios/lib/defaults.js":[function(require,module,exports) {
+},{}],"../node_modules/axios/lib/defaults.js":[function(require,module,exports) {
 var process = require("process");
 'use strict';
 
@@ -29630,7 +29630,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = defaults;
 
-},{"./utils":"../../node_modules/axios/lib/utils.js","./helpers/normalizeHeaderName":"../../node_modules/axios/lib/helpers/normalizeHeaderName.js","./adapters/xhr":"../../node_modules/axios/lib/adapters/xhr.js","./adapters/http":"../../node_modules/axios/lib/adapters/xhr.js","process":"../../../../../../../usr/local/lib/node_modules/parcel-bundler/node_modules/process/browser.js"}],"../../node_modules/axios/lib/core/dispatchRequest.js":[function(require,module,exports) {
+},{"./utils":"../node_modules/axios/lib/utils.js","./helpers/normalizeHeaderName":"../node_modules/axios/lib/helpers/normalizeHeaderName.js","./adapters/xhr":"../node_modules/axios/lib/adapters/xhr.js","./adapters/http":"../node_modules/axios/lib/adapters/xhr.js","process":"../../../../../../../usr/local/lib/node_modules/parcel-bundler/node_modules/process/browser.js"}],"../node_modules/axios/lib/core/dispatchRequest.js":[function(require,module,exports) {
 'use strict';
 
 var utils = require('./../utils');
@@ -29711,7 +29711,7 @@ module.exports = function dispatchRequest(config) {
   });
 };
 
-},{"./../utils":"../../node_modules/axios/lib/utils.js","./transformData":"../../node_modules/axios/lib/core/transformData.js","../cancel/isCancel":"../../node_modules/axios/lib/cancel/isCancel.js","../defaults":"../../node_modules/axios/lib/defaults.js"}],"../../node_modules/axios/lib/core/mergeConfig.js":[function(require,module,exports) {
+},{"./../utils":"../node_modules/axios/lib/utils.js","./transformData":"../node_modules/axios/lib/core/transformData.js","../cancel/isCancel":"../node_modules/axios/lib/cancel/isCancel.js","../defaults":"../node_modules/axios/lib/defaults.js"}],"../node_modules/axios/lib/core/mergeConfig.js":[function(require,module,exports) {
 'use strict';
 
 var utils = require('../utils');
@@ -29786,7 +29786,7 @@ module.exports = function mergeConfig(config1, config2) {
   return config;
 };
 
-},{"../utils":"../../node_modules/axios/lib/utils.js"}],"../../node_modules/axios/lib/core/Axios.js":[function(require,module,exports) {
+},{"../utils":"../node_modules/axios/lib/utils.js"}],"../node_modules/axios/lib/core/Axios.js":[function(require,module,exports) {
 'use strict';
 
 var utils = require('./../utils');
@@ -29882,7 +29882,7 @@ utils.forEach(['post', 'put', 'patch'], function forEachMethodWithData(method) {
 
 module.exports = Axios;
 
-},{"./../utils":"../../node_modules/axios/lib/utils.js","../helpers/buildURL":"../../node_modules/axios/lib/helpers/buildURL.js","./InterceptorManager":"../../node_modules/axios/lib/core/InterceptorManager.js","./dispatchRequest":"../../node_modules/axios/lib/core/dispatchRequest.js","./mergeConfig":"../../node_modules/axios/lib/core/mergeConfig.js"}],"../../node_modules/axios/lib/cancel/Cancel.js":[function(require,module,exports) {
+},{"./../utils":"../node_modules/axios/lib/utils.js","../helpers/buildURL":"../node_modules/axios/lib/helpers/buildURL.js","./InterceptorManager":"../node_modules/axios/lib/core/InterceptorManager.js","./dispatchRequest":"../node_modules/axios/lib/core/dispatchRequest.js","./mergeConfig":"../node_modules/axios/lib/core/mergeConfig.js"}],"../node_modules/axios/lib/cancel/Cancel.js":[function(require,module,exports) {
 'use strict';
 
 /**
@@ -29903,7 +29903,7 @@ Cancel.prototype.__CANCEL__ = true;
 
 module.exports = Cancel;
 
-},{}],"../../node_modules/axios/lib/cancel/CancelToken.js":[function(require,module,exports) {
+},{}],"../node_modules/axios/lib/cancel/CancelToken.js":[function(require,module,exports) {
 'use strict';
 
 var Cancel = require('./Cancel');
@@ -29962,7 +29962,7 @@ CancelToken.source = function source() {
 
 module.exports = CancelToken;
 
-},{"./Cancel":"../../node_modules/axios/lib/cancel/Cancel.js"}],"../../node_modules/axios/lib/helpers/spread.js":[function(require,module,exports) {
+},{"./Cancel":"../node_modules/axios/lib/cancel/Cancel.js"}],"../node_modules/axios/lib/helpers/spread.js":[function(require,module,exports) {
 'use strict';
 
 /**
@@ -29991,7 +29991,7 @@ module.exports = function spread(callback) {
   };
 };
 
-},{}],"../../node_modules/axios/lib/axios.js":[function(require,module,exports) {
+},{}],"../node_modules/axios/lib/axios.js":[function(require,module,exports) {
 'use strict';
 
 var utils = require('./utils');
@@ -30046,9 +30046,9 @@ module.exports = axios;
 // Allow use of default import syntax in TypeScript
 module.exports.default = axios;
 
-},{"./utils":"../../node_modules/axios/lib/utils.js","./helpers/bind":"../../node_modules/axios/lib/helpers/bind.js","./core/Axios":"../../node_modules/axios/lib/core/Axios.js","./core/mergeConfig":"../../node_modules/axios/lib/core/mergeConfig.js","./defaults":"../../node_modules/axios/lib/defaults.js","./cancel/Cancel":"../../node_modules/axios/lib/cancel/Cancel.js","./cancel/CancelToken":"../../node_modules/axios/lib/cancel/CancelToken.js","./cancel/isCancel":"../../node_modules/axios/lib/cancel/isCancel.js","./helpers/spread":"../../node_modules/axios/lib/helpers/spread.js"}],"../../node_modules/axios/index.js":[function(require,module,exports) {
+},{"./utils":"../node_modules/axios/lib/utils.js","./helpers/bind":"../node_modules/axios/lib/helpers/bind.js","./core/Axios":"../node_modules/axios/lib/core/Axios.js","./core/mergeConfig":"../node_modules/axios/lib/core/mergeConfig.js","./defaults":"../node_modules/axios/lib/defaults.js","./cancel/Cancel":"../node_modules/axios/lib/cancel/Cancel.js","./cancel/CancelToken":"../node_modules/axios/lib/cancel/CancelToken.js","./cancel/isCancel":"../node_modules/axios/lib/cancel/isCancel.js","./helpers/spread":"../node_modules/axios/lib/helpers/spread.js"}],"../node_modules/axios/index.js":[function(require,module,exports) {
 module.exports = require('./lib/axios');
-},{"./lib/axios":"../../node_modules/axios/lib/axios.js"}],"components/movie-card/movie-card.jsx":[function(require,module,exports) {
+},{"./lib/axios":"../node_modules/axios/lib/axios.js"}],"components/movie-card/movie-card.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30096,13 +30096,19 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
   _createClass(MovieCard, [{
     key: "render",
     value: function render() {
-      // This is given to the <MovieCard/> component by the outer world
-      // which, in this case, is `MainView`, as `MainView` is what’s
-      // connected to your database via the movies endpoint of your API
-      var movie = this.props.movie;
-      return _react.default.createElement("div", {
-        className: "movie-card"
-      }, movie.Title);
+      // This is given to the <MovieCard/> component by the outer world which, in this case, is `MainView`, as `MainView` is what’s connected to your database via the movies endpoint of your API
+      // Aqui obtenemos la info desde main-view que tiene axios call hacia nuestro API. acedemos a el con const movie = this.props.movies  y luego simplemente le hacemos renderisamos la info que contiene nuestra base de datos.
+      var _this$props = this.props,
+          movie = _this$props.movie,
+          _onClick = _this$props.onClick;
+      return (// este es el click que cambia el estado de main-view to movie-view: The MovieCard now has an onClick prop that changes the MainView's state. This is a perfect example of how React works: clicking on a MovieCard changes the MainView's state, which triggers a rendering cycle that'll return something different: the MovieView., When a user clicks on a card, the onClick() method of the parent component (MainView) is called. The onClick() method from MainView updates the state of selectedMovie, and, as a result, the render() method of the MainView component is called, and the conditional rendering takes care of displaying the selected movie
+        _react.default.createElement("div", {
+          onClick: function onClick() {
+            return _onClick(movie);
+          },
+          className: "movie-card"
+        }, movie.Title)
+      );
     }
   }]);
 
@@ -30110,7 +30116,143 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
 }(_react.default.Component);
 
 exports.MovieCard = MovieCard;
-},{"react":"../../node_modules/react/index.js"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js"}],"components/movie-view/movie-view.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.MovieView = void 0;
+
+var _react = _interopRequireDefault(require("react"));
+
+var _mainView = require("../main-view/main-view");
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+var MovieView = /*#__PURE__*/function (_React$Component) {
+  _inherits(MovieView, _React$Component);
+
+  var _super = _createSuper(MovieView);
+
+  function MovieView() {
+    var _this;
+
+    _classCallCheck(this, MovieView);
+
+    _this = _super.call(this);
+    _this.btnclicked = _this.btnclicked.bind(_assertThisInitialized(_this));
+    _this.state = {
+      isBtnClicked: false
+    };
+    return _this;
+  }
+
+  _createClass(MovieView, [{
+    key: "btnclicked",
+    value: function btnclicked() {
+      this.setState({
+        isBtnClicked: !this.state.isBtnClicked
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var movie = this.props.movie;
+      if (!movie) return null;
+      return _react.default.createElement("div", null, this.state.isBtnClicked ? _react.default.createElement(_mainView.MainView, null) : _react.default.createElement("div", {
+        className: "main-view"
+      }, _react.default.createElement("div", {
+        className: "movie-title"
+      }, _react.default.createElement("span", {
+        className: "label"
+      }, "Title: "), _react.default.createElement("span", {
+        className: "value"
+      }, movie.Title)), _react.default.createElement("div", {
+        className: "movie-description"
+      }, _react.default.createElement("span", {
+        className: "label"
+      }, "Description: "), _react.default.createElement("span", {
+        className: "value"
+      }, movie.Description)), _react.default.createElement("div", {
+        className: "movie-genre"
+      }, _react.default.createElement("span", {
+        className: "label"
+      }, "Genre: "), _react.default.createElement("span", {
+        className: "value"
+      }, movie.Genre.Name)), _react.default.createElement("div", {
+        className: "movie-director"
+      }, _react.default.createElement("span", {
+        className: "label"
+      }, "Director: "), _react.default.createElement("span", {
+        className: "value"
+      }, movie.Director.Name))), _react.default.createElement("button", {
+        onClick: this.btnclicked
+      }, "back"));
+    }
+  }]);
+
+  return MovieView;
+}(_react.default.Component); // import React from "react";
+// export class MovieView extends React.Component {
+//   constructor() {
+//     super();
+//     this.state = {};
+//   }
+//   render() {
+//     //{selectedMovie ? (<MovieView movie={selectedMovie} /> el movie de abajo viene de selectedmovie.
+//     const { movie } = this.props;
+//     if (!movie) return null;
+//     return (
+//       <div className="movie-view">
+//         <img className="movie-poster" src={movie.ImagePath} />
+//         <div className="movie-title">
+//           <span className="label">Title: </span>
+//           <span className="value">{movie.Title}</span>
+//         </div>
+//         <div className="movie-description">
+//           <span className="label">Description: </span>
+//           <span className="value">{movie.Description}</span>
+//         </div>
+//         <div className="movie-genre">
+//           <span className="label">Genre: </span>
+//           <span className="value">{movie.Genre.Name}</span>
+//         </div>
+//         <div className="movie-director">
+//           <span className="label">Director: </span>
+//           <span className="value">{movie.Director.Name}</span>
+//         </div>
+//         <button onClick={() => onClick(movie)}> Back</button>
+//       </div>
+//     );
+//   }
+// }
+
+
+exports.MovieView = MovieView;
+},{"react":"../../node_modules/react/index.js","../main-view/main-view":"components/main-view/main-view.jsx"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30123,6 +30265,8 @@ var _react = _interopRequireDefault(require("react"));
 var _axios = _interopRequireDefault(require("axios"));
 
 var _movieCard = require("../movie-card/movie-card");
+
+var _movieView = require("../movie-view/movie-view");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30154,39 +30298,64 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   var _super = _createSuper(MainView);
 
   function MainView() {
+    var _this;
+
     _classCallCheck(this, MainView);
 
-    return _super.apply(this, arguments);
-  }
+    _this = _super.call(this);
+    _this.state = {
+      movies: null,
+      selectedMovie: null
+    };
+    return _this;
+  } // We run this before is maunted: Why would you want to add code right after a component is mounted? Well, this is a good place to perform async tasks such as making ajax requests or adding event listeners.
+
 
   _createClass(MainView, [{
     key: "componentDidMount",
-    // One of the "hooks" available in a React Component
     value: function componentDidMount() {
-      var _this = this;
+      var _this2 = this;
 
       _axios.default.get("https://scarpantonioapi.herokuapp.com/movies").then(function (response) {
         // Assign the result to the state
-        _this.setState({
+        _this2.setState({
           movies: response.data
         });
-      }).catch(function (error) {
-        console.log(error);
+      }).catch(function (err) {
+        console.log(err);
+      });
+    }
+  }, {
+    key: "onMovieClick",
+    value: function onMovieClick(movie) {
+      this.setState({
+        selectedMovie: movie
       });
     }
   }, {
     key: "render",
     value: function render() {
-      var movies = this.state.movies;
+      var _this3 = this;
+
+      var _this$state = this.state,
+          movies = _this$state.movies,
+          selectedMovie = _this$state.selectedMovie; // Before the movies have been loaded
+
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
-      });
+      }); // selectedMovie? open MovieView notSelected? open the list of movies. // no movies selected? we show list intead.
+
       return _react.default.createElement("div", {
         className: "main-view"
-      }, movies.map(function (movie) {
+      }, selectedMovie ? _react.default.createElement(_movieView.MovieView, {
+        movie: selectedMovie
+      }) : movies.map(function (movie) {
         return _react.default.createElement(_movieCard.MovieCard, {
           key: movie._id,
-          movie: movie
+          movie: movie,
+          onClick: function onClick(movie) {
+            return _this3.onMovieClick(movie);
+          }
         });
       }));
     }
@@ -30196,7 +30365,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 }(_react.default.Component);
 
 exports.MainView = MainView;
-},{"react":"../../node_modules/react/index.js","axios":"../../node_modules/axios/index.js","../movie-card/movie-card":"components/movie-card/movie-card.jsx"}],"../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","axios":"../node_modules/axios/index.js","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx"}],"../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
 var bundleURL = null;
 
 function getBundleURLCached() {
@@ -30359,7 +30528,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54237" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50029" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

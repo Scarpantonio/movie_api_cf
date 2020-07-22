@@ -4,6 +4,7 @@
     "sass": "^1.26.10"
   },
   "dependencies": {
+    "axios": "^0.19.2",
     "components": "^0.1.0",
     "src": "^1.1.2"
   }
