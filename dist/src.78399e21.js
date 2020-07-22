@@ -30126,8 +30126,6 @@ exports.MovieView = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _mainView = require("../main-view/main-view");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
@@ -30158,33 +30156,24 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
   var _super = _createSuper(MovieView);
 
   function MovieView() {
-    var _this;
-
     _classCallCheck(this, MovieView);
 
-    _this = _super.call(this);
-    _this.btnclicked = _this.btnclicked.bind(_assertThisInitialized(_this));
-    _this.state = {
-      isBtnClicked: false
-    };
-    return _this;
+    return _super.call(this);
   }
 
   _createClass(MovieView, [{
-    key: "btnclicked",
-    value: function btnclicked() {
-      this.setState({
-        isBtnClicked: !this.state.isBtnClicked
-      });
-    }
-  }, {
     key: "render",
     value: function render() {
-      var movie = this.props.movie;
+      var _this$props = this.props,
+          movie = _this$props.movie,
+          handleBackClick = _this$props.handleBackClick;
       if (!movie) return null;
-      return _react.default.createElement("div", null, this.state.isBtnClicked ? _react.default.createElement(_mainView.MainView, null) : _react.default.createElement("div", {
+      return _react.default.createElement("div", {
         className: "main-view"
-      }, _react.default.createElement("div", {
+      }, _react.default.createElement("img", {
+        className: "movie-poster",
+        src: movie.ImagePath
+      }), _react.default.createElement("div", {
         className: "movie-title"
       }, _react.default.createElement("span", {
         className: "label"
@@ -30208,51 +30197,17 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
         className: "label"
       }, "Director: "), _react.default.createElement("span", {
         className: "value"
-      }, movie.Director.Name))), _react.default.createElement("button", {
-        onClick: this.btnclicked
+      }, movie.Director.Name)), _react.default.createElement("button", {
+        onClick: handleBackClick
       }, "back"));
     }
   }]);
 
   return MovieView;
-}(_react.default.Component); // import React from "react";
-// export class MovieView extends React.Component {
-//   constructor() {
-//     super();
-//     this.state = {};
-//   }
-//   render() {
-//     //{selectedMovie ? (<MovieView movie={selectedMovie} /> el movie de abajo viene de selectedmovie.
-//     const { movie } = this.props;
-//     if (!movie) return null;
-//     return (
-//       <div className="movie-view">
-//         <img className="movie-poster" src={movie.ImagePath} />
-//         <div className="movie-title">
-//           <span className="label">Title: </span>
-//           <span className="value">{movie.Title}</span>
-//         </div>
-//         <div className="movie-description">
-//           <span className="label">Description: </span>
-//           <span className="value">{movie.Description}</span>
-//         </div>
-//         <div className="movie-genre">
-//           <span className="label">Genre: </span>
-//           <span className="value">{movie.Genre.Name}</span>
-//         </div>
-//         <div className="movie-director">
-//           <span className="label">Director: </span>
-//           <span className="value">{movie.Director.Name}</span>
-//         </div>
-//         <button onClick={() => onClick(movie)}> Back</button>
-//       </div>
-//     );
-//   }
-// }
-
+}(_react.default.Component);
 
 exports.MovieView = MovieView;
-},{"react":"../../node_modules/react/index.js","../main-view/main-view":"components/main-view/main-view.jsx"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30333,6 +30288,13 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
+    key: "handleBackBtn",
+    value: function handleBackBtn() {
+      this.setState({
+        selectedMovie: null
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
       var _this3 = this;
@@ -30348,7 +30310,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       return _react.default.createElement("div", {
         className: "main-view"
       }, selectedMovie ? _react.default.createElement(_movieView.MovieView, {
-        movie: selectedMovie
+        movie: selectedMovie,
+        handleBackClick: function handleBackClick() {
+          return _this3.handleBackBtn();
+        }
       }) : movies.map(function (movie) {
         return _react.default.createElement(_movieCard.MovieCard, {
           key: movie._id,
@@ -30489,7 +30454,7 @@ var MyFlixApplication = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       return _react.default.createElement("div", {
         className: "my-flix"
-      }, "return ", _react.default.createElement(_mainView.MainView, null), ";");
+      }, _react.default.createElement(_mainView.MainView, null));
     }
   }]);
 
@@ -30528,7 +30493,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50029" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56435" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

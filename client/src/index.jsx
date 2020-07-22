@@ -11,7 +11,7 @@ class MyFlixApplication extends React.Component {
   render() {
     return (
       <div className="my-flix">
-        return <MainView />;
+        <MainView />
       </div>
     );
   }
