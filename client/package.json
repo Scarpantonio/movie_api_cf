@@ -1,11 +1,18 @@
 {
+  "scripts": {
+    "flow": "flow"
+  },
   "devDependencies": {
     "babel-core": "^6.26.3",
+    "flow-bin": "^0.130.0",
+    "jest": "^26.1.0",
     "sass": "^1.26.10"
   },
   "dependencies": {
     "axios": "^0.19.2",
     "components": "^0.1.0",
+    "prop-types": "^15.7.2",
+    "react-bootstrap": "^1.3.0",
     "src": "^1.1.2"
   }
 }

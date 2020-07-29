@@ -1,6 +1,10 @@
+// @flow
+
 import React from "react";
 import axios from "axios";
 
+import { LoginView } from "../login-view/login-view";
+// import { RegisterView } from "../register-view/register-view";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 
@@ -10,11 +14,12 @@ export class MainView extends React.Component {
 
     this.state = {
       movies: null,
-      selectedMovie: null
+      selectedMovie: null,
+      user: null,
+      registered: null
     };
   }
 
-  // We run this before is maunted: Why would you want to add code right after a component is mounted? Well, this is a good place to perform async tasks such as making ajax requests or adding event listeners.
   componentDidMount() {
     axios
       .get("https://scarpantonioapi.herokuapp.com/movies")
@@ -35,26 +40,32 @@ export class MainView extends React.Component {
     });
   }
 
-  handleBackBtn() {
+  onLoggedIn(user) {
     this.setState({
-      selectedMovie: null
+      user
     });
   }
 
+  // registeredUser(registered) {
+  //   this.setState({
+  //     registered
+  //   });
+  // }
+
   render() {
-    const { movies, selectedMovie } = this.state;
+    const { movies, selectedMovie, user } = this.state;
+
+    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+
+    // if (!registered) return <RegisterView registeredUser={user => this.registeredUser(registered)} />;
 
     // Before the movies have been loaded
     if (!movies) return <div className="main-view" />;
 
-    // selectedMovie? open MovieView notSelected? open the list of movies. // no movies selected? we show list intead.
     return (
       <div className="main-view">
         {selectedMovie ? (
-          <MovieView
-            movie={selectedMovie}
-            handleBackClick={() => this.handleBackBtn()}
-          />
+          <MovieView movie={selectedMovie} />
         ) : (
           movies.map(movie => (
             <MovieCard

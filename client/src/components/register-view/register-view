@@ -1,0 +1,38 @@
+//register view
+import React from "react";
+
+export function RegisterView {
+
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+    
+    handleSubmitRegisterUser = user => {
+        console.log(username, password)
+        props.registeredUser(username)
+    }
+
+    return(
+        <form>
+      <label>
+        Username:
+        <input
+          type="text"
+          value={username}
+          onChange={e => setUsername(e.target.value)}
+        ></input>
+      </label>
+      <label>
+        Password:
+        <input
+          type="text"
+          value={password}
+          onChange={e => setPassword(e.target.value)}
+        ></input>
+      </label>
+      <button type="text" onClick={handleSubmitRegisterUser}>
+        Submit
+      </button>
+    </form>
+    )
+    
+}
