@@ -2,22 +2,23 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
-import "./login-view.scss";
+import "./reg-styles.scss";
 
-export function LoginView(props) {
+export function RegisterView(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
   const handleSubmit = e => {
     e.preventDefault();
 
     console.log(username, password);
-    props.onLoggedIn(username);
+    props.registeredUser(username);
   };
 
   return (
     <Container className="formStyle">
-      <h2 className="r-title">Log In</h2>
+      <h2 className="r-title">New User</h2>
       <Form className="inputStyles">
         <Form.Group controlId="formBasicUsername">
           <Form.Label>Username </Form.Label>
@@ -27,6 +28,17 @@ export function LoginView(props) {
             type="text"
             value={username}
             onChange={e => setUsername(e.target.value)}
+          />
+        </Form.Group>
+
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Email </Form.Label>
+          <Form.Control
+            size="md"
+            type="email"
+            placeholder="Enter email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
           />
         </Form.Group>
 
