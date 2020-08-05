@@ -38,7 +38,7 @@ app.get("/documentation", (req, res) => {
 // List all movies
 app.get(
   "/movies",
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Movies.find()
       .then(movies => {
@@ -262,14 +262,3 @@ var port = process.env.PORT || 8080;
 app.listen(port, "0.0.0.0", () => {
   console.log("Listening on Port 8080");
 });
-
-// db.movies.inserOne
-
-// db.movies.insertOne (
-//   { "ImagePath" : "https://images-na.ssl-images-amazon.com/images/I/51RJv%2BtBftL.jpg"}
-// )
-
-// db.movies.update(
-//   { _id: ObjectId("5ef3622f6d47ecabd2fba4d4") },
-//   { $set: { ImagePath: "https://images-na.ssl-images-amazon.com/images/I/51RJv%2BtBftL.jpg" } }
-// )

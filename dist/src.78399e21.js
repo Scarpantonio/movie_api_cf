@@ -32774,6 +32774,8 @@ var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
 
 require("./login-view.scss");
 
+var _axios = _interopRequireDefault(require("axios"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
@@ -32801,12 +32803,21 @@ function LoginView(props) {
   var _useState3 = (0, _react.useState)(""),
       _useState4 = _slicedToArray(_useState3, 2),
       password = _useState4[0],
-      setPassword = _useState4[1];
+      setPassword = _useState4[1]; //When a user clicks on the submit button, you need to update your handleSubmit method, where you’ll make a POST request to the login endpoint using axios. The server-side should then check the user’s login details against what’s stored in the database of authenticated users. If there’s no match, the server throws an error back to the user.If there’s a match, the server generates a token for the logged in user and sends it back with the response. Go ahead and update your code with what’s been explained so far:
+
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-    console.log(username, password);
-    props.onLoggedIn(username);
+
+    _axios.default.post("http://scarpantonioapi.herokuapp.com/login", {
+      Username: username,
+      Password: password
+    }).then(function (res) {
+      var data = response.data;
+      props.onLoggedIn(data);
+    }).catch(function (e) {
+      console.log("user does not exist.");
+    });
   };
 
   return _react.default.createElement(_Container.default, {
@@ -32842,7 +32853,7 @@ function LoginView(props) {
     onClick: handleSubmit
   }, "Submit")));
 }
-},{"react":"../../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","./login-view.scss":"components/login-view/login-view.scss"}],"components/reg-view/reg-styles.scss":[function(require,module,exports) {
+},{"react":"../../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","./login-view.scss":"components/login-view/login-view.scss","axios":"../node_modules/axios/index.js"}],"components/reg-view/reg-styles.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -33418,9 +33429,31 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     }
   }, {
     key: "onLoggedIn",
-    value: function onLoggedIn(user) {
+    value: function onLoggedIn(authData) {
+      console.log(authData);
       this.setState({
-        user: user
+        user: authData.user.Username
+      });
+      localStorage.setItem("token", authData.token);
+      localStorage.setItem("user", authData.user.User);
+      this.getMovies(authData.token);
+    }
+  }, {
+    key: "getMovies",
+    value: function getMovies(token) {
+      var _this3 = this;
+
+      _axios.default.get("http://scarpantonioapi.herokuapp.com/movies", {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }).then(function (response) {
+        // Assign the result to the state
+        _this3.setState({
+          movies: response.data
+        });
+      }).catch(function (error) {
+        console.log(error);
       });
     }
   }, {
@@ -33433,7 +33466,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       var _this$state = this.state,
           movies = _this$state.movies,
@@ -33443,12 +33476,12 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
       if (!registered) return _react.default.createElement(_regView.RegisterView, {
         registeredUser: function registeredUser(registered) {
-          return _this3.registeredUser(registered);
+          return _this4.registeredUser(registered);
         }
       });
       if (!user) return _react.default.createElement(_loginView.LoginView, {
         onLoggedIn: function onLoggedIn(user) {
-          return _this3.onLoggedIn(user);
+          return _this4.onLoggedIn(user);
         }
       });
       if (!movies) return _react.default.createElement("div", {
@@ -33458,7 +33491,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         className: "main-view"
       }, selectedMovie ? _react.default.createElement(_movieView.MovieView, {
         handleBackClick: function handleBackClick() {
-          return _this3.handleBackBtn();
+          return _this4.handleBackBtn();
         },
         movie: selectedMovie
       }) : movies.map(function (movie) {
@@ -33466,7 +33499,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           key: movie._id,
           movie: movie,
           onClick: function onClick(movie) {
-            return _this3.onMovieClick(movie);
+            return _this4.onMovieClick(movie);
           }
         });
       }));
@@ -33574,7 +33607,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51294" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61030" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
