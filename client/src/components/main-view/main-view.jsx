@@ -46,20 +46,18 @@ export class MainView extends React.Component {
     });
   }
 
-  // registeredUser(registered) {
-  //   this.setState({
-  //     registered
-  //   });
-  // }
-
-  onLoggedIn(authData) {
-    console.log(authData);
+  // handle registered user para que se puedan mostar las peliculas
+  registeredUser(registered) {
     this.setState({
-      user: authData.user.Username
+      registered
     });
-    localStorage.setItem("token", authData.token);
-    localStorage.setItem("user", authData.user.User);
-    this.getMovies(authData.token);
+  }
+
+  onLoggedIn(user) {
+    this.setState({
+      user,
+      registered: true
+    });
   }
 
   getMovies(token) {
@@ -96,10 +94,12 @@ export class MainView extends React.Component {
           handleRegisterBtn={() => this.handleRegisterBtn()}
         />
       );
-
+    // cuando nuestro metodo registeredUser act state, se muestran movies.
     if (!registered)
       return (
-        <RegisterView registeredUser={register => this.registerBtn(register)} />
+        <RegisterView
+          registeredUser={register => this.registeredUser(register)}
+        />
       );
 
     if (!movies) return <div className="main-view" />;

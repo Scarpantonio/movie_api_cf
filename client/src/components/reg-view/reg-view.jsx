@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
+import PropTypes from "prop-types";
 import "./reg-styles.scss";
 
 export function RegisterView(props) {
@@ -65,3 +66,7 @@ export function RegisterView(props) {
     </Container>
   );
 }
+
+RegisterView.propTypes = {
+  registeredUser: PropTypes.func.isRequired
+};

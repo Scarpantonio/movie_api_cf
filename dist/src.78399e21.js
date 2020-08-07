@@ -32770,6 +32770,8 @@ var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
 var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
 var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
 
 require("./login-view.scss");
@@ -32808,10 +32810,15 @@ function LoginView(props) {
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-    props.onLoggedIn(data);
+    console.log(username, password);
+    /* Send a request to the server for authentication */
+
+    /* then call props.onLoggedIn(username) */
+
+    props.onLoggedIn(username);
   };
 
-  var regViewBtn = function regViewBtn(e) {
+  var handleViewBtn = function handleViewBtn(e) {
     e.preventDefault();
     props.handleRegisterBtn();
   };
@@ -32850,10 +32857,15 @@ function LoginView(props) {
   }, "Submit"), _react.default.createElement(_Button.default, {
     variant: "link",
     className: "newUserLink",
-    onClick: regViewBtn
+    onClick: handleViewBtn
   }, "New user? register here")));
 }
-},{"react":"../../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","./login-view.scss":"components/login-view/login-view.scss","axios":"../node_modules/axios/index.js"}],"components/reg-view/reg-styles.scss":[function(require,module,exports) {
+
+LoginView.propTypes = {
+  onLoggedIn: _propTypes.default.func.isRequired,
+  handleRegisterBtn: _propTypes.default.func.isRequired
+};
+},{"react":"../../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","./login-view.scss":"components/login-view/login-view.scss","axios":"../node_modules/axios/index.js"}],"components/reg-view/reg-styles.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -32873,6 +32885,8 @@ var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 
 var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
 require("./reg-styles.scss");
 
@@ -32959,7 +32973,11 @@ function RegisterView(props) {
     onClick: handleSubmit
   }, "Submit")));
 }
-},{"react":"../../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","./reg-styles.scss":"components/reg-view/reg-styles.scss"}],"../node_modules/react-bootstrap/esm/divWithClassName.js":[function(require,module,exports) {
+
+RegisterView.propTypes = {
+  registeredUser: _propTypes.default.func.isRequired
+};
+},{"react":"../../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","prop-types":"../node_modules/prop-types/index.js","./reg-styles.scss":"components/reg-view/reg-styles.scss"}],"../node_modules/react-bootstrap/esm/divWithClassName.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -33426,22 +33444,22 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       this.setState({
         selectedMovie: null
       });
-    } // registeredUser(registered) {
-    //   this.setState({
-    //     registered
-    //   });
-    // }
+    } // handle registered user para que se puedan mostar las peliculas
 
   }, {
-    key: "onLoggedIn",
-    value: function onLoggedIn(authData) {
-      console.log(authData);
+    key: "registeredUser",
+    value: function registeredUser(registered) {
       this.setState({
-        user: authData.user.Username
+        registered: registered
       });
-      localStorage.setItem("token", authData.token);
-      localStorage.setItem("user", authData.user.User);
-      this.getMovies(authData.token);
+    }
+  }, {
+    key: "onLoggedIn",
+    value: function onLoggedIn(user) {
+      this.setState({
+        user: user,
+        registered: true
+      });
     }
   }, {
     key: "getMovies",
@@ -33487,10 +33505,11 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         handleRegisterBtn: function handleRegisterBtn() {
           return _this4.handleRegisterBtn();
         }
-      });
+      }); // cuando nuestro metodo registeredUser act state, se muestran movies.
+
       if (!registered) return _react.default.createElement(_regView.RegisterView, {
         registeredUser: function registeredUser(register) {
-          return _this4.registerBtn(register);
+          return _this4.registeredUser(register);
         }
       });
       if (!movies) return _react.default.createElement("div", {
@@ -33617,7 +33636,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65353" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55942" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
