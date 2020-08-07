@@ -13,19 +13,7 @@ export function LoginView(props) {
 
   const handleSubmit = e => {
     e.preventDefault();
-
-    axios
-      .post("http://scarpantonioapi.herokuapp.com/login", {
-        Username: username,
-        Password: password
-      })
-      .then(res => {
-        const data = response.data;
-        props.onLoggedIn(data);
-      })
-      .catch(e => {
-        console.log("user does not exist.");
-      });
+    props.onLoggedIn(data);
   };
 
   const regViewBtn = e => {

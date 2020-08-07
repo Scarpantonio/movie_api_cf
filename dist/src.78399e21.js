@@ -32808,16 +32808,7 @@ function LoginView(props) {
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-
-    _axios.default.post("http://scarpantonioapi.herokuapp.com/login", {
-      Username: username,
-      Password: password
-    }).then(function (res) {
-      var data = response.data;
-      props.onLoggedIn(data);
-    }).catch(function (e) {
-      console.log("user does not exist.");
-    });
+    props.onLoggedIn(data);
   };
 
   var regViewBtn = function regViewBtn(e) {
@@ -33626,7 +33617,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60775" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65353" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
