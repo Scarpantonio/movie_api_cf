@@ -27,6 +27,12 @@
   position: relative;
   margin-top: 30px;
 }
+
+.newUserLink {
+  position: relative;
+  top: 25px;
+  left: 15px;
+}
 .formStyle {
   width: 100%;
   max-width: 500px;

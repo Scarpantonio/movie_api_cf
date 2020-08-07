@@ -32820,6 +32820,11 @@ function LoginView(props) {
     });
   };
 
+  var regViewBtn = function regViewBtn(e) {
+    e.preventDefault();
+    props.handleRegisterBtn();
+  };
+
   return _react.default.createElement(_Container.default, {
     className: "formStyle"
   }, _react.default.createElement("h2", {
@@ -32851,7 +32856,11 @@ function LoginView(props) {
     variant: "primary",
     type: "submit",
     onClick: handleSubmit
-  }, "Submit")));
+  }, "Submit"), _react.default.createElement(_Button.default, {
+    variant: "link",
+    className: "newUserLink",
+    onClick: regViewBtn
+  }, "New user? register here")));
 }
 },{"react":"../../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","./login-view.scss":"components/login-view/login-view.scss","axios":"../node_modules/axios/index.js"}],"components/reg-view/reg-styles.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
@@ -32912,7 +32921,7 @@ function RegisterView(props) {
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-    console.log(username, password);
+    console.log(username, password, email);
     props.registeredUser(username);
   };
 
@@ -33426,7 +33435,12 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       this.setState({
         selectedMovie: null
       });
-    }
+    } // registeredUser(registered) {
+    //   this.setState({
+    //     registered
+    //   });
+    // }
+
   }, {
     key: "onLoggedIn",
     value: function onLoggedIn(authData) {
@@ -33457,10 +33471,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       });
     }
   }, {
-    key: "registeredUser",
-    value: function registeredUser(registered) {
+    key: "handleRegisterBtn",
+    value: function handleRegisterBtn() {
       this.setState({
-        registered: registered
+        user: true
       });
     }
   }, {
@@ -33474,19 +33488,24 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           user = _this$state.user,
           registered = _this$state.registered; // #1 esta condiciones se ejecutan en orden
 
-      if (!registered) return _react.default.createElement(_regView.RegisterView, {
-        registeredUser: function registeredUser(registered) {
-          return _this4.registeredUser(registered);
-        }
-      });
       if (!user) return _react.default.createElement(_loginView.LoginView, {
         onLoggedIn: function onLoggedIn(user) {
           return _this4.onLoggedIn(user);
+        } // aqui pasamos la info del usuario a traves de props.
+        ,
+        handleRegisterBtn: function handleRegisterBtn() {
+          return _this4.handleRegisterBtn();
+        }
+      });
+      if (!registered) return _react.default.createElement(_regView.RegisterView, {
+        registeredUser: function registeredUser(register) {
+          return _this4.registerBtn(register);
         }
       });
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
-      });
+      }); // cuando da click hacia atras selectedmovie es null, por eso pasa a movieCardd.
+
       return _react.default.createElement("div", {
         className: "main-view"
       }, selectedMovie ? _react.default.createElement(_movieView.MovieView, {
@@ -33607,7 +33626,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61030" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "60775" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

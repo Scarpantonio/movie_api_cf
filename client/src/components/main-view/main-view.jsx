@@ -46,6 +46,12 @@ export class MainView extends React.Component {
     });
   }
 
+  // registeredUser(registered) {
+  //   this.setState({
+  //     registered
+  //   });
+  // }
+
   onLoggedIn(authData) {
     console.log(authData);
     this.setState({
@@ -72,9 +78,9 @@ export class MainView extends React.Component {
       });
   }
 
-  registeredUser(registered) {
+  handleRegisterBtn() {
     this.setState({
-      registered
+      user: true
     });
   }
 
@@ -82,17 +88,22 @@ export class MainView extends React.Component {
     const { movies, selectedMovie, user, registered } = this.state;
 
     // #1 esta condiciones se ejecutan en orden
-    if (!registered)
+
+    if (!user)
       return (
-        <RegisterView
-          registeredUser={registered => this.registeredUser(registered)}
+        <LoginView
+          onLoggedIn={user => this.onLoggedIn(user)} // aqui pasamos la info del usuario a traves de props.
+          handleRegisterBtn={() => this.handleRegisterBtn()}
         />
       );
 
-    if (!user) return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+    if (!registered)
+      return (
+        <RegisterView registeredUser={register => this.registerBtn(register)} />
+      );
 
     if (!movies) return <div className="main-view" />;
-
+    // cuando da click hacia atras selectedmovie es null, por eso pasa a movieCardd.
     return (
       <div className="main-view">
         {selectedMovie ? (

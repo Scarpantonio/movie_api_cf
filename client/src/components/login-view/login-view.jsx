@@ -28,6 +28,12 @@ export function LoginView(props) {
       });
   };
 
+  const regViewBtn = e => {
+    e.preventDefault();
+
+    props.handleRegisterBtn();
+  };
+
   return (
     <Container className="formStyle">
       <h2 className="r-title">Log In</h2>
@@ -61,6 +67,10 @@ export function LoginView(props) {
           onClick={handleSubmit}
         >
           Submit
+        </Button>
+
+        <Button variant="link" className="newUserLink" onClick={regViewBtn}>
+          New user? register here
         </Button>
       </Form>
     </Container>
