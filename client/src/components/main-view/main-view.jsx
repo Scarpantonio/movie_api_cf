@@ -53,11 +53,17 @@ export class MainView extends React.Component {
     });
   }
 
-  onLoggedIn(user) {
+  // Almacenamos la info localmente para q el usuario pueda tener acceso a los routes sin hacer login nuevamente.
+  // De donde viene la data de authData? directamente de props.onLoggedIn(data); ese paramentro contiene un objeto. que luego desmenusamos authData.user.Username
+  onLoggedIn(authData) {
+    console.log(authData);
     this.setState({
-      user,
-      registered: true
+      user: authData.user.Username
     });
+    //almacenamos el token en el browser asi como el usuario. Con set item insertamos data localmente.
+    localStorage.setItem("token", authData.token);
+    localStorage.setItem("user", authData.user.Username);
+    this.getMovies(authData.token);
   }
 
   getMovies(token) {
