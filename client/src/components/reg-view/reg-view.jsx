@@ -1,20 +1,33 @@
+// import PropTypes from "prop-types";
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
-import PropTypes from "prop-types";
 import "./reg-styles.scss";
 
 export function RegisterView(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [birthday, setBirthday] = useState("");
 
-  const handleSubmit = e => {
+  const handleRegister = e => {
     e.preventDefault();
-
-    console.log(username, password, email);
-    props.registeredUser(username);
+    axios
+      .post("https://scarpantonioapi.herokuapp.com/users", {
+        Username: username,
+        Password: password,
+        Email: email,
+        Birthday: birthday
+      })
+      .then(response => {
+        const data = response.data;
+        console.log(data);
+        window.open("/", "_self"); // the second argument '_self' is necessary so that the page will open in the current tab
+      })
+      .catch(e => {
+        console.log("error registering the user");
+      });
   };
 
   return (
@@ -32,17 +45,6 @@ export function RegisterView(props) {
           />
         </Form.Group>
 
-        <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email </Form.Label>
-          <Form.Control
-            size="md"
-            type="email"
-            placeholder="Enter email"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
-          />
-        </Form.Group>
-
         <Form.Row controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
           <Form.Control
@@ -54,11 +56,33 @@ export function RegisterView(props) {
           />
         </Form.Row>
 
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Email </Form.Label>
+          <Form.Control
+            size="md"
+            type="email"
+            placeholder="Enter email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+        </Form.Group>
+
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Email </Form.Label>
+          <Form.Control
+            size="md"
+            type="birthday"
+            placeholder="Enter Birthday"
+            value={Birthday}
+            onChange={e => setBirthday(e.target.value)}
+          />
+        </Form.Group>
+
         <Button
           className="S-Btn"
           variant="primary"
           type="submit"
-          onClick={handleSubmit}
+          onClick={handleRegister}
         >
           Submit
         </Button>
@@ -67,6 +91,6 @@ export function RegisterView(props) {
   );
 }
 
-RegisterView.propTypes = {
-  registeredUser: PropTypes.func.isRequired
-};
+// RegisterView.propTypes = {
+//   registeredUser: PropTypes.func.isRequired
+// };

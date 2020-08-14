@@ -1,0 +1,62 @@
+Arguments: 
+  /usr/local/bin/node /usr/local/bin/yarn add react-router-dom
+
+PATH: 
+  /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+
+Yarn version: 
+  1.22.0
+
+Node version: 
+  10.16.0
+
+Platform: 
+  darwin x64
+
+Trace: 
+  Error: EACCES: permission denied, mkdir '/Users/SCARPANTONIO/Documents/GitHub/movie_api_cf/node_modules/ansi-align/node_modules/emoji-regex'
+
+npm manifest: 
+  {
+    "name": "movie_api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "indexr.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1",
+      "start": "node index.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+      "bcrypt": "^5.0.0",
+      "body-parser": "^1.19.0",
+      "cors": "^2.8.5",
+      "dotenv": "^8.2.0",
+      "ejs": "^3.1.3",
+      "express": "^4.17.1",
+      "express-validator": "^6.6.0",
+      "http": "0.0.1-security",
+      "jsonwebtoken": "^8.5.1",
+      "mongoose": "^5.9.20",
+      "morgan": "^1.10.0",
+      "nodemon": "^2.0.4",
+      "passport": "^0.4.1",
+      "passport-jwt": "^4.0.0",
+      "passport-local": "^1.0.0",
+      "react": "^16.13.1",
+      "react-dom": "^16.13.1",
+      "uuid": "^8.2.0"
+    },
+    "devDependencies": {
+      "babel-plugin-transform-class-properties": "^6.24.1",
+      "babel-preset-env": "^1.7.0",
+      "babel-preset-react": "^6.24.1"
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
