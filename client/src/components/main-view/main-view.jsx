@@ -1,54 +1,26 @@
+// @flow
+
 import React from "react";
 import axios from "axios";
-import { BrowserRouter as Router, Route } from "react-router-dom";
 import { LoginView } from "../login-view/login-view";
 import { RegisterView } from "../reg-view/reg-view";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
-import Button from "react-bootstrap/Button";
+// import { ErrorBoundry } from "../error-boundary/error-boundary";
 
 export class MainView extends React.Component {
   constructor() {
     super();
 
     this.state = {
-      movies: [],
-      user: null
+      movies: null,
+      selectedMovie: null,
+      user: null,
+      registered: null
     };
   }
 
-  // Esta funcion almacena el token. para que tengamoslo permisos para poder acceder movies. pero si ya los credenciales estan almacenados en el browser para que necesitamos esta función?
-  //  Creamos este getMovies method xq es utilizado dos veces para evitar "repeting yourself" poniendo el mismo codigo en componendidmount in en login los dos lugares donde se van a necesiar mas.
-  getMovies(token) {
-    axios
-      .get("https://scarpantonioapi.herokuapp.com/movies", {
-        // aqui en vez de pasar username,password pasamos el token para poder tener autorizaBy passing bearer authorization in the header of your HTTP requests, you can make authenticated requests to your API.
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      .then(response => {
-        // Assign the result to the state
-        this.setState({
-          movies: response.data
-        });
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  }
-
   componentDidMount() {
-    // Para obtener data persistente: The reason it’s not working is that you haven’t made use of the persisted authentication data yet. Updating the componentDidMount method to persist your login data is all that’s left to do, and your example will finally be complete! mas detalles en el capitulo del curso.
-    // Para q el login sea persistente tenemos que almacenarlo aqui en componntDidMount
-    // In the below code, you first get the value of the token from localStorage. Notice the syntax used to get a key from localStorage: localStorage.getItem('YOUR_KEY'). If the access token is present, it means the user is already logged in and you can call the getMovies method, which makes a GET request to the movies endpoint.
-    let accessToken = localStorage.getItem("token");
-    if (accessToken !== null) {
-      this.setState({
-        user: localStorage.getItem("user")
-      });
-      // Tendriamos que tener una funcion para autenticar cada uno de nuestro endpoints q requirieran autorizacion. en este caso le paso el token a a getMovies, pero si ubiera otro endpoint es aqui el lugar donde eso deberia suceder tambien.
-      this.getMovies(accessToken);
-    }
-    //api call
     axios
       .get("https://scarpantonioapi.herokuapp.com/movies")
       .then(response => {
@@ -62,13 +34,31 @@ export class MainView extends React.Component {
       });
   }
 
+  onMovieClick(movie) {
+    this.setState({
+      selectedMovie: movie
+    });
+  }
+
+  handleBackBtn() {
+    this.setState({
+      selectedMovie: null
+    });
+  }
+
+  // handle registered user para que se puedan mostar las peliculas
+  registeredUser(registered) {
+    this.setState({
+      registered
+    });
+  }
+
   // Almacenamos la info localmente para q el usuario pueda tener acceso a los routes sin hacer login nuevamente.
   // De donde viene la data de authData? directamente de props.onLoggedIn(data); ese paramentro contiene un objeto. que luego desmenusamos authData.user.Username
   onLoggedIn(authData) {
     console.log(authData);
     this.setState({
-      user: authData.user.Username,
-      registered: true
+      user: authData.user.Username
     });
     //almacenamos el token en el browser asi como el usuario. Con set item insertamos data localmente.
     localStorage.setItem("token", authData.token);
@@ -76,78 +66,69 @@ export class MainView extends React.Component {
     this.getMovies(authData.token);
   }
 
-  // logOut user
-  onLoggedOut() {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user");
-    // pasamos el esta de user a null. para q nos lleve a login again.
+  getMovies(token) {
+    axios
+      .get("http://scarpantonioapi.herokuapp.com/movies", {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(response => {
+        // Assign the result to the state
+        this.setState({
+          movies: response.data
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
+  handleRegisterBtn() {
     this.setState({
-      user: null
+      user: true
     });
   }
 
   render() {
-    const { movies, user } = this.state;
+    const { movies, selectedMovie, user, registered } = this.state;
+
+    // #1 esta condiciones se ejecutan en orden
+
+    if (!user)
+      return (
+        <LoginView
+          onLoggedIn={user => this.onLoggedIn(user)} // aqui pasamos la info del usuario a traves de props.
+          handleRegisterBtn={() => this.handleRegisterBtn()}
+        />
+      );
+    // cuando nuestro metodo registeredUser act state, se muestran movies.
+    if (!registered)
+      return (
+        <RegisterView
+          registeredUser={register => this.registeredUser(register)}
+        />
+      );
 
     if (!movies) return <div className="main-view" />;
-
+    // cuando da click hacia atras selectedmovie es null, por eso pasa a movieCardd.
     return (
-      <Router>
-        <div className="main-view">
-          <Route
-            exact
-            path="/"
-            render={() => {
-              if (!user)
-                return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
-              return movies.map(m => <MovieCard key={m._id} movie={m} />);
-            }}
+      <div className="main-view">
+        {selectedMovie ? (
+          <MovieView
+            handleBackClick={() => this.handleBackBtn()}
+            movie={selectedMovie}
           />
-
-          <Route path="/register" render={() => <RegisterView />} />
-
-          <Route
-            path="/movies/:movieId"
-            render={({ match }) => (
-              <MovieView
-                movie={movies.find(m => m._id === match.params.movieId)}
-              />
-            )}
-          />
-          <Route
-            path="/movies/director/:name"
-            render={({ match }) => {
-              if (!movies) return <div className="main-view" />;
-              return (
-                <DirectorView
-                  director={
-                    movies.find(m => m.Director.Name === match.params.name)
-                      .Director
-                  }
-                />
-              );
-            }}
-          />
-          <Route
-            path="/movies/genres/:name"
-            render={({ match }) => {
-              if (!movies) return <div className="main-view" />;
-              return (
-                <GenreView
-                  genre={
-                    movies.find(m => m.Genre.Name === match.params.name).Genre
-                  }
-                />
-              );
-            }}
-          />
-          <Route
-            exact
-            path="/user"
-            render={() => <ProfileView movies={movies} />}
-          />
-        </div>
-      </Router>
+        ) : (
+          movies.map(movie => (
+            <MovieCard
+              key={movie._id}
+              movie={movie}
+              onClick={movie => this.onMovieClick(movie)}
+            />
+          ))
+        )}
+      </div>
     );
   }
 }
+
+// Como funciona onMovieCLick => selecciona movie. se lo pasamos a la funcion y luego esa peli seleccionada se pasa a travez de props a moviecard, y luego en moviecard mostramos con movie.title etc. la info de la seleccionada.
