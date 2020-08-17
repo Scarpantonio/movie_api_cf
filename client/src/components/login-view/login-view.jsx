@@ -38,7 +38,7 @@ export function LoginView(props) {
     <Container className="formStyle">
       <h2 className="r-title">Log In</h2>
       <Form className="inputStyles">
-        <Form.Group controlId="formBasicUsername">
+        <Form.Group>
           <Form.Label>Username </Form.Label>
           <Form.Control
             size="md"

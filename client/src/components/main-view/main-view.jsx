@@ -3,6 +3,7 @@ import axios from "axios";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import { LoginView } from "../login-view/login-view";
 import { RegisterView } from "../reg-view/reg-view";
+import { GenreView } from "../genre-view/genre-view";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import Button from "react-bootstrap/Button";
@@ -17,12 +18,29 @@ export class MainView extends React.Component {
     };
   }
 
+  // preguntar a Jay si necesito empezar por aqui por este getGenr
+  getGenres(token) {
+    axios
+      .get(`https://scarpantonioapi.herokuapp.com/genres`, {
+        // aqui en vez de pasar username,password pasamos el token para poder tener autorizaBy passing bearer authorization in the header of your HTTP requests, you can make authenticated requests to your API.
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(response => {
+        this.setState({
+          movies: response.data
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
   // Esta funcion almacena el token. para que tengamoslo permisos para poder acceder movies. pero si ya los credenciales estan almacenados en el browser para que necesitamos esta función?
   //  Creamos este getMovies method xq es utilizado dos veces para evitar "repeting yourself" poniendo el mismo codigo en componendidmount in en login los dos lugares donde se van a necesiar mas.
   getMovies(token) {
     axios
       .get("https://scarpantonioapi.herokuapp.com/movies", {
-        // aqui en vez de pasar username,password pasamos el token para poder tener autorizaBy passing bearer authorization in the header of your HTTP requests, you can make authenticated requests to your API.
+        // aqui en vez de pasar username, password pasamos el token para poder tener autorizaBy passing bearer authorization in the header of your HTTP requests, you can make authenticated requests to your API.
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(response => {
@@ -37,7 +55,6 @@ export class MainView extends React.Component {
   }
 
   componentDidMount() {
-    // Para obtener data persistente: The reason it’s not working is that you haven’t made use of the persisted authentication data yet. Updating the componentDidMount method to persist your login data is all that’s left to do, and your example will finally be complete! mas detalles en el capitulo del curso.
     // Para q el login sea persistente tenemos que almacenarlo aqui en componntDidMount
     // In the below code, you first get the value of the token from localStorage. Notice the syntax used to get a key from localStorage: localStorage.getItem('YOUR_KEY'). If the access token is present, it means the user is already logged in and you can call the getMovies method, which makes a GET request to the movies endpoint.
     let accessToken = localStorage.getItem("token");
@@ -47,6 +64,7 @@ export class MainView extends React.Component {
       });
       // Tendriamos que tener una funcion para autenticar cada uno de nuestro endpoints q requirieran autorizacion. en este caso le paso el token a a getMovies, pero si ubiera otro endpoint es aqui el lugar donde eso deberia suceder tambien.
       this.getMovies(accessToken);
+      this.getGenres(accessToken);
     }
     //api call
     axios
@@ -62,18 +80,16 @@ export class MainView extends React.Component {
       });
   }
 
-  // Almacenamos la info localmente para q el usuario pueda tener acceso a los routes sin hacer login nuevamente.
-  // De donde viene la data de authData? directamente de props.onLoggedIn(data); ese paramentro contiene un objeto. que luego desmenusamos authData.user.Username
   onLoggedIn(authData) {
     console.log(authData);
     this.setState({
       user: authData.user.Username,
       registered: true
     });
-    //almacenamos el token en el browser asi como el usuario. Con set item insertamos data localmente.
     localStorage.setItem("token", authData.token);
     localStorage.setItem("user", authData.user.Username);
     this.getMovies(authData.token);
+    this.getGenres(authData.token);
   }
 
   // logOut user

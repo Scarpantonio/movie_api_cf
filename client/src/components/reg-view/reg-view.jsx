@@ -4,6 +4,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import "./reg-styles.scss";
+import axios from "axios";
 
 export function RegisterView(props) {
   const [username, setUsername] = useState("");
@@ -68,12 +69,12 @@ export function RegisterView(props) {
         </Form.Group>
 
         <Form.Group controlId="formBasicEmail">
-          <Form.Label>Email </Form.Label>
+          <Form.Label>Birthday</Form.Label>
           <Form.Control
             size="md"
-            type="birthday"
-            placeholder="Enter Birthday"
-            value={Birthday}
+            type="date"
+            placeholder="12/31/1990"
+            value={birthday}
             onChange={e => setBirthday(e.target.value)}
           />
         </Form.Group>
