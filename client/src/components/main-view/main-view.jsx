@@ -18,13 +18,14 @@ export class MainView extends React.Component {
     };
   }
 
-  // preguntar a Jay si necesito empezar por aqui por este getGenr
   getGenres(token) {
     axios
-      .get(`https://scarpantonioapi.herokuapp.com/genres`, {
-        // aqui en vez de pasar username,password pasamos el token para poder tener autorizaBy passing bearer authorization in the header of your HTTP requests, you can make authenticated requests to your API.
-        headers: { Authorization: `Bearer ${token}` }
-      })
+      .get(
+        `https://scarpantonioapi.herokuapp.com/movies/genres/${movie.Genre.Name}`,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      )
       .then(response => {
         this.setState({
           movies: response.data
@@ -35,12 +36,9 @@ export class MainView extends React.Component {
       });
   }
 
-  // Esta funcion almacena el token. para que tengamoslo permisos para poder acceder movies. pero si ya los credenciales estan almacenados en el browser para que necesitamos esta función?
-  //  Creamos este getMovies method xq es utilizado dos veces para evitar "repeting yourself" poniendo el mismo codigo en componendidmount in en login los dos lugares donde se van a necesiar mas.
   getMovies(token) {
     axios
       .get("https://scarpantonioapi.herokuapp.com/movies", {
-        // aqui en vez de pasar username, password pasamos el token para poder tener autorizaBy passing bearer authorization in the header of your HTTP requests, you can make authenticated requests to your API.
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(response => {
@@ -55,14 +53,11 @@ export class MainView extends React.Component {
   }
 
   componentDidMount() {
-    // Para q el login sea persistente tenemos que almacenarlo aqui en componntDidMount
-    // In the below code, you first get the value of the token from localStorage. Notice the syntax used to get a key from localStorage: localStorage.getItem('YOUR_KEY'). If the access token is present, it means the user is already logged in and you can call the getMovies method, which makes a GET request to the movies endpoint.
     let accessToken = localStorage.getItem("token");
     if (accessToken !== null) {
       this.setState({
         user: localStorage.getItem("user")
       });
-      // Tendriamos que tener una funcion para autenticar cada uno de nuestro endpoints q requirieran autorizacion. en este caso le paso el token a a getMovies, pero si ubiera otro endpoint es aqui el lugar donde eso deberia suceder tambien.
       this.getMovies(accessToken);
       this.getGenres(accessToken);
     }

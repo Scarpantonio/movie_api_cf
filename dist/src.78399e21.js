@@ -49632,16 +49632,14 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       user: null
     };
     return _this;
-  } // preguntar a Jay si necesito empezar por aqui por este getGenr
-
+  }
 
   _createClass(MainView, [{
     key: "getGenres",
     value: function getGenres(token) {
       var _this2 = this;
 
-      _axios.default.get("https://scarpantonioapi.herokuapp.com/genres", {
-        // aqui en vez de pasar username,password pasamos el token para poder tener autorizaBy passing bearer authorization in the header of your HTTP requests, you can make authenticated requests to your API.
+      _axios.default.get("https://scarpantonioapi.herokuapp.com/movies/genres/".concat(movie.Genre.Name), {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -49652,16 +49650,13 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       }).catch(function (error) {
         console.log(error);
       });
-    } // Esta funcion almacena el token. para que tengamoslo permisos para poder acceder movies. pero si ya los credenciales estan almacenados en el browser para que necesitamos esta función?
-    //  Creamos este getMovies method xq es utilizado dos veces para evitar "repeting yourself" poniendo el mismo codigo en componendidmount in en login los dos lugares donde se van a necesiar mas.
-
+    }
   }, {
     key: "getMovies",
     value: function getMovies(token) {
       var _this3 = this;
 
       _axios.default.get("https://scarpantonioapi.herokuapp.com/movies", {
-        // aqui en vez de pasar username, password pasamos el token para poder tener autorizaBy passing bearer authorization in the header of your HTTP requests, you can make authenticated requests to your API.
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -49679,15 +49674,12 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     value: function componentDidMount() {
       var _this4 = this;
 
-      // Para q el login sea persistente tenemos que almacenarlo aqui en componntDidMount
-      // In the below code, you first get the value of the token from localStorage. Notice the syntax used to get a key from localStorage: localStorage.getItem('YOUR_KEY'). If the access token is present, it means the user is already logged in and you can call the getMovies method, which makes a GET request to the movies endpoint.
       var accessToken = localStorage.getItem("token");
 
       if (accessToken !== null) {
         this.setState({
           user: localStorage.getItem("user")
-        }); // Tendriamos que tener una funcion para autenticar cada uno de nuestro endpoints q requirieran autorizacion. en este caso le paso el token a a getMovies, pero si ubiera otro endpoint es aqui el lugar donde eso deberia suceder tambien.
-
+        });
         this.getMovies(accessToken);
         this.getGenres(accessToken);
       } //api call
@@ -49908,7 +49900,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49374" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62624" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
