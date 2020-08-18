@@ -1,8 +1,8 @@
-// import PropTypes from "prop-types";
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
+import PropTypes from "prop-types";
 import "./reg-styles.scss";
 import axios from "axios";
 
@@ -10,25 +10,12 @@ export function RegisterView(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [birthday, setBirthday] = useState("");
 
-  const handleRegister = e => {
+  const handleSubmit = e => {
     e.preventDefault();
-    axios
-      .post("https://scarpantonioapi.herokuapp.com/users", {
-        Username: username,
-        Password: password,
-        Email: email,
-        Birthday: birthday
-      })
-      .then(response => {
-        const data = response.data;
-        console.log(data);
-        window.open("/", "_self"); // the second argument '_self' is necessary so that the page will open in the current tab
-      })
-      .catch(e => {
-        console.log("error registering the user");
-      });
+
+    console.log(username, password, email);
+    props.registeredUser(username);
   };
 
   return (
@@ -46,17 +33,6 @@ export function RegisterView(props) {
           />
         </Form.Group>
 
-        <Form.Row controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            size="md"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-          />
-        </Form.Row>
-
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Email </Form.Label>
           <Form.Control
@@ -68,6 +44,7 @@ export function RegisterView(props) {
           />
         </Form.Group>
 
+<<<<<<< HEAD
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Birthday</Form.Label>
           <Form.Control
@@ -76,14 +53,24 @@ export function RegisterView(props) {
             placeholder="12/31/1990"
             value={birthday}
             onChange={e => setBirthday(e.target.value)}
+=======
+        <Form.Row controlId="formBasicPassword">
+          <Form.Label>Password</Form.Label>
+          <Form.Control
+            size="md"
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+>>>>>>> e8ac81a6d63188f3db2b527672d7d5c4e4629c56
           />
-        </Form.Group>
+        </Form.Row>
 
         <Button
           className="S-Btn"
           variant="primary"
           type="submit"
-          onClick={handleRegister}
+          onClick={handleSubmit}
         >
           Submit
         </Button>
@@ -92,6 +79,6 @@ export function RegisterView(props) {
   );
 }
 
-// RegisterView.propTypes = {
-//   registeredUser: PropTypes.func.isRequired
-// };
+RegisterView.propTypes = {
+  registeredUser: PropTypes.func.isRequired
+};
