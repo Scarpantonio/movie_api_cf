@@ -53302,10 +53302,14 @@ if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
 <<<<<<< HEAD
+<<<<<<< HEAD
   var ws = new WebSocket(protocol + '://' + hostname + ':' + "53412" + '/');
 =======
   var ws = new WebSocket(protocol + '://' + hostname + ':' + "49977" + '/');
 >>>>>>> e8ac81a6d63188f3db2b527672d7d5c4e4629c56
+=======
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62624" + '/');
+>>>>>>> parent of 1627945... comented jwt  /genre express route test
 
   ws.onmessage = function (event) {
     checkedAssets = {};
