@@ -69,8 +69,8 @@ app.get(
 
 // Data on genres
 app.get(
-  "/movies/genres/:Name",
-  // passport.authenticate("jwt", { session: false }),
+  "/moviesclear/genres/:Name",
+  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Movies.findOne({ "Genre.Name": req.params.Name })
       .then(movie => {
@@ -101,7 +101,7 @@ app.get(
 
 //List all users
 app.get(
-  "/users",
+  "/users/:Name",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Users.find()

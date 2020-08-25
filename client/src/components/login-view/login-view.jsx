@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import Container from "react-bootstrap/Container";
 import "./login-view.scss";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export function LoginView(props) {
   const [username, setUsername] = useState("");
@@ -29,10 +30,10 @@ export function LoginView(props) {
       });
   };
 
-  const handleViewBtn = e => {
-    e.preventDefault();
-    props.handleRegisterBtn();
-  };
+  // const handleViewBtn = e => {
+  //   e.preventDefault();
+  //   props.handleRegisterBtn();
+  // };
 
   return (
     <Container className="formStyle">
@@ -69,15 +70,17 @@ export function LoginView(props) {
           Submit
         </Button>
 
-        <Button variant="link" className="newUserLink" onClick={handleViewBtn}>
-          New user? register here
-        </Button>
+        <Link to={`/register`}>
+          <Button variant="link" className="newUserLink" type="submit">
+            new user? register
+          </Button>
+        </Link>
       </Form>
     </Container>
   );
 }
 
-LoginView.propTypes = {
-  onLoggedIn: PropTypes.func.isRequired,
-  handleRegisterBtn: PropTypes.func.isRequired
-};
+// LoginView.propTypes = {
+//   onLoggedIn: PropTypes.func.isRequired,
+//   handleRegisterBtn: PropTypes.func.isRequired
+// };

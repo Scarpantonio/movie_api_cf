@@ -13,11 +13,8 @@
     "components": "^0.1.0",
     "prop-types": "^15.7.2",
     "react-bootstrap": "^1.3.0",
-<<<<<<< HEAD
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
-=======
->>>>>>> e8ac81a6d63188f3db2b527672d7d5c4e4629c56
     "src": "^1.1.2"
   }
 }

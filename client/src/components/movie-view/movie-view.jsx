@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
 
 export class MovieView extends React.Component {
   constructor() {
@@ -8,9 +9,9 @@ export class MovieView extends React.Component {
   }
 
   render() {
-    const { movie, handleBackClick } = this.props;
+    const { movie } = this.props;
     if (!movie) return null;
-
+    console.log(this.props);
     return (
       <div className="main-view">
         <img className="movie-poster" src={movie.ImagePath} />
@@ -26,39 +27,35 @@ export class MovieView extends React.Component {
         <div className="movie-genre">
           <span className="label">Genre: </span>
           <span className="value">{movie.Genre.Name}</span>
-<<<<<<< HEAD
           <Link to={`/genres/${movie.Genre.Name}`}>
             <Button variant="link">more info</Button>
           </Link>
-=======
->>>>>>> e8ac81a6d63188f3db2b527672d7d5c4e4629c56
         </div>
         <div className="movie-director">
           <span className="label">Director: </span>
           <span className="value">{movie.Director.Name}</span>
-<<<<<<< HEAD
           <Link to={`/directors/${movie.Director.Name}`}>
             <Button variant="link">more info</Button>
           </Link>
-=======
->>>>>>> e8ac81a6d63188f3db2b527672d7d5c4e4629c56
         </div>
-        <Button onClick={handleBackClick}>back</Button>
+        <Link to={"/"}>
+          <Button variant="link">Back</Button>
+        </Link>
       </div>
     );
   }
 }
 
-MovieView.propTypes = {
-  movie: PropTypes.shape({
-    Title: PropTypes.string.isRequired,
-    Description: PropTypes.string.isRequired,
-    ImagePath: PropTypes.string.isRequired,
-    Genre: PropTypes.shape({
-      Name: PropTypes.string.isRequired
-    }),
-    Director: PropTypes.shape({
-      Name: PropTypes.string.isRequired
-    })
-  }).isRequired
-};
+// MovieView.propTypes = {
+//   movie: PropTypes.shape({
+//     Title: PropTypes.string.isRequired,
+//     Description: PropTypes.string.isRequired,
+//     ImagePath: PropTypes.string.isRequired,
+//     Genre: PropTypes.shape({
+//       Name: PropTypes.string.isRequired
+//     }),
+//     Director: PropTypes.shape({
+//       Name: PropTypes.string.isRequired
+//     })
+//   }).isRequired
+// };

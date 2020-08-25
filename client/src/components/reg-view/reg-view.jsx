@@ -10,12 +10,27 @@ export function RegisterView(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
+  const [birthday, setBirthday] = useState("");
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    console.log(username, password, email);
-    props.registeredUser(username);
+    axios
+      .post("https://scarpantonioapi.herokuapp.com/users", {
+        Username: username,
+        Password: password,
+        Email: email,
+        Birthday: birthday
+      })
+      .then(response => {
+        const data = response.data;
+        alert("Your account has been created! Please login");
+        console.log(data);
+        window.open("/", "_self");
+      })
+      .catch(e => {
+        console.log("error registering the user");
+      });
   };
 
   return (
@@ -44,7 +59,17 @@ export function RegisterView(props) {
           />
         </Form.Group>
 
-<<<<<<< HEAD
+        <Form.Group controlId="formBasicEmail">
+          <Form.Label>Password </Form.Label>
+          <Form.Control
+            size="md"
+            type="password"
+            placeholder="Enter Password"
+            value={password}
+            onChange={e => setPassword(e.target.value)}
+          />
+        </Form.Group>
+
         <Form.Group controlId="formBasicEmail">
           <Form.Label>Birthday</Form.Label>
           <Form.Control
@@ -53,18 +78,8 @@ export function RegisterView(props) {
             placeholder="12/31/1990"
             value={birthday}
             onChange={e => setBirthday(e.target.value)}
-=======
-        <Form.Row controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            size="md"
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
->>>>>>> e8ac81a6d63188f3db2b527672d7d5c4e4629c56
           />
-        </Form.Row>
+        </Form.Group>
 
         <Button
           className="S-Btn"
