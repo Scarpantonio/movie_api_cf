@@ -23,6 +23,7 @@ export class ProfileView extends React.Component {
   }
 
   componentDidMount() {
+    // console.log(this.props);
     //authentication
     const accessToken = localStorage.getItem("token");
     this.getUser(accessToken);
@@ -37,6 +38,7 @@ export class ProfileView extends React.Component {
       })
 
       .then(res => {
+        console.log(res);
         this.setState({
           Username: res.data.Username,
           Password: res.data.Password,
@@ -63,13 +65,13 @@ export class ProfileView extends React.Component {
           <Card>
             <Card.Body>
               <Card.Text>Username: {this.state.Username}</Card.Text>
-              <Card.Text>Password:*****</Card.Text>
+              <Card.Text>Password: *******</Card.Text>
               <Card.Text>Email: {this.state.Email}</Card.Text>
               <Card.Text>Birthday {this.state.Birthday}</Card.Text>
 
               <br />
               <br />
-              <Link to={"/user/update"}>
+              <Link to={"/profile/update"}>
                 <Button variant="primary">Update Profile</Button>
                 <br />
                 <br />
@@ -85,22 +87,3 @@ export class ProfileView extends React.Component {
     );
   }
 }
-
-// import React from "react";
-// import { Link } from "react-router-dom";
-
-// export function Profile(props) {
-//   console.log(props);
-//   return (
-//     <div>
-//       <h1>Profile Page</h1>
-//       <Link to="profile/update"> Update user profile</Link>
-//       <Link to="/">Back</Link>
-//     </div>
-//   );
-// }
-
-/**
- * Necesitamos crear users.find que encuentre el usuario que acaba de hacer login.
- * lo encontramos creando un array primero tenemos que agarrar el array del usuario registrado y buscarlo en nuestro sistema.
- * */

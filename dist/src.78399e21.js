@@ -35801,11 +35801,13 @@ function RegisterView(props) {
       Email: email,
       Birthday: birthday
     }).then(function (response) {
+      console.log(response);
       var data = response.data;
       alert("Your account has been created! Please login");
       console.log(data);
       window.open("/", "_self");
-    }).catch(function (e) {
+    }).catch(function (err) {
+      console.log(err);
       console.log("error registering the user");
     });
   };
@@ -35837,7 +35839,7 @@ function RegisterView(props) {
       return setEmail(e.target.value);
     }
   })), _react.default.createElement(_Form.default.Group, {
-    controlId: "formBasicEmail"
+    controlId: "formBasicPassword"
   }, _react.default.createElement(_Form.default.Label, null, "Password "), _react.default.createElement(_Form.default.Control, {
     size: "md",
     type: "password",
@@ -35847,7 +35849,7 @@ function RegisterView(props) {
       return setPassword(e.target.value);
     }
   })), _react.default.createElement(_Form.default.Group, {
-    controlId: "formBasicEmail"
+    controlId: "formBasicBirthday"
   }, _react.default.createElement(_Form.default.Label, null, "Birthday"), _react.default.createElement(_Form.default.Control, {
     size: "md",
     type: "date",
@@ -35862,11 +35864,9 @@ function RegisterView(props) {
     type: "submit",
     onClick: handleSubmit
   }, "Submit")));
-}
-
-RegisterView.propTypes = {
-  registeredUser: _propTypes.default.func.isRequired
-};
+} // RegisterView.propTypes = {
+//   registeredUser: PropTypes.func.isRequired
+// };
 },{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","prop-types":"../node_modules/prop-types/index.js","./reg-styles.scss":"components/reg-view/reg-styles.scss","axios":"../node_modules/axios/index.js"}],"../node_modules/react-bootstrap/esm/divWithClassName.js":[function(require,module,exports) {
 "use strict";
 
@@ -49776,6 +49776,7 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   _createClass(ProfileView, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      // console.log(this.props);
       //authentication
       var accessToken = localStorage.getItem("token");
       this.getUser(accessToken);
@@ -49792,6 +49793,8 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           Authorization: "Bearer ".concat(token)
         }
       }).then(function (res) {
+        console.log(res);
+
         _this2.setState({
           Username: res.data.Username,
           Password: res.data.Password,
@@ -49812,8 +49815,8 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       // const favoriteMovieList = movies.filter((movie) =>
       //   this.state.favoriteMovies.includes(movie._id)
       // );
-      return _react.default.createElement("div", null, _react.default.createElement(_Container.default, null, _react.default.createElement("h1", null, "My Profile"), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: ", this.state.Username), _react.default.createElement(_Card.default.Text, null, "Password:*****"), _react.default.createElement(_Card.default.Text, null, "Email: ", this.state.Email), _react.default.createElement(_Card.default.Text, null, "Birthday ", this.state.Birthday), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
-        to: "/user/update"
+      return _react.default.createElement("div", null, _react.default.createElement(_Container.default, null, _react.default.createElement("h1", null, "My Profile"), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: ", this.state.Username), _react.default.createElement(_Card.default.Text, null, "Password: *******"), _react.default.createElement(_Card.default.Text, null, "Email: ", this.state.Email), _react.default.createElement(_Card.default.Text, null, "Birthday ", this.state.Birthday), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
+        to: "/profile/update"
       }, _react.default.createElement(_Button.default, {
         variant: "primary"
       }, "Update Profile"), _react.default.createElement("br", null), _react.default.createElement("br", null)), _react.default.createElement(_Button.default, {
@@ -49827,27 +49830,137 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return ProfileView;
-}(_react.default.Component); // import React from "react";
-// import { Link } from "react-router-dom";
-// export function Profile(props) {
-//   console.log(props);
-//   return (
-//     <div>
-//       <h1>Profile Page</h1>
-//       <Link to="profile/update"> Update user profile</Link>
-//       <Link to="/">Back</Link>
-//     </div>
-//   );
-// }
-
-/**
- * Necesitamos crear users.find que encuentre el usuario que acaba de hacer login.
- * lo encontramos creando un array primero tenemos que agarrar el array del usuario registrado y buscarlo en nuestro sistema.
- * */
-
+}(_react.default.Component);
 
 exports.ProfileView = ProfileView;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js"}],"components/about-view/about-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js"}],"components/updateuser-view/updateuser-styles.scss":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
+
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"../../../../../../../usr/local/lib/node_modules/parcel-bundler/src/builtins/css-loader.js"}],"components/updateuser-view/updateuser-view.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.UpdateUserView = UpdateUserView;
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
+
+var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
+
+var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
+
+require("./updateuser-styles.scss");
+
+var _axios = _interopRequireDefault(require("axios"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _getRequireWildcardCache() { if (typeof WeakMap !== "function") return null; var cache = new WeakMap(); _getRequireWildcardCache = function () { return cache; }; return cache; }
+
+function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return; var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function UpdateUserView(props) {
+  var _useState = (0, _react.useState)(""),
+      _useState2 = _slicedToArray(_useState, 2),
+      username = _useState2[0],
+      setUsername = _useState2[1];
+
+  var _useState3 = (0, _react.useState)(""),
+      _useState4 = _slicedToArray(_useState3, 2),
+      password = _useState4[0],
+      setPassword = _useState4[1];
+
+  var _useState5 = (0, _react.useState)(""),
+      _useState6 = _slicedToArray(_useState5, 2),
+      email = _useState6[0],
+      setEmail = _useState6[1];
+
+  var handleSubmit = function handleSubmit(e) {
+    e.preventDefault();
+    var username = localStorage.getItem("user");
+
+    _axios.default.put("https://scarpantonioapi.herokuapp.com/users/".concat(username), {
+      Username: username,
+      Password: password,
+      Email: email
+    }).then(function (response) {
+      var data = response.data;
+      console.log(data.Username);
+      console.log(data.Email);
+      console.log(data.Password); // const local = localStorage.setItem("user", data.Username);
+      // console.log(local);
+      // alert("Your account has been updated!");
+      // console.log(data);
+      // window.open("/profile", "_self");
+    }).catch(function (err) {
+      console.log(err);
+      console.log("error updating the user");
+    });
+  };
+
+  return _react.default.createElement(_Container.default, {
+    className: "formStyle"
+  }, _react.default.createElement("h2", {
+    className: "r-title"
+  }, "Update account"), _react.default.createElement(_Form.default, {
+    className: "inputStyles"
+  }, _react.default.createElement(_Form.default.Group, {
+    controlId: "formBasicUsername"
+  }, _react.default.createElement(_Form.default.Label, null, "Username "), _react.default.createElement(_Form.default.Control, {
+    size: "md",
+    placeholder: "Enter username",
+    type: "text",
+    value: username,
+    onChange: function onChange(e) {
+      return setUsername(e.target.value);
+    }
+  })), _react.default.createElement(_Form.default.Group, {
+    controlId: "formBasicEmail"
+  }, _react.default.createElement(_Form.default.Label, null, "Email "), _react.default.createElement(_Form.default.Control, {
+    size: "md",
+    type: "email",
+    placeholder: "Enter email",
+    value: email,
+    onChange: function onChange(e) {
+      return setEmail(e.target.value);
+    }
+  })), _react.default.createElement(_Form.default.Group, {
+    controlId: "formBasicPassword"
+  }, _react.default.createElement(_Form.default.Label, null, "Password "), _react.default.createElement(_Form.default.Control, {
+    size: "md",
+    type: "password",
+    placeholder: "Enter Password",
+    value: password,
+    onChange: function onChange(e) {
+      return setPassword(e.target.value);
+    }
+  })), _react.default.createElement(_Button.default, {
+    className: "S-Btn",
+    variant: "primary",
+    type: "submit",
+    onClick: handleSubmit
+  }, "Submit")));
+}
+},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","prop-types":"../node_modules/prop-types/index.js","./updateuser-styles.scss":"components/updateuser-view/updateuser-styles.scss","axios":"../node_modules/axios/index.js"}],"components/about-view/about-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49905,6 +50018,8 @@ var _movieCard = require("../movie-card/movie-card");
 var _movieView = require("../movie-view/movie-view");
 
 var _profileView = require("../profile-view/profile-view");
+
+var _updateuserView = require("../updateuser-view/updateuser-view");
 
 var _aboutView = require("../about-view/about-view");
 
@@ -49994,14 +50109,15 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       });
       localStorage.setItem("token", authData.token);
       localStorage.setItem("user", authData.user.Username);
-      this.getMovies(authData.token); // this.getGenres(authData.token);
+      this.getMovies(authData.token); // this.handleUserDelete(authData.token);
     } // handleUserDelete(token) {
     //   const username = localStorage.getItem("user");
     //   axios
     //     .delete(`https://scarpantonioapi.herokuapp.com/users/${username}`, {
     //       headers: { Authorization: `Bearer ${token}` }
     //     })
-    //     .then(response => {
+    //     .then(res => {
+    //       console.log(res);
     //       console.log("user deleted");
     //     })
     //     .catch(function(error) {
@@ -50009,6 +50125,22 @@ var MainView = /*#__PURE__*/function (_React$Component) {
     //     });
     // }
 
+  }, {
+    key: "updateUser",
+    value: function updateUser(token) {
+      var username = localStorage.getItem("user");
+
+      _axios.default.delete("https://scarpantonioapi.herokuapp.com/users/".concat(username), {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }).then(function (res) {
+        console.log(res);
+        console.log("user deleted");
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
   }, {
     key: "render",
     value: function render() {
@@ -50090,6 +50222,9 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           , null);
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
+        path: "/profile/update",
+        component: _updateuserView.UpdateUserView
+      }), _react.default.createElement(_reactRouterDom.Route, {
         path: "/about",
         component: _aboutView.AboutView
       }), _react.default.createElement(_reactRouterDom.Route, {
@@ -50103,7 +50238,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 }(_react.default.Component);
 
 exports.MainView = MainView;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","../login-view/login-view":"components/login-view/login-view.jsx","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../reg-view/reg-view":"components/reg-view/reg-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../about-view/about-view":"components/about-view/about-view.jsx","../contact-view/contact-view":"components/contact-view/contact-view.jsx"}],"index.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","../login-view/login-view":"components/login-view/login-view.jsx","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../reg-view/reg-view":"components/reg-view/reg-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../updateuser-view/updateuser-view":"components/updateuser-view/updateuser-view.jsx","../about-view/about-view":"components/about-view/about-view.jsx","../contact-view/contact-view":"components/contact-view/contact-view.jsx"}],"index.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -50199,7 +50334,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "57268" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61910" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

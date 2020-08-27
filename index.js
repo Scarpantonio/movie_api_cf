@@ -100,20 +100,20 @@ app.get(
 );
 
 //List all users
-app.get(
-  "/users",
-  passport.authenticate("jwt", { session: false }),
-  (req, res) => {
-    Users.find()
-      .then(function(users) {
-        res.status(201).json(users);
-      })
-      .catch(function(err) {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      });
-  }
-);
+// app.get(
+//   "/users",
+//   passport.authenticate("jwt", { session: false }),
+//   (req, res) => {
+//     Users.find()
+//       .then(function(users) {
+//         res.status(201).json(users);
+//       })
+//       .catch(function(err) {
+//         console.error(err);
+//         res.status(500).send("Error: " + err);
+//       });
+//   }
+// );
 
 // Get a user by username
 app.get(
@@ -180,29 +180,81 @@ app.post(
 );
 
 // Update a user's info, by username
-app.put("/users/:Username", (req, res) => {
-  let hashedPassword = Users.hashPassword(req.body.Password);
-  Users.findOneAndUpdate(
-    { Username: req.params.Username },
-    {
-      $set: {
-        Username: req.body.Username,
-        Password: hashedPassword,
-        Email: req.body.Email,
-        Birthday: req.body.Birthday
-      }
-    },
-    { new: true },
-    (err, updatedUser) => {
-      if (err) {
-        console.error(err);
-        res.status(500).send("Error: " + err);
-      } else {
-        res.json(updatedUser);
-      }
+app.put(
+  "/users/:Username",
+  [
+    check(
+      "Username",
+      "Username cannot have fewer than 5 characters."
+    ).isLength({ min: 5 }),
+    check(
+      "Username",
+      "Username may not contain non alphanumeric characters."
+    ).isAlphanumeric(),
+    check("Password", "Password is required.")
+      .not()
+      .isEmpty(),
+    check("Email", "Email must be valid email address.").isEmail()
+  ],
+  passport.authenticate("jwt", { session: false }),
+  function(req, res) {
+    //Check validation object for errors
+    var errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
     }
-  );
-});
+
+    var hashedPassword = Users.hashPassword(req.body.Password);
+
+    Users.findOneAndUpdate(
+      { Username: req.params.Username },
+      {
+        $set: {
+          Username: req.body.Username,
+          Password: hashedPassword,
+          Email: req.body.Email,
+          Birthday: req.body.Birthday
+        }
+      },
+      { new: true }, //Makes sure updated document is returned
+      function(err, updatedUser) {
+        if (err) {
+          console.error(err);
+          res.status(500).send("Error: " + err);
+        } else {
+          res.json(updatedUser);
+        }
+      }
+    );
+  }
+);
+
+//old user update code
+
+// app.put("/users/:Username", (req, res) => {
+//   let hashedPassword = Users.hashPassword(req.body.Password);
+//   Users.findOneAndUpdate(
+//     { Username: req.params.Username },
+//     {
+//       $set: {
+//         Username: req.body.Username,
+//         Password: hashedPassword,
+//         Email: req.body.Email,
+//         Birthday: req.body.Birthday
+//       }
+//     },
+//     { new: true },
+//     (err, updatedUser) => {
+//       if (err) {
+//         console.error(err);
+//         res.status(500).send("Error: " + err);
+//       } else {
+//         res.json(updatedUser);
+//       }
+//     }
+//   );
+// });
 
 // Delete a user by username
 app.delete(

@@ -8,6 +8,7 @@ import { DirectorView } from "../director-view/director-view";
 import { MovieCard } from "../movie-card/movie-card";
 import { MovieView } from "../movie-view/movie-view";
 import { ProfileView } from "../profile-view/profile-view";
+import { UpdateUserView } from "../updateuser-view/updateuser-view";
 import { AboutView } from "../about-view/about-view";
 import { ContactView } from "../contact-view/contact-view";
 
@@ -59,7 +60,7 @@ export class MainView extends React.Component {
     localStorage.setItem("token", authData.token);
     localStorage.setItem("user", authData.user.Username);
     this.getMovies(authData.token);
-    // this.getGenres(authData.token);
+    // this.handleUserDelete(authData.token);
   }
 
   // handleUserDelete(token) {
@@ -68,13 +69,29 @@ export class MainView extends React.Component {
   //     .delete(`https://scarpantonioapi.herokuapp.com/users/${username}`, {
   //       headers: { Authorization: `Bearer ${token}` }
   //     })
-  //     .then(response => {
+  //     .then(res => {
+  //       console.log(res);
   //       console.log("user deleted");
   //     })
   //     .catch(function(error) {
   //       console.log(error);
   //     });
   // }
+
+  updateUser(token) {
+    const username = localStorage.getItem("user");
+    axios
+      .delete(`https://scarpantonioapi.herokuapp.com/users/${username}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(res => {
+        console.log(res);
+        console.log("user deleted");
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
 
   render() {
     // xq colocamos match en routes abajo = Es match porque accedemos al objeto enviado por routes como props.
@@ -141,7 +158,7 @@ export class MainView extends React.Component {
               />
             )}
           />
-
+          <Route path="/profile/update" component={UpdateUserView} />
           <Route path="/about" component={AboutView} />
           <Route path="/contact" component={ContactView} />
         </div>

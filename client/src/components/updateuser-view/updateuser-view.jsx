@@ -3,41 +3,44 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import PropTypes from "prop-types";
-import "./reg-styles.scss";
+import "./updateuser-styles.scss";
 import axios from "axios";
 
-export function RegisterView(props) {
+export function UpdateUserView(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
-  const [birthday, setBirthday] = useState("");
 
   const handleSubmit = e => {
     e.preventDefault();
+    const username = localStorage.getItem("user");
 
     axios
-      .post("https://scarpantonioapi.herokuapp.com/users", {
+      .put(`https://scarpantonioapi.herokuapp.com/users/${username}`, {
         Username: username,
         Password: password,
-        Email: email,
-        Birthday: birthday
+        Email: email
       })
       .then(response => {
-        console.log(response);
         const data = response.data;
-        alert("Your account has been created! Please login");
-        console.log(data);
-        window.open("/", "_self");
+        console.log(data.Username);
+        console.log(data.Email);
+        console.log(data.Password);
+        // const local = localStorage.setItem("user", data.Username);
+        // console.log(local);
+        // alert("Your account has been updated!");
+        // console.log(data);
+        // window.open("/profile", "_self");
       })
       .catch(err => {
         console.log(err);
-        console.log("error registering the user");
+        console.log("error updating the user");
       });
   };
 
   return (
     <Container className="formStyle">
-      <h2 className="r-title">New User</h2>
+      <h2 className="r-title">Update account</h2>
       <Form className="inputStyles">
         <Form.Group controlId="formBasicUsername">
           <Form.Label>Username </Form.Label>
@@ -72,17 +75,6 @@ export function RegisterView(props) {
           />
         </Form.Group>
 
-        <Form.Group controlId="formBasicBirthday">
-          <Form.Label>Birthday</Form.Label>
-          <Form.Control
-            size="md"
-            type="date"
-            placeholder="12/31/1990"
-            value={birthday}
-            onChange={e => setBirthday(e.target.value)}
-          />
-        </Form.Group>
-
         <Button
           className="S-Btn"
           variant="primary"
@@ -95,7 +87,3 @@ export function RegisterView(props) {
     </Container>
   );
 }
-
-// RegisterView.propTypes = {
-//   registeredUser: PropTypes.func.isRequired
-// };
