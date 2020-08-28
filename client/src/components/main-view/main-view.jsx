@@ -63,21 +63,6 @@ export class MainView extends React.Component {
     // this.handleUserDelete(authData.token);
   }
 
-  // handleUserDelete(token) {
-  //   const username = localStorage.getItem("user");
-  //   axios
-  //     .delete(`https://scarpantonioapi.herokuapp.com/users/${username}`, {
-  //       headers: { Authorization: `Bearer ${token}` }
-  //     })
-  //     .then(res => {
-  //       console.log(res);
-  //       console.log("user deleted");
-  //     })
-  //     .catch(function(error) {
-  //       console.log(error);
-  //     });
-  // }
-
   updateUser(token) {
     const username = localStorage.getItem("user");
     axios
@@ -153,8 +138,8 @@ export class MainView extends React.Component {
             path="/profile"
             render={() => (
               <ProfileView
-              // handleUserDelete={this.handleUserDelete()}
-              // movies={movies}
+                // handleUserDelete={this.handleUserDelete()}
+                movies={movies}
               />
             )}
           />

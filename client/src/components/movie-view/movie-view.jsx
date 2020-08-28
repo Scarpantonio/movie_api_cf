@@ -11,7 +11,7 @@ export class MovieView extends React.Component {
   render() {
     const { movie } = this.props;
     if (!movie) return null;
-    console.log(this.props);
+    console.log(this.props.movie._id);
     return (
       <div className="main-view">
         <img className="movie-poster" src={movie.ImagePath} />

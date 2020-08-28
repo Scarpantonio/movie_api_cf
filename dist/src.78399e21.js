@@ -49644,7 +49644,7 @@ var MovieView = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var movie = this.props.movie;
       if (!movie) return null;
-      console.log(this.props);
+      console.log(this.props.movie._id);
       return _react.default.createElement("div", {
         className: "main-view"
       }, _react.default.createElement("img", {
@@ -49766,12 +49766,19 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       username: null,
       password: null,
       email: null,
-      birthday: null //   favoriteMovies: [],
-      //   movies: []
+      birthday: null,
+      // selectedMovie: null,
+      favoriteMovies: [] // movies: []
 
     };
     return _this;
-  }
+  } // handleSelectedMovie(favMovie) {
+  //   this.setState({
+  //     selectedfavMovie: favMovie
+  //   });
+  //   console.log(favMovie);
+  // }
+
 
   _createClass(ProfileView, [{
     key: "componentDidMount",
@@ -49799,11 +49806,62 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           Username: res.data.Username,
           Password: res.data.Password,
           Email: res.data.Email,
-          Birthday: res.data.Birthday //   FavoriteMovies: res.data.FavoriteMovies
-
+          Birthday: res.data.Birthday,
+          FavoriteMovies: res.data.FavoriteMovies
         });
       }).catch(function (err) {
         console.log("unable to get user data" + err);
+      });
+    }
+    /** Por acomodar:
+     *  #1 Tengo que tener una lista de todas als peliculas. las cuales pueda seleccionar con un click event.
+     *  #2 Una vez seleccionada deberiamos actualziar el estado de la peli seleccionada con SelectedMovie.
+     *  #3 Luego almacenamos ese nuevo estado en una variable const movie_id = this.state.selectedMovie_id;
+     *  #4 Colocamos esa varaible en nuestro dinamic URL /${selectedMovie_id}`
+     *  # Se puede colocar seleccion multiple, cambiamos selectedMovie state a un array[], selectedMovie[], para que pueda almacenar todas las selecciones de peliculas dentro del array, y luego cuando le demos a eliminar, tenemos que crear un nuevo route para que ese route pueda eliminar multiples. seria deleteMultiple. deleteMany para que pueda recibir y eliminar todas las peliculas seleccionadas.
+     */
+
+  }, {
+    key: "handleFavMovieDelete",
+    value: function handleFavMovieDelete() {
+      var username = localStorage.getItem("user");
+      var token = localStorage.getItem("token");
+      var movie_id = this.state.selectedMovie;
+
+      _axios.default.delete("https://scarpantonioapi.herokuapp.com/users/".concat(username, "/movies/").concat(movie_id), {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }).then(function (res) {
+        console.log(res);
+        console.log("user deleted");
+        alert("your account has been deleted");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.open("/", "_self");
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }, {
+    key: "handleUserDelete",
+    value: function handleUserDelete() {
+      var username = localStorage.getItem("user");
+      var token = localStorage.getItem("token");
+
+      _axios.default.delete("https://scarpantonioapi.herokuapp.com/users/".concat(username), {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }).then(function (res) {
+        console.log(res);
+        console.log("user deleted");
+        alert("your account has been deleted");
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
+        window.open("/", "_self");
+      }).catch(function (error) {
+        console.log(error);
       });
     }
   }, {
@@ -49811,26 +49869,37 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      // ** const { movies } = this.props;
-      // const favoriteMovieList = movies.filter((movie) =>
-      //   this.state.favoriteMovies.includes(movie._id)
-      // );
-      return _react.default.createElement("div", null, _react.default.createElement(_Container.default, null, _react.default.createElement("h1", null, "My Profile"), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: ", this.state.Username), _react.default.createElement(_Card.default.Text, null, "Password: *******"), _react.default.createElement(_Card.default.Text, null, "Email: ", this.state.Email), _react.default.createElement(_Card.default.Text, null, "Birthday ", this.state.Birthday), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
+      // al pasar el movie como prop. obetenemos la pelicula indivudal, y luego buscamos cual es la pelicula que tenga ese id en especificio.
+      var movies = this.props.movies;
+      var favoriteMovieList = movies.filter(function (movie) {
+        return _this3.state.favoriteMovies.includes(movie._id);
+      });
+      var favMovies = this.state.FavoriteMovies; // console.log(favoriteMovieList);
+      // console.log(this.state.FavoriteMovies);
+
+      return _react.default.createElement("div", null, _react.default.createElement(_Container.default, null, _react.default.createElement("h1", null, "My Profile"), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: ", this.state.Username), _react.default.createElement(_Card.default.Text, null, "Password: *******"), _react.default.createElement(_Card.default.Text, null, "Email: ", this.state.Email), _react.default.createElement(_Card.default.Text, null, "Birthday ", this.state.Birthday), _react.default.createElement(_Card.default.Text, null, "Favorite Movies", favMovies), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
         to: "/profile/update"
       }, _react.default.createElement(_Button.default, {
         variant: "primary"
       }, "Update Profile"), _react.default.createElement("br", null), _react.default.createElement("br", null)), _react.default.createElement(_Button.default, {
-        onClick: function onClick() {
-          return _this3.handleUserDelete;
-        }
-      }, "Delete User"), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
+        onClick: this.handleUserDelete
+      }, "Delete User"), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_Button.default, null, "Delete Favorite Movies"), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
         to: "/"
       }, "Back")))));
     }
   }]);
 
   return ProfileView;
-}(_react.default.Component);
+}(_react.default.Component); // {movies.map(movie => {
+//   return (
+//     <div>
+//       <ul>
+//         <li>{}</li>
+//       </ul>
+//     </div>
+//   );
+// })}
+
 
 exports.ProfileView = ProfileView;
 },{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js"}],"components/updateuser-view/updateuser-styles.scss":[function(require,module,exports) {
@@ -50110,21 +50179,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       localStorage.setItem("token", authData.token);
       localStorage.setItem("user", authData.user.Username);
       this.getMovies(authData.token); // this.handleUserDelete(authData.token);
-    } // handleUserDelete(token) {
-    //   const username = localStorage.getItem("user");
-    //   axios
-    //     .delete(`https://scarpantonioapi.herokuapp.com/users/${username}`, {
-    //       headers: { Authorization: `Bearer ${token}` }
-    //     })
-    //     .then(res => {
-    //       console.log(res);
-    //       console.log("user deleted");
-    //     })
-    //     .catch(function(error) {
-    //       console.log(error);
-    //     });
-    // }
-
+    }
   }, {
     key: "updateUser",
     value: function updateUser(token) {
@@ -50218,8 +50273,9 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         path: "/profile",
         render: function render() {
           return _react.default.createElement(_profileView.ProfileView // handleUserDelete={this.handleUserDelete()}
-          // movies={movies}
-          , null);
+          , {
+            movies: movies
+          });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
         path: "/profile/update",
@@ -50334,7 +50390,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "61910" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53478" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
