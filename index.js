@@ -83,7 +83,7 @@ app.get(
   }
 );
 
-// Data on a specific director
+// Data on a individual director
 app.get(
   "/movies/directors/:Name",
   passport.authenticate("jwt", { session: false }),
@@ -279,7 +279,7 @@ app.delete(
 //Add a favorite movie
 app.post(
   "/users/:Username/Movies/:MovieID",
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Users.findOneAndUpdate(
       { Username: req.params.Username },
