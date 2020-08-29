@@ -279,7 +279,7 @@ app.delete(
 //Add a favorite movie
 app.post(
   "/users/:Username/Movies/:MovieID",
-  passport.authenticate("jwt", { session: false }),
+  // passport.authenticate("jwt", { session: false }),
   (req, res) => {
     Users.findOneAndUpdate(
       { Username: req.params.Username },
