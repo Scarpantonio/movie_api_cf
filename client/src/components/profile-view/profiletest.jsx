@@ -2,16 +2,13 @@ import React from "react";
 //Routing
 import axios from "axios";
 import { Link } from "react-router-dom";
-
 //Styling
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
-
 export class ProfileView extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       username: null,
       password: null,
@@ -22,29 +19,24 @@ export class ProfileView extends React.Component {
       // movies: []
     };
   }
-
   // handleSelectedMovie(favMovie) {
   //   this.setState({
   //     selectedfavMovie: favMovie
   //   });
   //   console.log(favMovie);
   // }
-
   componentDidMount() {
     // console.log(this.props);
     //authentication
     const accessToken = localStorage.getItem("token");
     this.getUser(accessToken);
   }
-
   getUser(token) {
     const username = localStorage.getItem("user");
-
     axios
       .get(`https://scarpantonioapi.herokuapp.com/users/${username}`, {
         headers: { Authorization: `Bearer ${token}` }
       })
-
       .then(res => {
         console.log(res);
         this.setState({
@@ -59,7 +51,6 @@ export class ProfileView extends React.Component {
         console.log("unable to get user data" + err);
       });
   }
-
   /** Por acomodar:
    *  #1 Tengo que tener una lista de todas als peliculas. las cuales pueda seleccionar con un click event.
    *  #2 Una vez seleccionada deberiamos actualziar el estado de la peli seleccionada con SelectedMovie.
@@ -90,7 +81,6 @@ export class ProfileView extends React.Component {
         console.log(error);
       });
   }
-
   handleUserDelete() {
     const username = localStorage.getItem("user");
     const token = localStorage.getItem("token");
@@ -110,20 +100,18 @@ export class ProfileView extends React.Component {
         console.log(error);
       });
   }
-
   render() {
     // al pasar el movie como prop. obetenemos la pelicula indivudal, y luego buscamos cual es la pelicula que tenga ese id en especificio.
     const { movies } = this.props;
-
     const favoriteMovieList = movies.filter(movie =>
       this.state.favoriteMovies.includes(movie._id)
     );
-
     const favMovies = this.state.FavoriteMovies;
     // console.log(favoriteMovieList);
     // console.log(this.state.FavoriteMovies);
-
-    debugger;
+    if (!movies || movies.length === 0) {
+      return null;
+    }
     return (
       <div>
         <Container>
@@ -141,7 +129,6 @@ export class ProfileView extends React.Component {
                   <li key={index}>{movies.find(m => m._id === fm).Title}</li>
                 ))}
               </ul>
-
               <br />
               <br />
               <Link to={"/profile/update"}>
@@ -163,7 +150,6 @@ export class ProfileView extends React.Component {
     );
   }
 }
-
 // {movies.map(movie => {
 //   return (
 //     <div>

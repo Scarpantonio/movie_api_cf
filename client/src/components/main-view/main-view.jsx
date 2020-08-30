@@ -19,7 +19,8 @@ export class MainView extends React.Component {
     // porque movies es un array
     this.state = {
       movies: [],
-      user: null
+      user: null,
+      addFavMovBtn: "I loved it"
     };
   }
 
@@ -94,7 +95,13 @@ export class MainView extends React.Component {
               if (!user)
                 return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
               // return <MovieCard movies={movies} />;
-              return movies.map(m => <MovieCard key={m._id} movie={m} />);
+              return movies.map(m => (
+                <MovieCard
+                  key={m._id}
+                  movie={m}
+                  favMovbtn={this.addFavMovBtn}
+                />
+              ));
             }}
           />
           <Route path="/register" render={() => <RegisterView />} />

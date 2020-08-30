@@ -49465,6 +49465,8 @@ exports.MovieCard = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
+var _axios = _interopRequireDefault(require("axios"));
+
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
@@ -49503,15 +49505,56 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
   var _super = _createSuper(MovieCard);
 
   function MovieCard() {
+    var _this;
+
     _classCallCheck(this, MovieCard);
 
-    return _super.apply(this, arguments);
+    _this = _super.call(this);
+
+    _this.handleAddFavMovie = function (movieId) {
+      var username = localStorage.getItem("user");
+      var token = localStorage.getItem("token");
+      var movie_id = movieId;
+
+      _axios.default.post("https://scarpantonioapi.herokuapp.com/users/".concat(username, "/Movies/").concat(movie_id), {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }).then(function (res) {
+        console.log(res);
+        console.log(movieId);
+
+        _this.setState({
+          addFavMovBtn: "You loved it",
+          selectedMovie: movieId
+        });
+      }).catch(function (error) {
+        console.log(error);
+      });
+    };
+
+    _this.state = {
+      addFavMovBtn: "add to favorites",
+      selectedMovie: null
+    };
+    return _this;
   }
+  /**
+   * Problemas
+   * Cuando agregamos una nueva pelicula y le damos hacia atras. El estado se reinicia y podemos agregar mil veces la misma pelicula. crear logica para que no se puede repetir dos veces la misma pelicula.
+   * La posible solucion es que debemos mandar el maanejo del estado en el main view.
+   * Crear logica para eliminar pelicula.
+   *
+   */
+
 
   _createClass(MovieCard, [{
     key: "render",
     value: function render() {
+      var _this2 = this;
+
       var movie = this.props.movie;
+      var addFavMovBtn = this.state.addFavMovBtn;
       return _react.default.createElement(_Card.default, {
         style: {
           width: "16rem"
@@ -49523,61 +49566,19 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
         to: "/movies/".concat(movie._id)
       }, _react.default.createElement(_Button.default, {
         variant: "link"
-      }, "Open"))));
+      }, "Open")), _react.default.createElement(_reactRouterDom.Link, {
+        to: ""
+      }, _react.default.createElement(_Button.default, {
+        onClick: function onClick() {
+          return _this2.handleAddFavMovie(movie._id);
+        },
+        variant: "link"
+      }, addFavMovBtn))));
     }
   }]);
 
   return MovieCard;
-}(_react.default.Component); // import React from "react";
-// import PropTypes from "prop-types";
-// import Button from "react-bootstrap/Button";
-// import Card from "react-bootstrap/Card";
-// import { Link } from "react-router-dom";
-// export class MovieCard extends React.Component {
-//   render() {
-//     const { movie } = this.props;
-//     return (
-//       <Card style={{ width: "20rem" }}>
-//         <Card.Img variant="top" src={movie.ImagePath} />
-//         <Card.Body>
-//           <Card.Title>{movie.Title}</Card.Title>
-//           <Card.Text>{movie.Description}</Card.Text>
-//           <Link to={`/movies/${movie._id}`}>
-//             <Button variant="link">Open</Button>
-//           </Link>
-//           <Link to={`/movies/director/${movie.Director.Name}`}>
-//             <Button variant="link">Director</Button>
-//           </Link>
-//           <Link to={`/movies/genres/${movie.Genre.Name}`}>
-//             <Button variant="link">Genre</Button>
-//           </Link>
-//         </Card.Body>
-//       </Card>
-//     );
-//   }
-// }
-// // import React from "react";
-// // import PropTypes from "prop-types";
-// // import Button from "react-bootstrap/Button";
-// // import Card from "react-bootstrap/Card";
-// // export class MovieCard extends React.Component {
-// //   render() {
-// //     const { movie, onClick } = this.props;
-// //     return (
-// //       <Card style={{ width: "16rem" }}>
-// //         <Card.Img variant="top" src={movie.ImagePath} />
-// //         <Card.Body>
-// //           <Card.Title>{movie.Title}</Card.Title>
-// //           <Card.Text>{movie.Description}</Card.Text>
-// //           <Button onClick={() => onClick(movie)} variant="link">
-// //             Open
-// //           </Button>
-// //         </Card.Body>
-// //       </Card>
-// //     );
-// //   }
-// // }
-// // MovieCard.propTypes = {
+}(_react.default.Component); // // MovieCard.propTypes = {
 // //   movie: PropTypes.shape({
 // //     Title: PropTypes.string.isRequired,
 // //     Description: PropTypes.string.isRequired,
@@ -49588,7 +49589,7 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
 
 
 exports.MovieCard = MovieCard;
-},{"react":"../node_modules/react/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/movie-view/movie-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/movie-view/movie-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49877,7 +49878,14 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       var favMovies = this.state.FavoriteMovies; // console.log(favoriteMovieList);
       // console.log(this.state.FavoriteMovies);
 
-      return _react.default.createElement("div", null, _react.default.createElement(_Container.default, null, _react.default.createElement("h1", null, "My Profile"), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: ", this.state.Username), _react.default.createElement(_Card.default.Text, null, "Password: *******"), _react.default.createElement(_Card.default.Text, null, "Email: ", this.state.Email), _react.default.createElement(_Card.default.Text, null, "Birthday ", this.state.Birthday), _react.default.createElement(_Card.default.Text, null, "Favorite Movies", favMovies), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
+      debugger;
+      return _react.default.createElement("div", null, _react.default.createElement(_Container.default, null, _react.default.createElement("h1", null, "My Profile"), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: ", this.state.Username), _react.default.createElement(_Card.default.Text, null, "Password: *******"), _react.default.createElement(_Card.default.Text, null, "Email: ", this.state.Email), _react.default.createElement(_Card.default.Text, null, "Birthday ", this.state.Birthday), _react.default.createElement(_Card.default.Text, null, "Favorite Movies:"), _react.default.createElement("ul", null, (favMovies || []).map(function (fm, index) {
+        return _react.default.createElement("li", {
+          key: index
+        }, movies.find(function (m) {
+          return m._id === fm;
+        }).Title);
+      })), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
         to: "/profile/update"
       }, _react.default.createElement(_Button.default, {
         variant: "primary"
@@ -50132,7 +50140,8 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
     _this.state = {
       movies: [],
-      user: null
+      user: null,
+      addFavMovBtn: "I loved it"
     };
     return _this;
   } // 1# Este token viene de componentDidmount, es asi como tenemos acceso al token que esta almacenado en LocalStorage
@@ -50223,7 +50232,8 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           return movies.map(function (m) {
             return _react.default.createElement(_movieCard.MovieCard, {
               key: m._id,
-              movie: m
+              movie: m,
+              favMovbtn: _this3.addFavMovBtn
             });
           });
         }
@@ -50390,7 +50400,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53478" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59867" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

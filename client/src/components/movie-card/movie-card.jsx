@@ -1,13 +1,57 @@
 import React from "react";
+import axios from "axios";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
 
 export class MovieCard extends React.Component {
+  constructor() {
+    super();
+
+    this.state = {
+      addFavMovBtn: "add to favorites",
+      selectedMovie: null
+    };
+  }
+
+  /**
+   * Problemas
+   * Cuando agregamos una nueva pelicula y le damos hacia atras. El estado se reinicia y podemos agregar mil veces la misma pelicula. crear logica para que no se puede repetir dos veces la misma pelicula.
+   * La posible solucion es que debemos mandar el maanejo del estado en el main view.
+   * Crear logica para eliminar pelicula.
+   *
+   */
+
+  handleAddFavMovie = movieId => {
+    const username = localStorage.getItem("user");
+    const token = localStorage.getItem("token");
+    const movie_id = movieId;
+
+    axios
+      .post(
+        `https://scarpantonioapi.herokuapp.com/users/${username}/Movies/${movie_id}`,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      )
+      .then(res => {
+        console.log(res);
+        console.log(movieId);
+        this.setState({
+          addFavMovBtn: "You loved it",
+          selectedMovie: movieId
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  };
+
+  debugger;
   render() {
     const { movie } = this.props;
-
+    const { addFavMovBtn } = this.state;
     return (
       <Card style={{ width: "16rem" }}>
         <Card.Img variant="top" src={movie.ImagePath} />
@@ -17,67 +61,19 @@ export class MovieCard extends React.Component {
           <Link to={`/movies/${movie._id}`}>
             <Button variant="link">Open</Button>
           </Link>
+          <Link to={``}>
+            <Button
+              onClick={() => this.handleAddFavMovie(movie._id)}
+              variant="link"
+            >
+              {addFavMovBtn}
+            </Button>
+          </Link>
         </Card.Body>
       </Card>
     );
   }
 }
-
-// import React from "react";
-// import PropTypes from "prop-types";
-// import Button from "react-bootstrap/Button";
-// import Card from "react-bootstrap/Card";
-
-// import { Link } from "react-router-dom";
-
-// export class MovieCard extends React.Component {
-//   render() {
-//     const { movie } = this.props;
-
-//     return (
-//       <Card style={{ width: "20rem" }}>
-//         <Card.Img variant="top" src={movie.ImagePath} />
-//         <Card.Body>
-//           <Card.Title>{movie.Title}</Card.Title>
-//           <Card.Text>{movie.Description}</Card.Text>
-//           <Link to={`/movies/${movie._id}`}>
-//             <Button variant="link">Open</Button>
-//           </Link>
-//           <Link to={`/movies/director/${movie.Director.Name}`}>
-//             <Button variant="link">Director</Button>
-//           </Link>
-//           <Link to={`/movies/genres/${movie.Genre.Name}`}>
-//             <Button variant="link">Genre</Button>
-//           </Link>
-//         </Card.Body>
-//       </Card>
-//     );
-//   }
-// }
-
-// // import React from "react";
-// // import PropTypes from "prop-types";
-// // import Button from "react-bootstrap/Button";
-// // import Card from "react-bootstrap/Card";
-
-// // export class MovieCard extends React.Component {
-// //   render() {
-// //     const { movie, onClick } = this.props;
-
-// //     return (
-// //       <Card style={{ width: "16rem" }}>
-// //         <Card.Img variant="top" src={movie.ImagePath} />
-// //         <Card.Body>
-// //           <Card.Title>{movie.Title}</Card.Title>
-// //           <Card.Text>{movie.Description}</Card.Text>
-// //           <Button onClick={() => onClick(movie)} variant="link">
-// //             Open
-// //           </Button>
-// //         </Card.Body>
-// //       </Card>
-// //     );
-// //   }
-// // }
 
 // // MovieCard.propTypes = {
 // //   movie: PropTypes.shape({
