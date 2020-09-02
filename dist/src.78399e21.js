@@ -49553,7 +49553,9 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
-      var movie = this.props.movie;
+      var _this$props = this.props,
+          movie = _this$props.movie,
+          added = _this$props.added;
       var addFavMovBtn = this.state.addFavMovBtn;
       return _react.default.createElement(_Card.default, {
         style: {
@@ -49573,7 +49575,7 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
           return _this2.handleAddFavMovie(movie._id);
         },
         variant: "link"
-      }, addFavMovBtn))));
+      }, !added && addFavMovBtn)), _react.default.createElement("span", null, added && "already added")));
     }
   }]);
 
@@ -49757,29 +49759,11 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
 
   var _super = _createSuper(ProfileView);
 
-  function ProfileView(props) {
-    var _this;
-
+  function ProfileView() {
     _classCallCheck(this, ProfileView);
 
-    _this = _super.call(this, props);
-    _this.state = {
-      username: null,
-      password: null,
-      email: null,
-      birthday: null,
-      // selectedMovie: null,
-      favoriteMovies: [] // movies: []
-
-    };
-    return _this;
-  } // handleSelectedMovie(favMovie) {
-  //   this.setState({
-  //     selectedfavMovie: favMovie
-  //   });
-  //   console.log(favMovie);
-  // }
-
+    return _super.apply(this, arguments);
+  }
 
   _createClass(ProfileView, [{
     key: "componentDidMount",
@@ -49787,32 +49771,6 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       // console.log(this.props);
       //authentication
       var accessToken = localStorage.getItem("token");
-      this.getUser(accessToken);
-    }
-  }, {
-    key: "getUser",
-    value: function getUser(token) {
-      var _this2 = this;
-
-      var username = localStorage.getItem("user");
-
-      _axios.default.get("https://scarpantonioapi.herokuapp.com/users/".concat(username), {
-        headers: {
-          Authorization: "Bearer ".concat(token)
-        }
-      }).then(function (res) {
-        console.log(res);
-
-        _this2.setState({
-          Username: res.data.Username,
-          Password: res.data.Password,
-          Email: res.data.Email,
-          Birthday: res.data.Birthday,
-          FavoriteMovies: res.data.FavoriteMovies
-        });
-      }).catch(function (err) {
-        console.log("unable to get user data" + err);
-      });
     }
     /** Por acomodar:
      *  #1 Tengo que tener una lista de todas als peliculas. las cuales pueda seleccionar con un click event.
@@ -49868,24 +49826,17 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var movies = this.props.movies; // al pasar el movie como prop. obetenemos la pelicula indivudal, y luego buscamos cual es la pelicula que tenga ese id en especificio.
+      // const favoriteMovieList = movies.filter(movie =>
+      //   this.state.favoriteMovies.includes(movie._id)
+      // );
+      // const favMovies = this.state.FavoriteMovies;
+      // if (!movies || movies.length === 0) {
+      //   return null;
+      // }
 
-      // al pasar el movie como prop. obetenemos la pelicula indivudal, y luego buscamos cual es la pelicula que tenga ese id en especificio.
-      var movies = this.props.movies;
-      var favoriteMovieList = movies.filter(function (movie) {
-        return _this3.state.favoriteMovies.includes(movie._id);
-      });
-      var favMovies = this.state.FavoriteMovies; // console.log(favoriteMovieList);
-      // console.log(this.state.FavoriteMovies);
-
-      debugger;
-      return _react.default.createElement("div", null, _react.default.createElement(_Container.default, null, _react.default.createElement("h1", null, "My Profile"), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: ", this.state.Username), _react.default.createElement(_Card.default.Text, null, "Password: *******"), _react.default.createElement(_Card.default.Text, null, "Email: ", this.state.Email), _react.default.createElement(_Card.default.Text, null, "Birthday ", this.state.Birthday), _react.default.createElement(_Card.default.Text, null, "Favorite Movies:"), _react.default.createElement("ul", null, (favMovies || []).map(function (fm, index) {
-        return _react.default.createElement("li", {
-          key: index
-        }, movies.find(function (m) {
-          return m._id === fm;
-        }).Title);
-      })), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
+      console.log(this.props);
+      return _react.default.createElement("div", null, _react.default.createElement(_Container.default, null, _react.default.createElement("h1", null, "My Profile"), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: ", movies.Title), _react.default.createElement(_Card.default.Text, null, "Password: ", "*******"), _react.default.createElement(_Card.default.Text, null, "Email: "), _react.default.createElement(_Card.default.Text, null, "Birthday "), _react.default.createElement(_Card.default.Text, null, "Favorite Movies:"), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
         to: "/profile/update"
       }, _react.default.createElement(_Button.default, {
         variant: "primary"
@@ -49898,15 +49849,167 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return ProfileView;
-}(_react.default.Component); // {movies.map(movie => {
-//   return (
-//     <div>
-//       <ul>
-//         <li>{}</li>
-//       </ul>
-//     </div>
-//   );
-// })}
+}(_react.default.Component); // import React from "react";
+// //Routing
+// import axios from "axios";
+// import { Link } from "react-router-dom";
+// //Styling
+// import Button from "react-bootstrap/Button";
+// import Container from "react-bootstrap/Container";
+// import Card from "react-bootstrap/Card";
+// export class ProfileView extends React.Component {
+//   constructor(props) {
+//     super(props);
+//     this.state = {
+//       username: null,
+//       password: null,
+//       email: null,
+//       birthday: null,
+//       // selectedMovie: null,
+//       favoriteMovies: []
+//       // movies: []
+//     };
+//   }
+//   // handleSelectedMovie(favMovie) {
+//   //   this.setState({
+//   //     selectedfavMovie: favMovie
+//   //   });
+//   //   console.log(favMovie);
+//   // }
+//   componentDidMount() {
+//     console.log(this.props.profile);
+//     console.log(this.props);
+//     //authentication
+//     const accessToken = localStorage.getItem("token");
+//     // this.getUser(accessToken);
+//   }
+//   // getUser(token) {
+//   //   const username = localStorage.getItem("user");
+//   //   axios
+//   //     .get(`https://scarpantonioapi.herokuapp.com/users/${username}`, {
+//   //       headers: { Authorization: `Bearer ${token}` }
+//   //     })
+//   //     .then(res => {
+//   //       // console.log(res);
+//   //       this.setState({
+//   //         Username: res.data.Username,
+//   //         Password: res.data.Password,
+//   //         Email: res.data.Email,
+//   //         Birthday: res.data.Birthday,
+//   //         FavoriteMovies: res.data.FavoriteMovies
+//   //       });
+//   //     })
+//   //     .catch(function(err) {
+//   //       console.log("unable to get user data" + err);
+//   //     });
+//   // }
+//   /** Por acomodar:
+//    *  #1 Tengo que tener una lista de todas als peliculas. las cuales pueda seleccionar con un click event.
+//    *  #2 Una vez seleccionada deberiamos actualziar el estado de la peli seleccionada con SelectedMovie.
+//    *  #3 Luego almacenamos ese nuevo estado en una variable const movie_id = this.state.selectedMovie_id;
+//    *  #4 Colocamos esa varaible en nuestro dinamic URL /${selectedMovie_id}`
+//    *  # Se puede colocar seleccion multiple, cambiamos selectedMovie state a un array[], selectedMovie[], para que pueda almacenar todas las selecciones de peliculas dentro del array, y luego cuando le demos a eliminar, tenemos que crear un nuevo route para que ese route pueda eliminar multiples. seria deleteMultiple. deleteMany para que pueda recibir y eliminar todas las peliculas seleccionadas.
+//    */
+//   handleFavMovieDelete() {
+//     const username = localStorage.getItem("user");
+//     const token = localStorage.getItem("token");
+//     const movie_id = this.state.selectedMovie;
+//     axios
+//       .delete(
+//         `https://scarpantonioapi.herokuapp.com/users/${username}/movies/${movie_id}`,
+//         {
+//           headers: { Authorization: `Bearer ${token}` }
+//         }
+//       )
+//       .then(res => {
+//         console.log(res);
+//         console.log("user deleted");
+//         alert("your account has been deleted");
+//         localStorage.removeItem("token");
+//         localStorage.removeItem("user");
+//         window.open("/", "_self");
+//       })
+//       .catch(function(error) {
+//         console.log(error);
+//       });
+//   }
+//   handleUserDelete() {
+//     const username = localStorage.getItem("user");
+//     const token = localStorage.getItem("token");
+//     axios
+//       .delete(`https://scarpantonioapi.herokuapp.com/users/${username}`, {
+//         headers: { Authorization: `Bearer ${token}` }
+//       })
+//       .then(res => {
+//         console.log(res);
+//         console.log("user deleted");
+//         alert("your account has been deleted");
+//         localStorage.removeItem("token");
+//         localStorage.removeItem("user");
+//         window.open("/", "_self");
+//       })
+//       .catch(function(error) {
+//         console.log(error);
+//       });
+//   }
+//   render() {
+//     // al pasar el movie como prop. obetenemos la pelicula indivudal, y luego buscamos cual es la pelicula que tenga ese id en especificio.
+//     const { movies } = this.props;
+//     const favoriteMovieList = movies.filter(movie =>
+//       this.state.favoriteMovies.includes(movie._id)
+//     );
+//     const favMovies = this.state.FavoriteMovies;
+//     // console.log(favoriteMovieList);
+//     // console.log(this.state.FavoriteMovies);
+//     return (
+//       <div>
+//         <Container>
+//           <h1>My Profile</h1>
+//           <br />
+//           <Card>
+//             <Card.Body>
+//               <Card.Text>Username: {this.props.profile.Username}</Card.Text>
+//               <Card.Text>Password: *******</Card.Text>
+//               <Card.Text>Email: {profile.Email}</Card.Text>
+//               <Card.Text>Birthday {profile.Birthday}</Card.Text>
+//               <Card.Text>Favorite Movies:</Card.Text>
+//               <ul>
+//                 {(favMovies || []).map((fm, index) => (
+//                   <li key={index}>{movies.find(m => m._id === fm).Title}</li>
+//                 ))}
+//               </ul>
+//               <br />
+//               <br />
+//               <Link to={"/profile/update"}>
+//                 <Button variant="primary">Update Profile</Button>
+//                 <br />
+//                 <br />
+//               </Link>
+//               <Button onClick={this.handleUserDelete}>Delete User</Button>
+//               <br />
+//               <br />
+//               <Button>Delete Favorite Movies</Button>
+//               <br />
+//               <br />
+//               <Link to={`/`}>Back</Link>
+//             </Card.Body>
+//           </Card>
+//         </Container>
+//       </div>
+//     );
+//   }
+// }
+// // en cada una de estas interaccion tenemos que reproducir el boton que va a eliminar lo que esta sucediendo.
+// // <span><Button onClick={()=> this.deleteMovieFromFav(movie._id)}>Delete</Button></span>
+// // {movies.map(movie => {
+// //   return (
+// //     <div>
+// //       <ul>
+// //         <li>{}</li>
+// //       </ul>
+// //     </div>
+// //   );
+// // })}
 
 
 exports.ProfileView = ProfileView;
@@ -49932,6 +50035,8 @@ var _Form = _interopRequireDefault(require("react-bootstrap/Form"));
 var _Container = _interopRequireDefault(require("react-bootstrap/Container"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
+
+var _reactRouterDom = require("react-router-dom");
 
 require("./updateuser-styles.scss");
 
@@ -50035,9 +50140,11 @@ function UpdateUserView(props) {
     variant: "primary",
     type: "submit",
     onClick: handleSubmit
-  }, "Submit")));
+  }, "Submit"), _react.default.createElement(_reactRouterDom.Link, {
+    to: "/profile"
+  }, "Back")));
 }
-},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","prop-types":"../node_modules/prop-types/index.js","./updateuser-styles.scss":"components/updateuser-view/updateuser-styles.scss","axios":"../node_modules/axios/index.js"}],"components/about-view/about-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./updateuser-styles.scss":"components/updateuser-view/updateuser-styles.scss","axios":"../node_modules/axios/index.js"}],"components/about-view/about-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -50144,14 +50251,39 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       addFavMovBtn: "I loved it"
     };
     return _this;
-  } // 1# Este token viene de componentDidmount, es asi como tenemos acceso al token que esta almacenado en LocalStorage
-  // 2# Aqui solo le pasamos el token a nuestro express route, para asi lograr actualizar el estado de movies con la informacion actual de las movies.
-
+  }
 
   _createClass(MainView, [{
+    key: "getUser",
+    value: function getUser(token) {
+      var _this2 = this;
+
+      var username = localStorage.getItem("user");
+
+      _axios.default.get("https://scarpantonioapi.herokuapp.com/users/".concat(username), {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }).then(function (res) {
+        console.log(res);
+
+        _this2.setState({
+          Username: res.data.Username,
+          Password: res.data.Password,
+          Email: res.data.Email,
+          Birthday: res.data.Birthday,
+          FavoriteMovies: res.data.FavoriteMovies
+        });
+      }).catch(function (err) {
+        console.log("unable to get user data" + err);
+      });
+    } // 1# Este token viene de componentDidmount, es asi como tenemos acceso al token que esta almacenado en LocalStorage
+    // 2# Aqui solo le pasamos el token a nuestro express route, para asi lograr actualizar el estado de movies con la informacion actual de las movies.
+
+  }, {
     key: "getMovies",
     value: function getMovies(token) {
-      var _this2 = this;
+      var _this3 = this;
 
       _axios.default.get("https://scarpantonioapi.herokuapp.com/movies", {
         headers: {
@@ -50159,7 +50291,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         }
       }).then(function (response) {
         // Assign the result to the state. Estamos trayendo la data de movies
-        _this2.setState({
+        _this3.setState({
           movies: response.data
         });
       }).catch(function (error) {
@@ -50175,7 +50307,8 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         this.setState({
           user: localStorage.getItem("user")
         });
-        this.getMovies(accessToken); // this.handleUserDelete(accessToken);
+        this.getMovies(accessToken);
+        this.getUser(accessToken);
       }
     }
   }, {
@@ -50208,12 +50341,17 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this3 = this;
+      var _this4 = this;
 
       // xq colocamos match en routes abajo = Es match porque accedemos al objeto enviado por routes como props.
       var _this$state = this.state,
           movies = _this$state.movies,
-          user = _this$state.user;
+          user = _this$state.user,
+          FavoriteMovies = _this$state.FavoriteMovies; // if (!FavoriteMovies) {
+      //   return null;
+      // }
+      // console.log(FavoriteMovies);
+
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
       });
@@ -50225,7 +50363,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         render: function render() {
           if (!user) return _react.default.createElement(_loginView.LoginView, {
             onLoggedIn: function onLoggedIn(user) {
-              return _this3.onLoggedIn(user);
+              return _this4.onLoggedIn(user);
             }
           }); // return <MovieCard movies={movies} />;
 
@@ -50233,7 +50371,8 @@ var MainView = /*#__PURE__*/function (_React$Component) {
             return _react.default.createElement(_movieCard.MovieCard, {
               key: m._id,
               movie: m,
-              favMovbtn: _this3.addFavMovBtn
+              favMovbtn: _this4.addFavMovBtn,
+              added: FavoriteMovies.includes(m._id)
             });
           });
         }
@@ -50292,10 +50431,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         component: _updateuserView.UpdateUserView
       }), _react.default.createElement(_reactRouterDom.Route, {
         path: "/about",
-        component: _aboutView.AboutView
+        render: _aboutView.AboutView
       }), _react.default.createElement(_reactRouterDom.Route, {
         path: "/contact",
-        component: _contactView.ContactView
+        render: _contactView.ContactView
       })));
     }
   }]);
@@ -50400,7 +50539,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59867" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63885" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

@@ -15,7 +15,6 @@ import { ContactView } from "../contact-view/contact-view";
 export class MainView extends React.Component {
   constructor() {
     super();
-
     // porque movies es un array
     this.state = {
       movies: [],
@@ -23,7 +22,26 @@ export class MainView extends React.Component {
       addFavMovBtn: "I loved it"
     };
   }
-
+  getUser(token) {
+    const username = localStorage.getItem("user");
+    axios
+      .get(`https://scarpantonioapi.herokuapp.com/users/${username}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(res => {
+        console.log(res);
+        this.setState({
+          Username: res.data.Username,
+          Password: res.data.Password,
+          Email: res.data.Email,
+          Birthday: res.data.Birthday,
+          FavoriteMovies: res.data.FavoriteMovies
+        });
+      })
+      .catch(function(err) {
+        console.log("unable to get user data" + err);
+      });
+  }
   // 1# Este token viene de componentDidmount, es asi como tenemos acceso al token que esta almacenado en LocalStorage
   // 2# Aqui solo le pasamos el token a nuestro express route, para asi lograr actualizar el estado de movies con la informacion actual de las movies.
   getMovies(token) {
@@ -41,7 +59,6 @@ export class MainView extends React.Component {
         console.log(error);
       });
   }
-
   componentDidMount() {
     let accessToken = localStorage.getItem("token");
     if (accessToken !== null) {
@@ -49,10 +66,9 @@ export class MainView extends React.Component {
         user: localStorage.getItem("user")
       });
       this.getMovies(accessToken);
-      // this.handleUserDelete(accessToken);
+      this.getUser(accessToken);
     }
   }
-
   onLoggedIn(authData) {
     console.log(authData);
     this.setState({
@@ -63,7 +79,6 @@ export class MainView extends React.Component {
     this.getMovies(authData.token);
     // this.handleUserDelete(authData.token);
   }
-
   updateUser(token) {
     const username = localStorage.getItem("user");
     axios
@@ -78,13 +93,14 @@ export class MainView extends React.Component {
         console.log(error);
       });
   }
-
   render() {
     // xq colocamos match en routes abajo = Es match porque accedemos al objeto enviado por routes como props.
-    const { movies, user } = this.state;
-
+    const { movies, user, FavoriteMovies } = this.state;
+    // if (!FavoriteMovies) {
+    //   return null;
+    // }
+    // console.log(FavoriteMovies);
     if (!movies) return <div className="main-view" />;
-
     return (
       <Router>
         <div className="main-view">
@@ -100,6 +116,7 @@ export class MainView extends React.Component {
                   key={m._id}
                   movie={m}
                   favMovbtn={this.addFavMovBtn}
+                  added={FavoriteMovies.includes(m._id)}
                 />
               ));
             }}
@@ -151,8 +168,8 @@ export class MainView extends React.Component {
             )}
           />
           <Route path="/profile/update" component={UpdateUserView} />
-          <Route path="/about" component={AboutView} />
-          <Route path="/contact" component={ContactView} />
+          <Route path="/about" render={AboutView} />
+          <Route path="/contact" render={ContactView} />
         </div>
       </Router>
     );

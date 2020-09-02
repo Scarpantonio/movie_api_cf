@@ -4,17 +4,14 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
 import { Link } from "react-router-dom";
-
 export class MovieCard extends React.Component {
   constructor() {
     super();
-
     this.state = {
       addFavMovBtn: "add to favorites",
       selectedMovie: null
     };
   }
-
   /**
    * Problemas
    * Cuando agregamos una nueva pelicula y le damos hacia atras. El estado se reinicia y podemos agregar mil veces la misma pelicula. crear logica para que no se puede repetir dos veces la misma pelicula.
@@ -22,12 +19,10 @@ export class MovieCard extends React.Component {
    * Crear logica para eliminar pelicula.
    *
    */
-
   handleAddFavMovie = movieId => {
     const username = localStorage.getItem("user");
     const token = localStorage.getItem("token");
     const movie_id = movieId;
-
     axios
       .post(
         `https://scarpantonioapi.herokuapp.com/users/${username}/Movies/${movie_id}`,
@@ -48,9 +43,8 @@ export class MovieCard extends React.Component {
       });
   };
 
-  debugger;
   render() {
-    const { movie } = this.props;
+    const { movie, added } = this.props;
     const { addFavMovBtn } = this.state;
     return (
       <Card style={{ width: "16rem" }}>
@@ -66,15 +60,15 @@ export class MovieCard extends React.Component {
               onClick={() => this.handleAddFavMovie(movie._id)}
               variant="link"
             >
-              {addFavMovBtn}
+              {!added && addFavMovBtn}
             </Button>
           </Link>
+          <span>{added && "already added"}</span>
         </Card.Body>
       </Card>
     );
   }
 }
-
 // // MovieCard.propTypes = {
 // //   movie: PropTypes.shape({
 // //     Title: PropTypes.string.isRequired,

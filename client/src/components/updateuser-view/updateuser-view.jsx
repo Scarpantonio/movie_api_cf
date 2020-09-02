@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import PropTypes from "prop-types";
+import { Link } from "react-router-dom";
 import "./updateuser-styles.scss";
 import axios from "axios";
 
@@ -83,6 +84,7 @@ export function UpdateUserView(props) {
         >
           Submit
         </Button>
+        <Link to={`/profile`}>Back</Link>
       </Form>
     </Container>
   );
