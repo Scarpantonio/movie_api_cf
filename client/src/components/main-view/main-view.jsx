@@ -19,7 +19,8 @@ export class MainView extends React.Component {
     this.state = {
       movies: [],
       user: null,
-      addFavMovBtn: "I loved it"
+      addFavMovBtn: "I loved it",
+      userProfile: null
     };
   }
   getUser(token) {
@@ -29,13 +30,15 @@ export class MainView extends React.Component {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(res => {
-        console.log(res);
+        console.log(response);
+        const data = response.data;
         this.setState({
-          Username: res.data.Username,
-          Password: res.data.Password,
-          Email: res.data.Email,
-          Birthday: res.data.Birthday,
-          FavoriteMovies: res.data.FavoriteMovies
+          userProfile: data
+          // Username: res.data.Username,
+          // Password: res.data.Password,
+          // Email: res.data.Email,
+          // Birthday: res.data.Birthday,
+          // FavoriteMovies: res.data.FavoriteMovies
         });
       })
       .catch(function(err) {
@@ -93,9 +96,10 @@ export class MainView extends React.Component {
         console.log(error);
       });
   }
+  debugger;
   render() {
     // xq colocamos match en routes abajo = Es match porque accedemos al objeto enviado por routes como props.
-    const { movies, user, FavoriteMovies } = this.state;
+    const { movies, user, FavoriteMovies, userProfile } = this.state;
     // if (!FavoriteMovies) {
     //   return null;
     // }
@@ -164,12 +168,13 @@ export class MainView extends React.Component {
               <ProfileView
                 // handleUserDelete={this.handleUserDelete()}
                 movies={movies}
+                userProfile={userProfile}
               />
             )}
           />
           <Route path="/profile/update" component={UpdateUserView} />
-          <Route path="/about" render={AboutView} />
-          <Route path="/contact" render={ContactView} />
+          <Route path="/about" component={AboutView} />
+          <Route path="/contact" component={ContactView} />
         </div>
       </Router>
     );

@@ -62,7 +62,7 @@ export class ProfileView extends React.Component {
   }
 
   render() {
-    const { movies } = this.props;
+    const { movies, userProfile } = this.props;
     // al pasar el movie como prop. obetenemos la pelicula indivudal, y luego buscamos cual es la pelicula que tenga ese id en especificio.
 
     // const favoriteMovieList = movies.filter(movie =>
@@ -72,7 +72,7 @@ export class ProfileView extends React.Component {
     // if (!movies || movies.length === 0) {
     //   return null;
     // }
-    console.log(this.props);
+    console.log(this.props.userProfile);
     return (
       <div>
         <Container>
@@ -80,7 +80,7 @@ export class ProfileView extends React.Component {
           <br />
           <Card>
             <Card.Body>
-              <Card.Text>Username: {movies.Title}</Card.Text>
+              <Card.Text>Username: {userProfile.Username}</Card.Text>
               <Card.Text>Password: {}*******</Card.Text>
               <Card.Text>Email: {}</Card.Text>
               <Card.Text>Birthday {}</Card.Text>
