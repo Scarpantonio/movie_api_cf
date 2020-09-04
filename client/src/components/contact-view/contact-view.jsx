@@ -1,5 +1,5 @@
 import React from "react";
 
-export function Contact(props) {
+export function ContactView(props) {
   return <h1>Contact Page</h1>;
 }

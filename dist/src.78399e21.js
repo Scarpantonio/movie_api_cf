@@ -49539,14 +49539,6 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
     };
     return _this;
   }
-  /**
-   * Problemas
-   * Cuando agregamos una nueva pelicula y le damos hacia atras. El estado se reinicia y podemos agregar mil veces la misma pelicula. crear logica para que no se puede repetir dos veces la misma pelicula.
-   * La posible solucion es que debemos mandar el maanejo del estado en el main view.
-   * Crear logica para eliminar pelicula.
-   *
-   */
-
 
   _createClass(MovieCard, [{
     key: "render",
@@ -49772,14 +49764,6 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
       //authentication
       var accessToken = localStorage.getItem("token");
     }
-    /** Por acomodar:
-     *  #1 Tengo que tener una lista de todas als peliculas. las cuales pueda seleccionar con un click event.
-     *  #2 Una vez seleccionada deberiamos actualziar el estado de la peli seleccionada con SelectedMovie.
-     *  #3 Luego almacenamos ese nuevo estado en una variable const movie_id = this.state.selectedMovie_id;
-     *  #4 Colocamos esa varaible en nuestro dinamic URL /${selectedMovie_id}`
-     *  # Se puede colocar seleccion multiple, cambiamos selectedMovie state a un array[], selectedMovie[], para que pueda almacenar todas las selecciones de peliculas dentro del array, y luego cuando le demos a eliminar, tenemos que crear un nuevo route para que ese route pueda eliminar multiples. seria deleteMultiple. deleteMany para que pueda recibir y eliminar todas las peliculas seleccionadas.
-     */
-
   }, {
     key: "handleFavMovieDelete",
     value: function handleFavMovieDelete() {
@@ -49826,19 +49810,24 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this$props = this.props,
-          movies = _this$props.movies,
-          userProfile = _this$props.userProfile; // al pasar el movie como prop. obetenemos la pelicula indivudal, y luego buscamos cual es la pelicula que tenga ese id en especificio.
+      console.log(this.props); // console.log(this.props.userProfile);
+      // const { userProfile } = this.props;
+      // if (!userProfile) return null;
+      // const { userProfile } = this.props;
+      // console.log(this.props.userProfile);
+      // console.log(this.props.FavoriteMovies);
+      // const { movies } = this.props;
+      // al pasar el movie como prop. obetenemos la pelicula indivudal, y luego buscamos cual es la pelicula que tenga ese id en especificio.
+      // creo que aqui hacemos esto para comparar las base de datos de las peliculas con las peliculas que queremos que sean displayed.
       // const favoriteMovieList = movies.filter(movie =>
-      //   this.state.favoriteMovies.includes(movie._id)
+      //   this.props.favoriteMovies.includes(movie._id)
       // );
-      // const favMovies = this.state.FavoriteMovies;
+      // const favMovies = this.props.FavoriteMovies;
       // if (!movies || movies.length === 0) {
       //   return null;
       // }
 
-      console.log(this.props.userProfile);
-      return _react.default.createElement("div", null, _react.default.createElement(_Container.default, null, _react.default.createElement("h1", null, "My Profile"), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: ", userProfile.Username), _react.default.createElement(_Card.default.Text, null, "Password: ", "*******"), _react.default.createElement(_Card.default.Text, null, "Email: "), _react.default.createElement(_Card.default.Text, null, "Birthday "), _react.default.createElement(_Card.default.Text, null, "Favorite Movies:"), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
+      return _react.default.createElement("div", null, _react.default.createElement(_Container.default, null, _react.default.createElement("h1", null, "My Profile"), _react.default.createElement("br", null), _react.default.createElement(_Card.default, null, _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Text, null, "Username: "), _react.default.createElement(_Card.default.Text, null, "Password: ", "*******"), _react.default.createElement(_Card.default.Text, null, "Email: "), _react.default.createElement(_Card.default.Text, null, "Birthday "), _react.default.createElement(_Card.default.Text, null, "Favorite Movies:"), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
         to: "/profile/update"
       }, _react.default.createElement(_Button.default, {
         variant: "primary"
@@ -49851,7 +49840,14 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return ProfileView;
-}(_react.default.Component); // import React from "react";
+}(_react.default.Component); // ** Por acomodar:
+//    *  #1 Tengo que tener una lista de todas als peliculas. las cuales pueda seleccionar con un click event.
+//    *  #2 Una vez seleccionada deberiamos actualziar el estado de la peli seleccionada con SelectedMovie.
+//    *  #3 Luego almacenamos ese nuevo estado en una variable const movie_id = this.state.selectedMovie_id;
+//    *  #4 Colocamos esa varaible en nuestro dinamic URL /${selectedMovie_id}`
+//    *  # Se puede colocar seleccion multiple, cambiamos selectedMovie state a un array[], selectedMovie[], para que pueda almacenar todas las selecciones de peliculas dentro del array, y luego cuando le demos a eliminar, tenemos que crear un nuevo route para que ese route pueda eliminar multiples. seria deleteMultiple. deleteMany para que pueda recibir y eliminar todas las peliculas seleccionadas.
+//    */
+// import React from "react";
 // //Routing
 // import axios from "axios";
 // import { Link } from "react-router-dom";
@@ -50152,13 +50148,13 @@ function UpdateUserView(props) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.About = About;
+exports.AboutView = AboutView;
 
 var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function About(props) {
+function AboutView(props) {
   console.log(props);
   return _react.default.createElement("h1", null, "About Page");
 }
@@ -50168,13 +50164,13 @@ function About(props) {
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.Contact = Contact;
+exports.ContactView = ContactView;
 
 var _react = _interopRequireDefault(require("react"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-function Contact(props) {
+function ContactView(props) {
   return _react.default.createElement("h1", null, "Contact Page");
 }
 },{"react":"../node_modules/react/index.js"}],"components/main-view/main-view.jsx":[function(require,module,exports) {
@@ -50211,9 +50207,13 @@ var _aboutView = require("../about-view/about-view");
 
 var _contactView = require("../contact-view/contact-view");
 
+var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -50247,14 +50247,15 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
     _this = _super.call(this); // porque movies es un array
 
-    _this.state = {
+    _this.state = _defineProperty({
       movies: [],
       user: null,
-      addFavMovBtn: "I loved it",
-      userProfile: null
-    };
+      userProfile: null,
+      addFavMovBtn: "I loved it"
+    }, "userProfile", null);
     return _this;
-  }
+  } // abajo en include, en vez de colocar favMovies. vamos a buscar a travez del objeto.  por ejemplo: userProfile.Favmovies -
+
 
   _createClass(MainView, [{
     key: "getUser",
@@ -50268,16 +50269,8 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           Authorization: "Bearer ".concat(token)
         }
       }).then(function (res) {
-        console.log(response);
-        var data = response.data;
-
         _this2.setState({
-          userProfile: data // Username: res.data.Username,
-          // Password: res.data.Password,
-          // Email: res.data.Email,
-          // Birthday: res.data.Birthday,
-          // FavoriteMovies: res.data.FavoriteMovies
-
+          userProfile: res.data
         });
       }).catch(function (err) {
         console.log("unable to get user data" + err);
@@ -50295,7 +50288,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           Authorization: "Bearer ".concat(token)
         }
       }).then(function (response) {
-        // Assign the result to the state. Estamos trayendo la data de movies
+        // queriamos asignar a favorite algo como, userprofile.Favmovies  -- abajo en added donde solo creamos tenemos FavoriteMovies
         _this3.setState({
           movies: response.data
         });
@@ -50328,6 +50321,17 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       this.getMovies(authData.token); // this.handleUserDelete(authData.token);
     }
   }, {
+    key: "onLoggedOut",
+    value: function onLoggedOut() {
+      alert("You have been logout");
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      this.setState({
+        user: null
+      });
+      window.open("/", "_self");
+    }
+  }, {
     key: "updateUser",
     value: function updateUser(token) {
       var username = localStorage.getItem("user");
@@ -50349,19 +50353,24 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       var _this4 = this;
 
       // xq colocamos match en routes abajo = Es match porque accedemos al objeto enviado por routes como props.
-      var _this$state = this.state,
-          movies = _this$state.movies,
-          user = _this$state.user,
-          FavoriteMovies = _this$state.FavoriteMovies,
-          userProfile = _this$state.userProfile; // if (!FavoriteMovies) {
+      var _this$state2 = this.state,
+          movies = _this$state2.movies,
+          user = _this$state2.user,
+          FavoriteMovies = _this$state2.FavoriteMovies,
+          userProfile = _this$state2.userProfile; // if (!movies) return <div className="main-view" />;
+      // if (!FavoriteMovies) {
       //   return null;
       // }
       // console.log(FavoriteMovies);
+      // if (!movies) {
+      //   return null;
+      // }
 
-      if (!movies) return _react.default.createElement("div", {
-        className: "main-view"
-      });
-      return _react.default.createElement(_reactRouterDom.BrowserRouter, null, _react.default.createElement("div", {
+      return _react.default.createElement(_reactRouterDom.BrowserRouter, null, !user ? _react.default.createElement("div", null) : _react.default.createElement("div", null, _react.default.createElement(_Button.default, {
+        onClick: function onClick() {
+          return _this4.onLoggedOut();
+        }
+      }, "Logout")), _react.default.createElement("div", {
         className: "main-view"
       }, _react.default.createElement(_reactRouterDom.Route, {
         exact: true,
@@ -50376,9 +50385,9 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           return movies.map(function (m) {
             return _react.default.createElement(_movieCard.MovieCard, {
               key: m._id,
-              movie: m,
-              favMovbtn: _this4.addFavMovBtn,
-              added: FavoriteMovies.includes(m._id)
+              movie: m // favMovbtn={this.addFavMovBtn}
+              // added={FavoriteMovies.includes(m._id)}
+
             });
           });
         }
@@ -50450,7 +50459,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 }(_react.default.Component);
 
 exports.MainView = MainView;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","../login-view/login-view":"components/login-view/login-view.jsx","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../reg-view/reg-view":"components/reg-view/reg-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../updateuser-view/updateuser-view":"components/updateuser-view/updateuser-view.jsx","../about-view/about-view":"components/about-view/about-view.jsx","../contact-view/contact-view":"components/contact-view/contact-view.jsx"}],"index.scss":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","../login-view/login-view":"components/login-view/login-view.jsx","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","../reg-view/reg-view":"components/reg-view/reg-view.jsx","../genre-view/genre-view":"components/genre-view/genre-view.jsx","../director-view/director-view":"components/director-view/director-view.jsx","../movie-card/movie-card":"components/movie-card/movie-card.jsx","../movie-view/movie-view":"components/movie-view/movie-view.jsx","../profile-view/profile-view":"components/profile-view/profile-view.jsx","../updateuser-view/updateuser-view":"components/updateuser-view/updateuser-view.jsx","../about-view/about-view":"components/about-view/about-view.jsx","../contact-view/contact-view":"components/contact-view/contact-view.jsx","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js"}],"index.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
 module.hot.dispose(reloadCSS);
@@ -50546,7 +50555,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "62292" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64014" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

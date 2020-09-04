@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 import Card from "react-bootstrap/Card";
+
 export class ProfileView extends React.Component {
   componentDidMount() {
     // console.log(this.props);
@@ -11,13 +12,6 @@ export class ProfileView extends React.Component {
     const accessToken = localStorage.getItem("token");
   }
 
-  /** Por acomodar:
-   *  #1 Tengo que tener una lista de todas als peliculas. las cuales pueda seleccionar con un click event.
-   *  #2 Una vez seleccionada deberiamos actualziar el estado de la peli seleccionada con SelectedMovie.
-   *  #3 Luego almacenamos ese nuevo estado en una variable const movie_id = this.state.selectedMovie_id;
-   *  #4 Colocamos esa varaible en nuestro dinamic URL /${selectedMovie_id}`
-   *  # Se puede colocar seleccion multiple, cambiamos selectedMovie state a un array[], selectedMovie[], para que pueda almacenar todas las selecciones de peliculas dentro del array, y luego cuando le demos a eliminar, tenemos que crear un nuevo route para que ese route pueda eliminar multiples. seria deleteMultiple. deleteMany para que pueda recibir y eliminar todas las peliculas seleccionadas.
-   */
   handleFavMovieDelete() {
     const username = localStorage.getItem("user");
     const token = localStorage.getItem("token");
@@ -62,17 +56,26 @@ export class ProfileView extends React.Component {
   }
 
   render() {
-    const { movies, userProfile } = this.props;
+    console.log(this.props);
+    // console.log(this.props.userProfile);
+    // const { userProfile } = this.props;
+    // if (!userProfile) return null;
+
+    // const { userProfile } = this.props;
+    // console.log(this.props.userProfile);
+    // console.log(this.props.FavoriteMovies);
+    // const { movies } = this.props;
     // al pasar el movie como prop. obetenemos la pelicula indivudal, y luego buscamos cual es la pelicula que tenga ese id en especificio.
 
+    // creo que aqui hacemos esto para comparar las base de datos de las peliculas con las peliculas que queremos que sean displayed.
     // const favoriteMovieList = movies.filter(movie =>
-    //   this.state.favoriteMovies.includes(movie._id)
+    //   this.props.favoriteMovies.includes(movie._id)
     // );
-    // const favMovies = this.state.FavoriteMovies;
+    // const favMovies = this.props.FavoriteMovies;
     // if (!movies || movies.length === 0) {
     //   return null;
     // }
-    console.log(this.props.userProfile);
+
     return (
       <div>
         <Container>
@@ -80,7 +83,7 @@ export class ProfileView extends React.Component {
           <br />
           <Card>
             <Card.Body>
-              <Card.Text>Username: {userProfile.Username}</Card.Text>
+              <Card.Text>Username: {}</Card.Text>
               <Card.Text>Password: {}*******</Card.Text>
               <Card.Text>Email: {}</Card.Text>
               <Card.Text>Birthday {}</Card.Text>
@@ -107,6 +110,14 @@ export class ProfileView extends React.Component {
     );
   }
 }
+
+// ** Por acomodar:
+//    *  #1 Tengo que tener una lista de todas als peliculas. las cuales pueda seleccionar con un click event.
+//    *  #2 Una vez seleccionada deberiamos actualziar el estado de la peli seleccionada con SelectedMovie.
+//    *  #3 Luego almacenamos ese nuevo estado en una variable const movie_id = this.state.selectedMovie_id;
+//    *  #4 Colocamos esa varaible en nuestro dinamic URL /${selectedMovie_id}`
+//    *  # Se puede colocar seleccion multiple, cambiamos selectedMovie state a un array[], selectedMovie[], para que pueda almacenar todas las selecciones de peliculas dentro del array, y luego cuando le demos a eliminar, tenemos que crear un nuevo route para que ese route pueda eliminar multiples. seria deleteMultiple. deleteMany para que pueda recibir y eliminar todas las peliculas seleccionadas.
+//    */
 
 // import React from "react";
 // //Routing

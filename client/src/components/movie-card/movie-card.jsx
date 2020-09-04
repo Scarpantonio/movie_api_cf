@@ -3,6 +3,7 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import Card from "react-bootstrap/Card";
+
 import { Link } from "react-router-dom";
 export class MovieCard extends React.Component {
   constructor() {
@@ -12,13 +13,7 @@ export class MovieCard extends React.Component {
       selectedMovie: null
     };
   }
-  /**
-   * Problemas
-   * Cuando agregamos una nueva pelicula y le damos hacia atras. El estado se reinicia y podemos agregar mil veces la misma pelicula. crear logica para que no se puede repetir dos veces la misma pelicula.
-   * La posible solucion es que debemos mandar el maanejo del estado en el main view.
-   * Crear logica para eliminar pelicula.
-   *
-   */
+
   handleAddFavMovie = movieId => {
     const username = localStorage.getItem("user");
     const token = localStorage.getItem("token");

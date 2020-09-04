@@ -1,3 +1,5 @@
+// problems. when a user logouts,  I can't acces because of the funcion (!favmovies) and then when I login I can get access to the whole thing because that function is active again or viserbersa
+
 import React from "react";
 import axios from "axios";
 import { LoginView } from "../login-view/login-view";
@@ -11,6 +13,7 @@ import { ProfileView } from "../profile-view/profile-view";
 import { UpdateUserView } from "../updateuser-view/updateuser-view";
 import { AboutView } from "../about-view/about-view";
 import { ContactView } from "../contact-view/contact-view";
+import Button from "react-bootstrap/Button";
 
 export class MainView extends React.Component {
   constructor() {
@@ -19,10 +22,14 @@ export class MainView extends React.Component {
     this.state = {
       movies: [],
       user: null,
+      userProfile: null,
       addFavMovBtn: "I loved it",
       userProfile: null
     };
   }
+
+  // abajo en include, en vez de colocar favMovies. vamos a buscar a travez del objeto.  por ejemplo: userProfile.Favmovies -
+
   getUser(token) {
     const username = localStorage.getItem("user");
     axios
@@ -30,21 +37,15 @@ export class MainView extends React.Component {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(res => {
-        console.log(response);
-        const data = response.data;
         this.setState({
-          userProfile: data
-          // Username: res.data.Username,
-          // Password: res.data.Password,
-          // Email: res.data.Email,
-          // Birthday: res.data.Birthday,
-          // FavoriteMovies: res.data.FavoriteMovies
+          userProfile: res.data
         });
       })
       .catch(function(err) {
         console.log("unable to get user data" + err);
       });
   }
+
   // 1# Este token viene de componentDidmount, es asi como tenemos acceso al token que esta almacenado en LocalStorage
   // 2# Aqui solo le pasamos el token a nuestro express route, para asi lograr actualizar el estado de movies con la informacion actual de las movies.
   getMovies(token) {
@@ -53,7 +54,7 @@ export class MainView extends React.Component {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(response => {
-        // Assign the result to the state. Estamos trayendo la data de movies
+        // queriamos asignar a favorite algo como, userprofile.Favmovies  -- abajo en added donde solo creamos tenemos FavoriteMovies
         this.setState({
           movies: response.data
         });
@@ -82,6 +83,17 @@ export class MainView extends React.Component {
     this.getMovies(authData.token);
     // this.handleUserDelete(authData.token);
   }
+
+  onLoggedOut() {
+    alert("You have been logout");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    this.setState({
+      user: null
+    });
+    window.open("/", "_self");
+  }
+
   updateUser(token) {
     const username = localStorage.getItem("user");
     axios
@@ -96,17 +108,32 @@ export class MainView extends React.Component {
         console.log(error);
       });
   }
-  debugger;
+
   render() {
     // xq colocamos match en routes abajo = Es match porque accedemos al objeto enviado por routes como props.
     const { movies, user, FavoriteMovies, userProfile } = this.state;
+
+    // if (!movies) return <div className="main-view" />;
+
     // if (!FavoriteMovies) {
     //   return null;
     // }
+
     // console.log(FavoriteMovies);
-    if (!movies) return <div className="main-view" />;
+    // if (!movies) {
+    //   return null;
+    // }
+
     return (
       <Router>
+        {!user ? (
+          <div></div>
+        ) : (
+          <div>
+            <Button onClick={() => this.onLoggedOut()}>Logout</Button>
+          </div>
+        )}
+
         <div className="main-view">
           <Route
             exact
@@ -119,8 +146,8 @@ export class MainView extends React.Component {
                 <MovieCard
                   key={m._id}
                   movie={m}
-                  favMovbtn={this.addFavMovBtn}
-                  added={FavoriteMovies.includes(m._id)}
+                  // favMovbtn={this.addFavMovBtn}
+                  // added={FavoriteMovies.includes(m._id)}
                 />
               ));
             }}
