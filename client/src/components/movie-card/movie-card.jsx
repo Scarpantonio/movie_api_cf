@@ -26,8 +26,6 @@ export class MovieCard extends React.Component {
         }
       )
       .then(res => {
-        console.log(res);
-        console.log(movieId);
         this.setState({
           addFavMovBtn: "You loved it",
           selectedMovie: movieId

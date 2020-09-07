@@ -8,50 +8,63 @@ import "./updateuser-styles.scss";
 import axios from "axios";
 
 export function UpdateUserView(props) {
-  const [username, setUsername] = useState("");
+  // const [username, setUsername] = useState("");
+  // const [userProfile, setUserProfile] = useState(props);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  const handleSubmit = () => {
     const username = localStorage.getItem("user");
-
+    const token = localStorage.getItem("token");
     axios
       .put(`https://scarpantonioapi.herokuapp.com/users/${username}`, {
-        Username: username,
-        Password: password,
-        Email: email
+        headers: { Authorization: `Bearer ${token}` },
+        Email: email,
+        Password: password
       })
       .then(response => {
-        const data = response.data;
-        console.log(data.Username);
-        console.log(data.Email);
-        console.log(data.Password);
-        // const local = localStorage.setItem("user", data.Username);
-        // console.log(local);
-        // alert("Your account has been updated!");
+        alert("Your account has been updated!");
         // console.log(data);
-        // window.open("/profile", "_self");
+        window.open("/profile", "_self");
       })
-      .catch(err => {
-        console.log(err);
-        console.log("error updating the user");
+      .catch(function(err) {
+        console.log("unable to update user" + err);
       });
   };
 
+  // const handleSubmit = e => {
+  //   e.preventDefault();
+  //   const username = localStorage.getItem("user");
+
+  //   axios
+  //     .put(`https://scarpantonioapi.herokuapp.com/users/${username}`, {
+  //       Email: email,
+  //       Password: password
+  //     })
+  //     .then(response => {
+  //       const data = response.data;
+
+  //       // const local = localStorage.setItem("user", data.Username);
+  //       // console.log(local);
+  //       alert("Your account has been updated!");
+  //       // console.log(data);
+  //       window.open("/profile", "_self");
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //       console.log("error updating the user");
+  //     });
+  // };
+
+  const username = localStorage.getItem("user");
   return (
     <Container className="formStyle">
       <h2 className="r-title">Update account</h2>
       <Form className="inputStyles">
         <Form.Group controlId="formBasicUsername">
-          <Form.Label>Username </Form.Label>
-          <Form.Control
-            size="md"
-            placeholder="Enter username"
-            type="text"
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-          />
+          <Form.Text className="text-muted">
+            {username} username can't be updated
+          </Form.Text>
         </Form.Group>
 
         <Form.Group controlId="formBasicEmail">
@@ -84,6 +97,8 @@ export function UpdateUserView(props) {
         >
           Submit
         </Button>
+        <br />
+        <br />
         <Link to={`/profile`}>Back</Link>
       </Form>
     </Container>

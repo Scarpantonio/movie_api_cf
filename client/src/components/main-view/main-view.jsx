@@ -22,13 +22,14 @@ export class MainView extends React.Component {
     this.state = {
       movies: [],
       user: null,
-      userProfile: null,
       addFavMovBtn: "I loved it",
-      userProfile: null
+      userProfile: null,
+      favoriteMovies: null
     };
   }
 
   // abajo en include, en vez de colocar favMovies. vamos a buscar a travez del objeto.  por ejemplo: userProfile.Favmovies -
+  //AQUI TAMBINE DEBEMOS AGRAGAR LA FUNCION PARA UPDATE USER.
 
   getUser(token) {
     const username = localStorage.getItem("user");
@@ -36,9 +37,10 @@ export class MainView extends React.Component {
       .get(`https://scarpantonioapi.herokuapp.com/users/${username}`, {
         headers: { Authorization: `Bearer ${token}` }
       })
-      .then(res => {
+      .then(response => {
         this.setState({
-          userProfile: res.data
+          userProfile: response.data,
+          favoriteMovies: response.data.FavoriteMovies
         });
       })
       .catch(function(err) {
@@ -110,25 +112,39 @@ export class MainView extends React.Component {
   }
 
   render() {
-    // xq colocamos match en routes abajo = Es match porque accedemos al objeto enviado por routes como props.
-    const { movies, user, FavoriteMovies, userProfile } = this.state;
+    const {
+      movies,
+      user,
+      userProfile,
+      favoriteMovies,
+      addFavMovBtn
+    } = this.state;
 
-    // if (!movies) return <div className="main-view" />;
+    if (!movies) return <div className="main-view" />;
 
-    // if (!FavoriteMovies) {
-    //   return null;
-    // }
+    // create conditional here to !user? not apply this function. so we can login propertly.
 
-    // console.log(FavoriteMovies);
-    // if (!movies) {
-    //   return null;
-    // }
+    // const errFvMovies = () => {
+    //   if (!favoriteMovies) {
+    //     return null;
+    //   }
+    // };
+
+    // !user ? null : errFvMovies();
+
+    if (!favoriteMovies) {
+      return null;
+    }
+
+    // {!user ? null : (
+    //   <div>
+    //     <Button onClick={() => this.onLoggedOut()}>Logout</Button>
+    //   </div>
+    // )}
 
     return (
       <Router>
-        {!user ? (
-          <div></div>
-        ) : (
+        {!user ? null : (
           <div>
             <Button onClick={() => this.onLoggedOut()}>Logout</Button>
           </div>
@@ -146,8 +162,8 @@ export class MainView extends React.Component {
                 <MovieCard
                   key={m._id}
                   movie={m}
-                  // favMovbtn={this.addFavMovBtn}
-                  // added={FavoriteMovies.includes(m._id)}
+                  favMovbtn={addFavMovBtn}
+                  added={favoriteMovies.includes(m._id)}
                 />
               ));
             }}
@@ -193,13 +209,19 @@ export class MainView extends React.Component {
             path="/profile"
             render={() => (
               <ProfileView
-                // handleUserDelete={this.handleUserDelete()}
                 movies={movies}
                 userProfile={userProfile}
+                favoriteMovies={favoriteMovies}
               />
             )}
           />
-          <Route path="/profile/update" component={UpdateUserView} />
+
+          <Route
+            exact
+            path="/profile/update"
+            render={() => <UpdateUserView userProfile={userProfile} />}
+          />
+
           <Route path="/about" component={AboutView} />
           <Route path="/contact" component={ContactView} />
         </div>
