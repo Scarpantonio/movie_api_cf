@@ -49939,11 +49939,10 @@ function UpdateUserView(props) {
       Password: password
     }).then(function (response) {
       var data = response.data; // const local = localStorage.setItem("user", data.Username);
-      // console.log(local);
 
       alert("Your account has been updated!"); // console.log(data);
 
-      window.open("/profile", "_self");
+      window.open("/", "_self");
     }).catch(function (err) {
       console.log(err);
       console.log("error updating the user");
@@ -50219,6 +50218,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
       if (!favoriteMovies) {
         return null;
+      }
+
+      if (!FavoriteMovies) {
+        return null;
       } // {!user ? null : (
       //   <div>
       //     <Button onClick={() => this.onLoggedOut()}>Logout</Button>
@@ -50420,7 +50423,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64583" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52774" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

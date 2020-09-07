@@ -46,10 +46,9 @@ export function UpdateUserView(props) {
         const data = response.data;
 
         // const local = localStorage.setItem("user", data.Username);
-        // console.log(local);
         alert("Your account has been updated!");
         // console.log(data);
-        window.open("/profile", "_self");
+        window.open("/", "_self");
       })
       .catch(err => {
         console.log(err);

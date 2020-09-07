@@ -196,7 +196,7 @@ app.put(
       .isEmpty(),
     check("Email", "Email must be valid email address.").isEmail()
   ],
-  // passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   function(req, res) {
     //Check validation object for errors
     var errors = validationResult(req);

@@ -1,4 +1,5 @@
 // problems. when a user logouts,  I can't acces because of the funcion (!favmovies) and then when I login I can get access to the whole thing because that function is active again or viserbersa
+// user must have a favorite movie before updateing user information if not, then when we try to get fav movies from user the code gets stock.
 
 import React from "react";
 import axios from "axios";
@@ -133,6 +134,10 @@ export class MainView extends React.Component {
     // !user ? null : errFvMovies();
 
     if (!favoriteMovies) {
+      return null;
+    }
+
+    if (!FavoriteMovies) {
       return null;
     }
 
