@@ -49909,47 +49909,46 @@ function UpdateUserView(props) {
   var _useState3 = (0, _react.useState)(""),
       _useState4 = _slicedToArray(_useState3, 2),
       email = _useState4[0],
-      setEmail = _useState4[1];
-
-  var handleSubmit = function handleSubmit() {
-    var username = localStorage.getItem("user");
-    var token = localStorage.getItem("token");
-
-    _axios.default.put("https://scarpantonioapi.herokuapp.com/users/".concat(username), {
-      headers: {
-        Authorization: "Bearer ".concat(token)
-      },
-      Email: email,
-      Password: password
-    }).then(function (response) {
-      alert("Your account has been updated!"); // console.log(data);
-
-      window.open("/profile", "_self");
-    }).catch(function (err) {
-      console.log("unable to update user" + err);
-    });
-  }; // const handleSubmit = e => {
+      setEmail = _useState4[1]; // const handleSubmit = e => {
   //   e.preventDefault();
   //   const username = localStorage.getItem("user");
+  //   const token = localStorage.getItem("token");
   //   axios
   //     .put(`https://scarpantonioapi.herokuapp.com/users/${username}`, {
+  //       headers: { Authorization: `Bearer ${token}` },
   //       Email: email,
   //       Password: password
   //     })
   //     .then(response => {
-  //       const data = response.data;
-  //       // const local = localStorage.setItem("user", data.Username);
-  //       // console.log(local);
   //       alert("Your account has been updated!");
   //       // console.log(data);
   //       window.open("/profile", "_self");
   //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //       console.log("error updating the user");
+  //     .catch(function(err) {
+  //       console.log("unable to update user" + err);
   //     });
   // };
 
+
+  var handleSubmit = function handleSubmit(e) {
+    e.preventDefault();
+    var username = localStorage.getItem("user");
+
+    _axios.default.put("https://scarpantonioapi.herokuapp.com/users/".concat(username), {
+      Email: email,
+      Password: password
+    }).then(function (response) {
+      var data = response.data; // const local = localStorage.setItem("user", data.Username);
+      // console.log(local);
+
+      alert("Your account has been updated!"); // console.log(data);
+
+      window.open("/profile", "_self");
+    }).catch(function (err) {
+      console.log(err);
+      console.log("error updating the user");
+    });
+  };
 
   var username = localStorage.getItem("user");
   return _react.default.createElement(_Container.default, {
@@ -50421,7 +50420,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63418" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64583" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
