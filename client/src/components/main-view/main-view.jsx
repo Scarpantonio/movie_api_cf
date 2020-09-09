@@ -29,8 +29,23 @@ export class MainView extends React.Component {
     };
   }
 
-  // abajo en include, en vez de colocar favMovies. vamos a buscar a travez del objeto.  por ejemplo: userProfile.Favmovies -
-  //AQUI TAMBINE DEBEMOS AGRAGAR LA FUNCION PARA UPDATE USER.
+  // 1# Este token viene de componentDidmount, es asi como tenemos acceso al token que esta almacenado en LocalStorage
+  // 2# Aqui solo le pasamos el token a nuestro express route, para asi lograr actualizar el estado de movies con la informacion actual de las movies.
+  getMovies(token) {
+    axios
+      .get("https://scarpantonioapi.herokuapp.com/movies", {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(response => {
+        // queriamos asignar a favorite algo como, userprofile.Favmovies  -- abajo en added donde solo creamos tenemos FavoriteMovies
+        this.setState({
+          movies: response.data
+        });
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
 
   getUser(token) {
     const username = localStorage.getItem("user");
@@ -49,23 +64,6 @@ export class MainView extends React.Component {
       });
   }
 
-  // 1# Este token viene de componentDidmount, es asi como tenemos acceso al token que esta almacenado en LocalStorage
-  // 2# Aqui solo le pasamos el token a nuestro express route, para asi lograr actualizar el estado de movies con la informacion actual de las movies.
-  getMovies(token) {
-    axios
-      .get("https://scarpantonioapi.herokuapp.com/movies", {
-        headers: { Authorization: `Bearer ${token}` }
-      })
-      .then(response => {
-        // queriamos asignar a favorite algo como, userprofile.Favmovies  -- abajo en added donde solo creamos tenemos FavoriteMovies
-        this.setState({
-          movies: response.data
-        });
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  }
   componentDidMount() {
     let accessToken = localStorage.getItem("token");
     if (accessToken !== null) {
@@ -77,14 +75,16 @@ export class MainView extends React.Component {
     }
   }
   onLoggedIn(authData) {
-    console.log(authData);
+    // console.log(authData);
     this.setState({
+      // in the response we send from update username is undefined
       user: authData.user.Username
     });
     localStorage.setItem("token", authData.token);
     localStorage.setItem("user", authData.user.Username);
+    // we get the token here to pass it to the functions that retrieve the data we need for the other pages.
     this.getMovies(authData.token);
-    // this.handleUserDelete(authData.token);
+    this.getUser(authData.token);
   }
 
   onLoggedOut() {
@@ -112,6 +112,7 @@ export class MainView extends React.Component {
       });
   }
 
+  // debugger;
   render() {
     const {
       movies,
@@ -125,28 +126,7 @@ export class MainView extends React.Component {
 
     // create conditional here to !user? not apply this function. so we can login propertly.
 
-    // const errFvMovies = () => {
-    //   if (!favoriteMovies) {
-    //     return null;
-    //   }
-    // };
-
-    // !user ? null : errFvMovies();
-
-    if (!favoriteMovies) {
-      return null;
-    }
-
-    if (!FavoriteMovies) {
-      return null;
-    }
-
-    // {!user ? null : (
-    //   <div>
-    //     <Button onClick={() => this.onLoggedOut()}>Logout</Button>
-    //   </div>
-    // )}
-
+    // debugger;
     return (
       <Router>
         {!user ? null : (
@@ -163,6 +143,9 @@ export class MainView extends React.Component {
               if (!user)
                 return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
               // return <MovieCard movies={movies} />;
+              if (!favoriteMovies) {
+                return null;
+              }
               return movies.map(m => (
                 <MovieCard
                   key={m._id}
@@ -224,7 +207,12 @@ export class MainView extends React.Component {
           <Route
             exact
             path="/profile/update"
-            render={() => <UpdateUserView userProfile={userProfile} />}
+            render={() => (
+              <UpdateUserView
+                userProfile={userProfile}
+                onLoggedIn={user => this.onLoggedIn(user)}
+              />
+            )}
           />
 
           <Route path="/about" component={AboutView} />

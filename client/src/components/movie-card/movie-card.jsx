@@ -21,6 +21,7 @@ export class MovieCard extends React.Component {
     axios
       .post(
         `https://scarpantonioapi.herokuapp.com/users/${username}/Movies/${movie_id}`,
+        null,
         {
           headers: { Authorization: `Bearer ${token}` }
         }

@@ -49516,7 +49516,7 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
       var token = localStorage.getItem("token");
       var movie_id = movieId;
 
-      _axios.default.post("https://scarpantonioapi.herokuapp.com/users/".concat(username, "/Movies/").concat(movie_id), {
+      _axios.default.post("https://scarpantonioapi.herokuapp.com/users/".concat(username, "/Movies/").concat(movie_id), null, {
         headers: {
           Authorization: "Bearer ".concat(token)
         }
@@ -49900,56 +49900,46 @@ function _iterableToArrayLimit(arr, i) { if (typeof Symbol === "undefined" || !(
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
 function UpdateUserView(props) {
-  // const [username, setUsername] = useState("");
   var _useState = (0, _react.useState)(""),
       _useState2 = _slicedToArray(_useState, 2),
-      password = _useState2[0],
-      setPassword = _useState2[1];
+      username = _useState2[0],
+      setUsername = _useState2[1]; // const [userProfile, setUserProfile] = useState(props);
+
 
   var _useState3 = (0, _react.useState)(""),
       _useState4 = _slicedToArray(_useState3, 2),
-      email = _useState4[0],
-      setEmail = _useState4[1]; // const handleSubmit = e => {
-  //   e.preventDefault();
-  //   const username = localStorage.getItem("user");
-  //   const token = localStorage.getItem("token");
-  //   axios
-  //     .put(`https://scarpantonioapi.herokuapp.com/users/${username}`, {
-  //       headers: { Authorization: `Bearer ${token}` },
-  //       Email: email,
-  //       Password: password
-  //     })
-  //     .then(response => {
-  //       alert("Your account has been updated!");
-  //       // console.log(data);
-  //       window.open("/profile", "_self");
-  //     })
-  //     .catch(function(err) {
-  //       console.log("unable to update user" + err);
-  //     });
-  // };
+      password = _useState4[0],
+      setPassword = _useState4[1];
 
+  var _useState5 = (0, _react.useState)(""),
+      _useState6 = _slicedToArray(_useState5, 2),
+      email = _useState6[0],
+      setEmail = _useState6[1];
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
     var username = localStorage.getItem("user");
+    var token = localStorage.getItem("token");
 
     _axios.default.put("https://scarpantonioapi.herokuapp.com/users/".concat(username), {
+      Username: username,
       Email: email,
       Password: password
+    }, {
+      headers: {
+        Authorization: "Bearer ".concat(token)
+      }
     }).then(function (response) {
-      var data = response.data; // const local = localStorage.setItem("user", data.Username);
-
-      alert("Your account has been updated!"); // console.log(data);
-
-      window.open("/", "_self");
+      // alert("Your account has been updated!");
+      var data = response.data;
+      console.log(data); // props.onLoggedIn(data);
+      // window.open("/profile", "_self");
     }).catch(function (err) {
-      console.log(err);
-      console.log("error updating the user");
+      console.log("unable to update user" + err);
     });
-  };
+  }; // const username = localStorage.getItem("user");
 
-  var username = localStorage.getItem("user");
+
   return _react.default.createElement(_Container.default, {
     className: "formStyle"
   }, _react.default.createElement("h2", {
@@ -49958,9 +49948,15 @@ function UpdateUserView(props) {
     className: "inputStyles"
   }, _react.default.createElement(_Form.default.Group, {
     controlId: "formBasicUsername"
-  }, _react.default.createElement(_Form.default.Text, {
-    className: "text-muted"
-  }, username, " username can't be updated")), _react.default.createElement(_Form.default.Group, {
+  }, _react.default.createElement(_Form.default.Label, null, "Username "), _react.default.createElement(_Form.default.Control, {
+    size: "md",
+    placeholder: "Enter new username",
+    type: "text",
+    value: username,
+    onChange: function onChange(e) {
+      return setUsername(e.target.value);
+    }
+  })), _react.default.createElement(_Form.default.Group, {
     controlId: "formBasicEmail"
   }, _react.default.createElement(_Form.default.Label, null, "Email "), _react.default.createElement(_Form.default.Control, {
     size: "md",
@@ -49988,7 +49984,12 @@ function UpdateUserView(props) {
   }, "Submit"), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
     to: "/profile"
   }, "Back")));
-}
+} // en caso de no poder actualizar el username. este es el codigo que lo soluciona.
+// <Form.Group controlId="formBasicUsername">
+//           <Form.Text className="text-muted">
+//             {username} username can't be updated
+//           </Form.Text>
+//         </Form.Group>
 },{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./updateuser-styles.scss":"components/updateuser-view/updateuser-styles.scss","axios":"../node_modules/axios/index.js"}],"components/about-view/about-view.jsx":[function(require,module,exports) {
 "use strict";
 
@@ -50100,14 +50101,32 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       favoriteMovies: null
     };
     return _this;
-  } // abajo en include, en vez de colocar favMovies. vamos a buscar a travez del objeto.  por ejemplo: userProfile.Favmovies -
-  //AQUI TAMBINE DEBEMOS AGRAGAR LA FUNCION PARA UPDATE USER.
+  } // 1# Este token viene de componentDidmount, es asi como tenemos acceso al token que esta almacenado en LocalStorage
+  // 2# Aqui solo le pasamos el token a nuestro express route, para asi lograr actualizar el estado de movies con la informacion actual de las movies.
 
 
   _createClass(MainView, [{
+    key: "getMovies",
+    value: function getMovies(token) {
+      var _this2 = this;
+
+      _axios.default.get("https://scarpantonioapi.herokuapp.com/movies", {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }).then(function (response) {
+        // queriamos asignar a favorite algo como, userprofile.Favmovies  -- abajo en added donde solo creamos tenemos FavoriteMovies
+        _this2.setState({
+          movies: response.data
+        });
+      }).catch(function (error) {
+        console.log(error);
+      });
+    }
+  }, {
     key: "getUser",
     value: function getUser(token) {
-      var _this2 = this;
+      var _this3 = this;
 
       var username = localStorage.getItem("user");
 
@@ -50116,32 +50135,12 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           Authorization: "Bearer ".concat(token)
         }
       }).then(function (response) {
-        _this2.setState({
+        _this3.setState({
           userProfile: response.data,
           favoriteMovies: response.data.FavoriteMovies
         });
       }).catch(function (err) {
         console.log("unable to get user data" + err);
-      });
-    } // 1# Este token viene de componentDidmount, es asi como tenemos acceso al token que esta almacenado en LocalStorage
-    // 2# Aqui solo le pasamos el token a nuestro express route, para asi lograr actualizar el estado de movies con la informacion actual de las movies.
-
-  }, {
-    key: "getMovies",
-    value: function getMovies(token) {
-      var _this3 = this;
-
-      _axios.default.get("https://scarpantonioapi.herokuapp.com/movies", {
-        headers: {
-          Authorization: "Bearer ".concat(token)
-        }
-      }).then(function (response) {
-        // queriamos asignar a favorite algo como, userprofile.Favmovies  -- abajo en added donde solo creamos tenemos FavoriteMovies
-        _this3.setState({
-          movies: response.data
-        });
-      }).catch(function (error) {
-        console.log(error);
       });
     }
   }, {
@@ -50160,13 +50159,16 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "onLoggedIn",
     value: function onLoggedIn(authData) {
-      console.log(authData);
+      // console.log(authData);
       this.setState({
+        // in the response we send from update username is undefined
         user: authData.user.Username
       });
       localStorage.setItem("token", authData.token);
-      localStorage.setItem("user", authData.user.Username);
-      this.getMovies(authData.token); // this.handleUserDelete(authData.token);
+      localStorage.setItem("user", authData.user.Username); // we get the token here to pass it to the functions that retrieve the data we need for the other pages.
+
+      this.getMovies(authData.token);
+      this.getUser(authData.token);
     }
   }, {
     key: "onLoggedOut",
@@ -50194,7 +50196,8 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       }).catch(function (error) {
         console.log(error);
       });
-    }
+    } // debugger;
+
   }, {
     key: "render",
     value: function render() {
@@ -50209,25 +50212,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
       }); // create conditional here to !user? not apply this function. so we can login propertly.
-      // const errFvMovies = () => {
-      //   if (!favoriteMovies) {
-      //     return null;
-      //   }
-      // };
-      // !user ? null : errFvMovies();
-
-      if (!favoriteMovies) {
-        return null;
-      }
-
-      if (!FavoriteMovies) {
-        return null;
-      } // {!user ? null : (
-      //   <div>
-      //     <Button onClick={() => this.onLoggedOut()}>Logout</Button>
-      //   </div>
-      // )}
-
+      // debugger;
 
       return _react.default.createElement(_reactRouterDom.BrowserRouter, null, !user ? null : _react.default.createElement("div", null, _react.default.createElement(_Button.default, {
         onClick: function onClick() {
@@ -50244,6 +50229,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
               return _this4.onLoggedIn(user);
             }
           }); // return <MovieCard movies={movies} />;
+
+          if (!favoriteMovies) {
+            return null;
+          }
 
           return movies.map(function (m) {
             return _react.default.createElement(_movieCard.MovieCard, {
@@ -50310,7 +50299,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         path: "/profile/update",
         render: function render() {
           return _react.default.createElement(_updateuserView.UpdateUserView, {
-            userProfile: userProfile
+            userProfile: userProfile,
+            onLoggedIn: function onLoggedIn(user) {
+              return _this4.onLoggedIn(user);
+            }
           });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
@@ -50423,7 +50415,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52774" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63332" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

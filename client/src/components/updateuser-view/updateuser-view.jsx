@@ -8,63 +8,53 @@ import "./updateuser-styles.scss";
 import axios from "axios";
 
 export function UpdateUserView(props) {
-  // const [username, setUsername] = useState("");
+  const [username, setUsername] = useState("");
   // const [userProfile, setUserProfile] = useState(props);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
-  // const handleSubmit = e => {
-  //   e.preventDefault();
-  //   const username = localStorage.getItem("user");
-  //   const token = localStorage.getItem("token");
-  //   axios
-  //     .put(`https://scarpantonioapi.herokuapp.com/users/${username}`, {
-  //       headers: { Authorization: `Bearer ${token}` },
-  //       Email: email,
-  //       Password: password
-  //     })
-  //     .then(response => {
-  //       alert("Your account has been updated!");
-  //       // console.log(data);
-  //       window.open("/profile", "_self");
-  //     })
-  //     .catch(function(err) {
-  //       console.log("unable to update user" + err);
-  //     });
-  // };
-
   const handleSubmit = e => {
     e.preventDefault();
     const username = localStorage.getItem("user");
-
+    const token = localStorage.getItem("token");
     axios
-      .put(`https://scarpantonioapi.herokuapp.com/users/${username}`, {
-        Email: email,
-        Password: password
-      })
+      .put(
+        `https://scarpantonioapi.herokuapp.com/users/${username}`,
+        {
+          Username: username,
+          Email: email,
+          Password: password
+        },
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      )
       .then(response => {
+        // alert("Your account has been updated!");
         const data = response.data;
-
-        // const local = localStorage.setItem("user", data.Username);
-        alert("Your account has been updated!");
-        // console.log(data);
-        window.open("/", "_self");
+        console.log(data);
+        // props.onLoggedIn(data);
+        // window.open("/profile", "_self");
       })
       .catch(err => {
-        console.log(err);
-        console.log("error updating the user");
+        console.log("unable to update user" + err);
       });
   };
 
-  const username = localStorage.getItem("user");
+  // const username = localStorage.getItem("user");
   return (
     <Container className="formStyle">
       <h2 className="r-title">Update account</h2>
       <Form className="inputStyles">
         <Form.Group controlId="formBasicUsername">
-          <Form.Text className="text-muted">
-            {username} username can't be updated
-          </Form.Text>
+          <Form.Label>Username </Form.Label>
+          <Form.Control
+            size="md"
+            placeholder="Enter new username"
+            type="text"
+            value={username}
+            onChange={e => setUsername(e.target.value)}
+          />
         </Form.Group>
 
         <Form.Group controlId="formBasicEmail">
@@ -104,3 +94,11 @@ export function UpdateUserView(props) {
     </Container>
   );
 }
+
+// en caso de no poder actualizar el username. este es el codigo que lo soluciona.
+
+// <Form.Group controlId="formBasicUsername">
+//           <Form.Text className="text-muted">
+//             {username} username can't be updated
+//           </Form.Text>
+//         </Form.Group>
