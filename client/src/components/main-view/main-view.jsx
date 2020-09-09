@@ -1,6 +1,3 @@
-// problems. when a user logouts,  I can't acces because of the funcion (!favmovies) and then when I login I can get access to the whole thing because that function is active again or viserbersa
-// user must have a favorite movie before updateing user information if not, then when we try to get fav movies from user the code gets stock.
-
 import React from "react";
 import axios from "axios";
 import { LoginView } from "../login-view/login-view";
@@ -19,7 +16,6 @@ import Button from "react-bootstrap/Button";
 export class MainView extends React.Component {
   constructor() {
     super();
-    // porque movies es un array
     this.state = {
       movies: [],
       user: null,
@@ -29,15 +25,12 @@ export class MainView extends React.Component {
     };
   }
 
-  // 1# Este token viene de componentDidmount, es asi como tenemos acceso al token que esta almacenado en LocalStorage
-  // 2# Aqui solo le pasamos el token a nuestro express route, para asi lograr actualizar el estado de movies con la informacion actual de las movies.
   getMovies(token) {
     axios
       .get("https://scarpantonioapi.herokuapp.com/movies", {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(response => {
-        // queriamos asignar a favorite algo como, userprofile.Favmovies  -- abajo en added donde solo creamos tenemos FavoriteMovies
         this.setState({
           movies: response.data
         });
@@ -75,9 +68,7 @@ export class MainView extends React.Component {
     }
   }
   onLoggedIn(authData) {
-    // console.log(authData);
     this.setState({
-      // in the response we send from update username is undefined
       user: authData.user.Username
     });
     localStorage.setItem("token", authData.token);
@@ -112,7 +103,6 @@ export class MainView extends React.Component {
       });
   }
 
-  // debugger;
   render() {
     const {
       movies,
@@ -124,9 +114,6 @@ export class MainView extends React.Component {
 
     if (!movies) return <div className="main-view" />;
 
-    // create conditional here to !user? not apply this function. so we can login propertly.
-
-    // debugger;
     return (
       <Router>
         {!user ? null : (

@@ -99,22 +99,6 @@ app.get(
   }
 );
 
-//List all users
-// app.get(
-//   "/users",
-//   passport.authenticate("jwt", { session: false }),
-//   (req, res) => {
-//     Users.find()
-//       .then(function(users) {
-//         res.status(201).json(users);
-//       })
-//       .catch(function(err) {
-//         console.error(err);
-//         res.status(500).send("Error: " + err);
-//       });
-//   }
-// );
-
 // Get a user by username
 app.get(
   "/users/:Username",
@@ -230,32 +214,6 @@ app.put(
   }
 );
 
-//old user update code
-
-// app.put("/users/:Username", (req, res) => {
-//   let hashedPassword = Users.hashPassword(req.body.Password);
-//   Users.findOneAndUpdate(
-//     { Username: req.params.Username },
-//     {
-//       $set: {
-//         Username: req.body.Username,
-//         Password: hashedPassword,
-//         Email: req.body.Email,
-//         Birthday: req.body.Birthday
-//       }
-//     },
-//     { new: true },
-//     (err, updatedUser) => {
-//       if (err) {
-//         console.error(err);
-//         res.status(500).send("Error: " + err);
-//       } else {
-//         res.json(updatedUser);
-//       }
-//     }
-//   );
-// });
-
 // Delete a user by username
 app.delete(
   "/users/:Username",
@@ -318,10 +276,8 @@ app.delete(
   }
 );
 
-// required use after all middleware and route calls
+// Required use after all middleware and route calls
 app.use((err, req, res, next) => {
-  // console.error(req);
-  // console.error(res);
   console.error(err.stack + "something broke");
   res.status(500).send(err);
 });

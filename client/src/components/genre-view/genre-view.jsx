@@ -34,12 +34,3 @@ export class GenreView extends React.Component {
     );
   }
 }
-
-// export function GenreView(props) {
-//   // console.log(props);
-//   return (
-//     <div>
-//       <h1>This is the page for the {props.match.params.name}Genre</h1>;
-//     </div>
-//   );
-// }

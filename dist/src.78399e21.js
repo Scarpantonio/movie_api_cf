@@ -35664,12 +35664,10 @@ function LoginView(props) {
   var _useState3 = (0, _react.useState)(""),
       _useState4 = _slicedToArray(_useState3, 2),
       password = _useState4[0],
-      setPassword = _useState4[1]; //When a user clicks on the submit button, you need to update your handleSubmit method, where you’ll make a POST request to the login endpoint using axios. The server-side should then check the user’s login details against what’s stored in the database of authenticated users. If there’s no match, the server throws an error back to the user.If there’s a match, the server generates a token for the logged in user and sends it back with the response. Go ahead and update your code with what’s been explained so far:
-
+      setPassword = _useState4[1];
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
-    /* Send a request to the server for authentication */
 
     _axios.default.post("https://scarpantonioapi.herokuapp.com/login", {
       Username: username,
@@ -35680,11 +35678,7 @@ function LoginView(props) {
     }).catch(function (e) {
       console.log("user not found");
     });
-  }; // const handleViewBtn = e => {
-  //   e.preventDefault();
-  //   props.handleRegisterBtn();
-  // };
-
+  };
 
   return _react.default.createElement(_Container.default, {
     className: "formStyle"
@@ -35722,10 +35716,7 @@ function LoginView(props) {
     className: "newUserLink",
     type: "submit"
   }, "new user? register"))));
-} // LoginView.propTypes = {
-//   onLoggedIn: PropTypes.func.isRequired,
-//   handleRegisterBtn: PropTypes.func.isRequired
-// };
+}
 },{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","./login-view.scss":"components/login-view/login-view.scss","axios":"../node_modules/axios/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/reg-view/reg-styles.scss":[function(require,module,exports) {
 var reloadCSS = require('_css_loader');
 
@@ -49362,15 +49353,7 @@ var GenreView = /*#__PURE__*/function (_React$Component) {
   }]);
 
   return GenreView;
-}(_react.default.Component); // export function GenreView(props) {
-//   // console.log(props);
-//   return (
-//     <div>
-//       <h1>This is the page for the {props.match.params.name}Genre</h1>;
-//     </div>
-//   );
-// }
-
+}(_react.default.Component);
 
 exports.GenreView = GenreView;
 },{"react":"../node_modules/react/index.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js"}],"components/director-view/director-view.jsx":[function(require,module,exports) {
@@ -49471,7 +49454,7 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _Button = _interopRequireDefault(require("react-bootstrap/Button"));
 
-var _Card = _interopRequireDefault(require("react-bootstrap/Card"));
+var _reactBootstrap = require("react-bootstrap");
 
 var _reactRouterDom = require("react-router-dom");
 
@@ -49546,14 +49529,18 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
           movie = _this$props.movie,
           added = _this$props.added;
       var addFavMovBtn = this.state.addFavMovBtn;
-      return _react.default.createElement(_Card.default, {
+      return _react.default.createElement(_reactBootstrap.CardDeck, {
+        style: {
+          width: "45rem"
+        }
+      }, _react.default.createElement(_reactBootstrap.Card, {
         style: {
           width: "16rem"
         }
-      }, _react.default.createElement(_Card.default.Img, {
+      }, _react.default.createElement(_reactBootstrap.Card.Img, {
         variant: "top",
         src: movie.ImagePath
-      }), _react.default.createElement(_Card.default.Body, null, _react.default.createElement(_Card.default.Title, null, movie.Title), _react.default.createElement(_Card.default.Text, null, movie.Description), _react.default.createElement(_reactRouterDom.Link, {
+      }), _react.default.createElement(_reactBootstrap.Card.Body, null, _react.default.createElement(_reactBootstrap.Card.Title, null, movie.Title), _react.default.createElement(_reactBootstrap.Card.Text, null, movie.Description), _react.default.createElement(_reactRouterDom.Link, {
         to: "/movies/".concat(movie._id)
       }, _react.default.createElement(_Button.default, {
         variant: "link"
@@ -49564,23 +49551,23 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
           return _this2.handleAddFavMovie(movie._id);
         },
         variant: "link"
-      }, !added && addFavMovBtn)), _react.default.createElement("span", null, added && "already added")));
+      }, !added && addFavMovBtn)), _react.default.createElement("span", null, added && "already added"))));
     }
   }]);
 
   return MovieCard;
-}(_react.default.Component); // // MovieCard.propTypes = {
-// //   movie: PropTypes.shape({
-// //     Title: PropTypes.string.isRequired,
-// //     Description: PropTypes.string.isRequired,
-// //     ImagePath: PropTypes.string.isRequired
-// //   }).isRequired,
-// //   onClick: PropTypes.func.isRequired
-// // };
+}(_react.default.Component); // MovieCard.propTypes = {
+//   movie: PropTypes.shape({
+//     Title: PropTypes.string.isRequired,
+//     Description: PropTypes.string.isRequired,
+//     ImagePath: PropTypes.string.isRequired
+//   }).isRequired,
+//   onClick: PropTypes.func.isRequired
+// };
 
 
 exports.MovieCard = MovieCard;
-},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Card":"../node_modules/react-bootstrap/esm/Card.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/movie-view/movie-view.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","axios":"../node_modules/axios/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/movie-view/movie-view.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49772,7 +49759,6 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
           Authorization: "Bearer ".concat(token)
         }
       }).then(function (res) {
-        console.log("Favorite movie has been removed");
         window.open("/profile", "_self");
       }).catch(function (error) {
         console.log(error);
@@ -49783,8 +49769,6 @@ var ProfileView = /*#__PURE__*/function (_React$Component) {
   _createClass(ProfileView, [{
     key: "componentDidMount",
     value: function componentDidMount() {
-      // console.log(this.props);
-      //authentication
       var accessToken = localStorage.getItem("token");
     }
   }, {
@@ -49902,19 +49886,13 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 function UpdateUserView(props) {
   var _useState = (0, _react.useState)(""),
       _useState2 = _slicedToArray(_useState, 2),
-      username = _useState2[0],
-      setUsername = _useState2[1]; // const [userProfile, setUserProfile] = useState(props);
-
+      password = _useState2[0],
+      setPassword = _useState2[1];
 
   var _useState3 = (0, _react.useState)(""),
       _useState4 = _slicedToArray(_useState3, 2),
-      password = _useState4[0],
-      setPassword = _useState4[1];
-
-  var _useState5 = (0, _react.useState)(""),
-      _useState6 = _slicedToArray(_useState5, 2),
-      email = _useState6[0],
-      setEmail = _useState6[1];
+      email = _useState4[0],
+      setEmail = _useState4[1];
 
   var handleSubmit = function handleSubmit(e) {
     e.preventDefault();
@@ -49930,16 +49908,14 @@ function UpdateUserView(props) {
         Authorization: "Bearer ".concat(token)
       }
     }).then(function (response) {
-      // alert("Your account has been updated!");
-      var data = response.data;
-      console.log(data); // props.onLoggedIn(data);
-      // window.open("/profile", "_self");
+      alert("Your account has been updated!");
+      window.open("/profile", "_self");
     }).catch(function (err) {
       console.log("unable to update user" + err);
     });
-  }; // const username = localStorage.getItem("user");
+  };
 
-
+  var username = localStorage.getItem("user");
   return _react.default.createElement(_Container.default, {
     className: "formStyle"
   }, _react.default.createElement("h2", {
@@ -49948,15 +49924,9 @@ function UpdateUserView(props) {
     className: "inputStyles"
   }, _react.default.createElement(_Form.default.Group, {
     controlId: "formBasicUsername"
-  }, _react.default.createElement(_Form.default.Label, null, "Username "), _react.default.createElement(_Form.default.Control, {
-    size: "md",
-    placeholder: "Enter new username",
-    type: "text",
-    value: username,
-    onChange: function onChange(e) {
-      return setUsername(e.target.value);
-    }
-  })), _react.default.createElement(_Form.default.Group, {
+  }, _react.default.createElement(_Form.default.Text, {
+    className: "text-muted"
+  }, username, " username can't be updated")), _react.default.createElement(_Form.default.Group, {
     controlId: "formBasicEmail"
   }, _react.default.createElement(_Form.default.Label, null, "Email "), _react.default.createElement(_Form.default.Control, {
     size: "md",
@@ -49984,12 +49954,7 @@ function UpdateUserView(props) {
   }, "Submit"), _react.default.createElement("br", null), _react.default.createElement("br", null), _react.default.createElement(_reactRouterDom.Link, {
     to: "/profile"
   }, "Back")));
-} // en caso de no poder actualizar el username. este es el codigo que lo soluciona.
-// <Form.Group controlId="formBasicUsername">
-//           <Form.Text className="text-muted">
-//             {username} username can't be updated
-//           </Form.Text>
-//         </Form.Group>
+}
 },{"react":"../node_modules/react/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap/Form":"../node_modules/react-bootstrap/esm/Form.js","react-bootstrap/Container":"../node_modules/react-bootstrap/esm/Container.js","prop-types":"../node_modules/prop-types/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js","./updateuser-styles.scss":"components/updateuser-view/updateuser-styles.scss","axios":"../node_modules/axios/index.js"}],"components/about-view/about-view.jsx":[function(require,module,exports) {
 "use strict";
 
@@ -50091,8 +50056,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
     _classCallCheck(this, MainView);
 
-    _this = _super.call(this); // porque movies es un array
-
+    _this = _super.call(this);
     _this.state = {
       movies: [],
       user: null,
@@ -50101,9 +50065,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       favoriteMovies: null
     };
     return _this;
-  } // 1# Este token viene de componentDidmount, es asi como tenemos acceso al token que esta almacenado en LocalStorage
-  // 2# Aqui solo le pasamos el token a nuestro express route, para asi lograr actualizar el estado de movies con la informacion actual de las movies.
-
+  }
 
   _createClass(MainView, [{
     key: "getMovies",
@@ -50115,7 +50077,6 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           Authorization: "Bearer ".concat(token)
         }
       }).then(function (response) {
-        // queriamos asignar a favorite algo como, userprofile.Favmovies  -- abajo en added donde solo creamos tenemos FavoriteMovies
         _this2.setState({
           movies: response.data
         });
@@ -50159,9 +50120,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "onLoggedIn",
     value: function onLoggedIn(authData) {
-      // console.log(authData);
       this.setState({
-        // in the response we send from update username is undefined
         user: authData.user.Username
       });
       localStorage.setItem("token", authData.token);
@@ -50196,8 +50155,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       }).catch(function (error) {
         console.log(error);
       });
-    } // debugger;
-
+    }
   }, {
     key: "render",
     value: function render() {
@@ -50211,9 +50169,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           addFavMovBtn = _this$state.addFavMovBtn;
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
-      }); // create conditional here to !user? not apply this function. so we can login propertly.
-      // debugger;
-
+      });
       return _react.default.createElement(_reactRouterDom.BrowserRouter, null, !user ? null : _react.default.createElement("div", null, _react.default.createElement(_Button.default, {
         onClick: function onClick() {
           return _this4.onLoggedOut();
@@ -50415,7 +50371,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63332" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "58320" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

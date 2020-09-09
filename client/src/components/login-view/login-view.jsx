@@ -11,11 +11,8 @@ export function LoginView(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  //When a user clicks on the submit button, you need to update your handleSubmit method, where you’ll make a POST request to the login endpoint using axios. The server-side should then check the user’s login details against what’s stored in the database of authenticated users. If there’s no match, the server throws an error back to the user.If there’s a match, the server generates a token for the logged in user and sends it back with the response. Go ahead and update your code with what’s been explained so far:
-
   const handleSubmit = e => {
     e.preventDefault();
-    /* Send a request to the server for authentication */
     axios
       .post("https://scarpantonioapi.herokuapp.com/login", {
         Username: username,
@@ -29,11 +26,6 @@ export function LoginView(props) {
         console.log("user not found");
       });
   };
-
-  // const handleViewBtn = e => {
-  //   e.preventDefault();
-  //   props.handleRegisterBtn();
-  // };
 
   return (
     <Container className="formStyle">
@@ -79,8 +71,3 @@ export function LoginView(props) {
     </Container>
   );
 }
-
-// LoginView.propTypes = {
-//   onLoggedIn: PropTypes.func.isRequired,
-//   handleRegisterBtn: PropTypes.func.isRequired
-// };

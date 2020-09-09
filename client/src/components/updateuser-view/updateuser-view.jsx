@@ -8,8 +8,6 @@ import "./updateuser-styles.scss";
 import axios from "axios";
 
 export function UpdateUserView(props) {
-  const [username, setUsername] = useState("");
-  // const [userProfile, setUserProfile] = useState(props);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
 
@@ -30,31 +28,23 @@ export function UpdateUserView(props) {
         }
       )
       .then(response => {
-        // alert("Your account has been updated!");
-        const data = response.data;
-        console.log(data);
-        // props.onLoggedIn(data);
-        // window.open("/profile", "_self");
+        alert("Your account has been updated!");
+        window.open("/profile", "_self");
       })
       .catch(err => {
         console.log("unable to update user" + err);
       });
   };
 
-  // const username = localStorage.getItem("user");
+  const username = localStorage.getItem("user");
   return (
     <Container className="formStyle">
       <h2 className="r-title">Update account</h2>
       <Form className="inputStyles">
         <Form.Group controlId="formBasicUsername">
-          <Form.Label>Username </Form.Label>
-          <Form.Control
-            size="md"
-            placeholder="Enter new username"
-            type="text"
-            value={username}
-            onChange={e => setUsername(e.target.value)}
-          />
+          <Form.Text className="text-muted">
+            {username} username can't be updated
+          </Form.Text>
         </Form.Group>
 
         <Form.Group controlId="formBasicEmail">
@@ -94,11 +84,3 @@ export function UpdateUserView(props) {
     </Container>
   );
 }
-
-// en caso de no poder actualizar el username. este es el codigo que lo soluciona.
-
-// <Form.Group controlId="formBasicUsername">
-//           <Form.Text className="text-muted">
-//             {username} username can't be updated
-//           </Form.Text>
-//         </Form.Group>

@@ -11,8 +11,6 @@ export class ProfileView extends React.Component {
     selectedMovie: null
   };
   componentDidMount() {
-    // console.log(this.props);
-    //authentication
     const accessToken = localStorage.getItem("token");
   }
 
@@ -28,7 +26,6 @@ export class ProfileView extends React.Component {
         }
       )
       .then(res => {
-        console.log("Favorite movie has been removed");
         window.open("/profile", "_self");
       })
       .catch(function(error) {
