@@ -1,18 +1,25 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { createStore } from "redux";
+import { Provider } from "react-redux";
+import { devToolsEnhancer } from "redux-devtools-extension";
 
-import { MainView } from "./components/main-view/main-view.jsx";
+import MainView from "./components/main-view/main-view.jsx";
+import moviesApp from "./reducers/reducers";
 
 // Import statement to indicate that you need to bundle `./index.scss`
 import "./index.scss";
+
+// creating the store in our Rapp
+const store = createStore(moviesApp, devToolsEnhancer({ trace: true }));
 
 // Main component (will eventually use all the others)
 class MyFlixApplication extends React.Component {
   render() {
     return (
-      <div className="my-flix">
+      <Provider store={store}>
         <MainView />
-      </div>
+      </Provider>
     );
   }
 }

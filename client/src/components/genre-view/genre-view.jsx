@@ -1,7 +1,7 @@
 import React from "react";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
-
+import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
@@ -34,3 +34,10 @@ export class GenreView extends React.Component {
     );
   }
 }
+
+GenreView.propTypes = {
+  Genre: PropTypes.shape({
+    Name: PropTypes.string,
+    Description: PropTypes.string
+  })
+};

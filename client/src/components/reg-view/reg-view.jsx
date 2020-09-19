@@ -96,6 +96,6 @@ export function RegisterView(props) {
   );
 }
 
-// RegisterView.propTypes = {
-//   registeredUser: PropTypes.func.isRequired
-// };
+RegisterView.propTypes = {
+  onClick: PropTypes.func.isRequired
+};

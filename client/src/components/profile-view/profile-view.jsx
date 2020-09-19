@@ -1,10 +1,26 @@
 import React from "react";
+import { connect } from "react-redux";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
+import PropTypes from "prop-types";
 import Card from "react-bootstrap/Card";
 import "./profile-view";
+import {
+  setMovies,
+  setUserProfile,
+  setUserFavoriteMovie,
+  setLoggedInUser
+} from "../../actions/actions";
+
+// read again how movielist got movies pass as props, and why we algo pass it as a state. we have to pass favorite movies here. So when we go tu the page is updated withouth being refresh, or ask to jay what happen.
+// movieList explica como -  explica paso a paso como accedemos a movies que esta almacenado en store.- al estado. Capas y ya no necesitamos pasar el estado desde nuestro main component incluso cuando agarramos el estadod esde alli?
+
+// const mapStateToProps = state => ({
+//   const { userFavoriteMovies } = state;
+//   return { userFavoriteMovies };
+// });
 
 export class ProfileView extends React.Component {
   state = {
@@ -74,7 +90,9 @@ export class ProfileView extends React.Component {
               <Card.Text>Password: *******</Card.Text>
               <Card.Text>Email: {userProfile.Email}</Card.Text>
               <Card.Text>Birthday {userProfile.Birthday}</Card.Text>
+
               <Card.Text>Favorite Movies:</Card.Text>
+
               <ul>
                 {(favMovies || []).map((fm, index) => (
                   <div>
@@ -111,3 +129,19 @@ export class ProfileView extends React.Component {
     );
   }
 }
+
+// export default connect(mapStateToProps)(ProfileView);
+
+ProfileView.propTypes = {
+  userProfile: PropTypes.shape({
+    Username: PropTypes.string.isRequired,
+    Email: PropTypes.string.isRequired,
+    Birthday: PropTypes.number.isRequired,
+    favoriteMovies: PropTypes.shape({
+      FavoriteMovies: PropTypes.string.isRequired
+    }),
+    movies: PropTypes.shape({
+      Title: PropTypes.string.isRequired
+    })
+  }).isRequired
+};

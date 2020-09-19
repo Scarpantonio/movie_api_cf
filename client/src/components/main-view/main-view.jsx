@@ -1,7 +1,34 @@
+// redactar un keep para repasar como funciona esto en moviecard: favMovbtn={addFavMovBtn} added={favoriteMovies.includes(m._id)}
+// entender y reparar como funciona movie list que no esta filtrando bien las peliculas.
+
 import React from "react";
 import axios from "axios";
-import { LoginView } from "../login-view/login-view";
+import {
+  Button,
+  Form,
+  FormControl,
+  Navbar,
+  Nav,
+  NavDropdown,
+  Row,
+  Col
+} from "react-bootstrap";
+import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
+//Redux
+import { connect } from "react-redux";
 import { BrowserRouter as Router, Route } from "react-router-dom";
+// #0
+import {
+  setMovies,
+  setUserProfile,
+  setUserFavoriteMovie,
+  setLoggedInUser
+} from "../../actions/actions"; // aqui importamos la funcion que utilizamos para darle a nuestra accion el valor del api.
+// we haven't written this one yet
+import MoviesList from "../movie-list/movie-list";
+import "./main-view.scss";
+import { LoginView } from "../login-view/login-view";
 import { RegisterView } from "../reg-view/reg-view";
 import { GenreView } from "../genre-view/genre-view";
 import { DirectorView } from "../director-view/director-view";
@@ -11,7 +38,6 @@ import { ProfileView } from "../profile-view/profile-view";
 import { UpdateUserView } from "../updateuser-view/updateuser-view";
 import { AboutView } from "../about-view/about-view";
 import { ContactView } from "../contact-view/contact-view";
-import Button from "react-bootstrap/Button";
 
 export class MainView extends React.Component {
   constructor() {
@@ -32,7 +58,9 @@ export class MainView extends React.Component {
       })
       .then(response => {
         this.setState({
-          movies: response.data
+          // we pass this function from actions.jsx to give that action type the value of the api call.
+          movies: this.props.setMovies(response.data)
+          // movies: response.data
         });
       })
       .catch(function(error) {
@@ -48,8 +76,10 @@ export class MainView extends React.Component {
       })
       .then(response => {
         this.setState({
-          userProfile: response.data,
-          favoriteMovies: response.data.FavoriteMovies
+          userProfile: this.props.setUserProfile(response.data),
+          favoriteMovies: this.props.setUserFavoriteMovie(
+            response.data.FavoriteMovies
+          )
         });
       })
       .catch(function(err) {
@@ -69,7 +99,7 @@ export class MainView extends React.Component {
   }
   onLoggedIn(authData) {
     this.setState({
-      user: authData.user.Username
+      user: this.props.setLoggedInUser(authData.user.Username)
     });
     localStorage.setItem("token", authData.token);
     localStorage.setItem("user", authData.user.Username);
@@ -104,23 +134,47 @@ export class MainView extends React.Component {
   }
 
   render() {
-    const {
-      movies,
-      user,
-      userProfile,
-      favoriteMovies,
-      addFavMovBtn
-    } = this.state;
+    // #2
+    let { movies, userProfile, favoriteMovies } = this.props;
+    // seguimos almacenando estas dos en un state local talvez es parte del problema
+    let { user, addFavMovBtn } = this.state;
 
     if (!movies) return <div className="main-view" />;
 
+    debugger;
     return (
-      <Router>
-        {!user ? null : (
-          <div>
-            <Button onClick={() => this.onLoggedOut()}>Logout</Button>
-          </div>
-        )}
+      <Router basename="/client">
+        <div class="fixed-top">
+          <Navbar bg="dark" variant="dark" expand="lg">
+            <Navbar.Brand as={Link} to="/">
+              FLIX
+            </Navbar.Brand>
+            <Navbar.Toggle aria-controls="basic-navbar-nav" />
+            <Navbar.Collapse id="basic-navbar-nav">
+              <Nav className="mr-auto">
+                <Nav.Link as={Link} to="/">
+                  {!user ? null : "Home"}
+                </Nav.Link>
+
+                <Nav.Link as={Link} to="/profile">
+                  {!user ? null : "Profile"}
+                </Nav.Link>
+
+                <Nav.Link>
+                  {!user ? null : (
+                    <Link
+                      size="sm"
+                      className="loggout"
+                      onClick={() => this.onLoggedOut()}
+                    >
+                      <b>Log Out</b>
+                    </Link>
+                  )}
+                </Nav.Link>
+              </Nav>
+            </Navbar.Collapse>
+          </Navbar>
+        </div>
 
         <div className="main-view">
           <Route
@@ -129,6 +183,7 @@ export class MainView extends React.Component {
             render={() => {
               if (!user)
                 return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
+              return <MoviesList movies={movies} />;
               // return <MovieCard movies={movies} />;
               if (!favoriteMovies) {
                 return null;
@@ -201,11 +256,34 @@ export class MainView extends React.Component {
               />
             )}
           />
-
-          <Route path="/about" component={AboutView} />
-          <Route path="/contact" component={ContactView} />
         </div>
       </Router>
     );
   }
 }
+
+// #3
+let mapStateToProps = state => {
+  // nameofstate in component: state location in store.(name created by store function)
+  return {
+    movies: state.movies,
+    userProfile: state.userProfile,
+    favoriteMovies: state.userFavoriteMovies,
+    user: state.userLoogedIn
+  };
+};
+
+export default connect(mapStateToProps, {
+  // allows us to send Act. as props
+  setMovies,
+  setUserProfile,
+  setUserFavoriteMovie,
+  setLoggedInUser
+})(MainView);
+
+MainView.propTypes = {
+  setMovies: PropTypes.func.isRequired,
+  setUserProfile: PropTypes.func.isRequired,
+  setUserFavoriteMovie: PropTypes.func.isRequired,
+  setLoggedInUser: PropTypes.func.isRequired
+};

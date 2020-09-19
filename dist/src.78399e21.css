@@ -1,3 +1,11 @@
+.barfilter {
+  z-index: 2;
+  margin-top: 55px;
+}
+.loggout {
+  margin-left: 810px;
+  color: white;
+}
 .formStyle {
   width: 100%;
   max-width: 500px;

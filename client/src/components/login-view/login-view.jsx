@@ -1,11 +1,13 @@
+// creo que es aqui donde debemos centralizar la respuesta para recojerla y mandarla al store.
+
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import PropTypes from "prop-types";
 import Container from "react-bootstrap/Container";
 import "./login-view.scss";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import PropTypes from "prop-types";
 
 export function LoginView(props) {
   const [username, setUsername] = useState("");
@@ -71,3 +73,7 @@ export function LoginView(props) {
     </Container>
   );
 }
+
+LoginView.propTypes = {
+  onLoggedIn: PropTypes.func.isRequired
+};
