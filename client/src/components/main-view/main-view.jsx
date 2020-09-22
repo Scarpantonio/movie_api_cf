@@ -57,16 +57,15 @@ export class MainView extends React.Component {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(response => {
-        this.setState({
-          // we pass this function from actions.jsx to give that action type the value of the api call.
-          movies: this.props.setMovies(response.data)
-          // movies: response.data
-        });
+        // we pass this function from actions.jsx to give that action type the value of the api call.
+        this.props.setMovies(response.data);
       })
       .catch(function(error) {
         console.log(error);
       });
   }
+
+  // I'll need to create another API call for this favoriteMovies: this.props.setUserFavoriteMovie(response.data.FavoriteMovies)
 
   getUser(token) {
     const username = localStorage.getItem("user");
@@ -75,12 +74,21 @@ export class MainView extends React.Component {
         headers: { Authorization: `Bearer ${token}` }
       })
       .then(response => {
-        this.setState({
-          userProfile: this.props.setUserProfile(response.data),
-          favoriteMovies: this.props.setUserFavoriteMovie(
-            response.data.FavoriteMovies
-          )
-        });
+        this.props.setUserProfile(response.data);
+      })
+      .catch(function(err) {
+        console.log("unable to get user data" + err);
+      });
+  }
+
+  getFavMovies(token) {
+    const username = localStorage.getItem("user");
+    axios
+      .get(`https://scarpantonioapi.herokuapp.com/users/${username}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      })
+      .then(response => {
+        this.props.setUserFavoriteMovie(response.data.FavoriteMovies);
       })
       .catch(function(err) {
         console.log("unable to get user data" + err);
@@ -95,6 +103,7 @@ export class MainView extends React.Component {
       });
       this.getMovies(accessToken);
       this.getUser(accessToken);
+      this.getFavMovies(accessToken);
     }
   }
   onLoggedIn(authData) {
@@ -106,6 +115,7 @@ export class MainView extends React.Component {
     // we get the token here to pass it to the functions that retrieve the data we need for the other pages.
     this.getMovies(authData.token);
     this.getUser(authData.token);
+    getFavMovies(authData.token);
   }
 
   onLoggedOut() {
@@ -141,7 +151,6 @@ export class MainView extends React.Component {
 
     if (!movies) return <div className="main-view" />;
 
-    debugger;
     return (
       <Router basename="/client">
         <div class="fixed-top">
@@ -264,12 +273,14 @@ export class MainView extends React.Component {
 
 // #3
 let mapStateToProps = state => {
-  // nameofstate in component: state location in store.(name created by store function)
+  // Nameofstate in component: state location in store.(name created by store function)
+  // Seems we asign the state name here. and we grab the state from the store indicating the reducer  name.
+  // when I call the reducers function I make a call to the new state of the application.
   return {
     movies: state.movies,
     userProfile: state.userProfile,
-    favoriteMovies: state.userFavoriteMovies,
-    user: state.userLoogedIn
+    user: state.userLoogedIn,
+    favoriteMovies: state.userFavoriteMovies
   };
 };
 

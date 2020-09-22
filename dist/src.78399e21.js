@@ -52917,15 +52917,13 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           Authorization: "Bearer ".concat(token)
         }
       }).then(function (response) {
-        _this2.setState({
-          // we pass this function from actions.jsx to give that action type the value of the api call.
-          movies: _this2.props.setMovies(response.data) // movies: response.data
-
-        });
+        // we pass this function from actions.jsx to give that action type the value of the api call.
+        _this2.props.setMovies(response.data);
       }).catch(function (error) {
         console.log(error);
       });
-    }
+    } // I'll need to create another API call for this favoriteMovies: this.props.setUserFavoriteMovie(response.data.FavoriteMovies)
+
   }, {
     key: "getUser",
     value: function getUser(token) {
@@ -52938,10 +52936,24 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           Authorization: "Bearer ".concat(token)
         }
       }).then(function (response) {
-        _this3.setState({
-          userProfile: _this3.props.setUserProfile(response.data),
-          favoriteMovies: _this3.props.setUserFavoriteMovie(response.data.FavoriteMovies)
-        });
+        _this3.props.setUserProfile(response.data);
+      }).catch(function (err) {
+        console.log("unable to get user data" + err);
+      });
+    }
+  }, {
+    key: "getFavMovies",
+    value: function getFavMovies(token) {
+      var _this4 = this;
+
+      var username = localStorage.getItem("user");
+
+      _axios.default.get("https://scarpantonioapi.herokuapp.com/users/".concat(username), {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      }).then(function (response) {
+        _this4.props.setUserFavoriteMovie(response.data.FavoriteMovies);
       }).catch(function (err) {
         console.log("unable to get user data" + err);
       });
@@ -52957,6 +52969,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         });
         this.getMovies(accessToken);
         this.getUser(accessToken);
+        this.getFavMovies(accessToken);
       }
     }
   }, {
@@ -52970,6 +52983,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 
       this.getMovies(authData.token);
       this.getUser(authData.token);
+      getFavMovies(authData.token);
     }
   }, {
     key: "onLoggedOut",
@@ -53001,7 +53015,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       // #2
       var _this$props = this.props,
@@ -53015,7 +53029,6 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
       });
-      debugger;
       return _react.default.createElement(_reactRouterDom.BrowserRouter, {
         basename: "/client"
       }, _react.default.createElement("div", {
@@ -53043,7 +53056,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         size: "sm",
         className: "loggout",
         onClick: function onClick() {
-          return _this4.onLoggedOut();
+          return _this5.onLoggedOut();
         }
       }, _react.default.createElement("b", null, "Log Out"))))))), _react.default.createElement("div", {
         className: "main-view"
@@ -53053,7 +53066,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
         render: function render() {
           if (!user) return _react.default.createElement(_loginView.LoginView, {
             onLoggedIn: function onLoggedIn(user) {
-              return _this4.onLoggedIn(user);
+              return _this5.onLoggedIn(user);
             }
           });
           return _react.default.createElement(_movieList.default, {
@@ -53131,7 +53144,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
           return _react.default.createElement(_updateuserView.UpdateUserView, {
             userProfile: userProfile,
             onLoggedIn: function onLoggedIn(user) {
-              return _this4.onLoggedIn(user);
+              return _this5.onLoggedIn(user);
             }
           });
         }
@@ -53146,12 +53159,14 @@ var MainView = /*#__PURE__*/function (_React$Component) {
 exports.MainView = MainView;
 
 var mapStateToProps = function mapStateToProps(state) {
-  // nameofstate in component: state location in store.(name created by store function)
+  // Nameofstate in component: state location in store.(name created by store function)
+  // Seems we asign the state name here. and we grab the state from the store indicating the reducer  name.
+  // when I call the reducers function I make a call to the new state of the application.
   return {
     movies: state.movies,
     userProfile: state.userProfile,
-    favoriteMovies: state.userFavoriteMovies,
-    user: state.userLoogedIn
+    user: state.userLoogedIn,
+    favoriteMovies: state.userFavoriteMovies
   };
 };
 
@@ -53369,7 +53384,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "65338" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "59764" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
