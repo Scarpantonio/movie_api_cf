@@ -1,8 +1,13 @@
+// aqui deberiamos agregar lalogica de redux, para cuando se le click al boton, lo envie a redux. o el estado quede almacenado en el redux store.
+// You need to call this method on the button handling: setUserFavoriteMovie
+
 import React from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import { Card, CardDeck } from "react-bootstrap";
+import { setUserFavoriteMovie } from "../../actions/actions";
+// import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
 export class MovieCard extends React.Component {
@@ -31,6 +36,7 @@ export class MovieCard extends React.Component {
           addFavMovBtn: "You loved it",
           selectedMovie: movieId
         });
+        this.props.setUserFavoriteMovie(res.data.FavoriteMovies);
       })
       .catch(function(error) {
         console.log(error);
@@ -65,6 +71,16 @@ export class MovieCard extends React.Component {
     );
   }
 }
+
+// let mapStateToProps = state => {
+//   return {
+//     favoriteMovies: state.userFavoriteMovies
+//   };
+// };
+
+// export default connect(mapStateToProps, {
+//   setUserFavoriteMovie
+// })(MovieCard);
 
 MovieCard.propTypes = {
   movie: PropTypes.shape({
