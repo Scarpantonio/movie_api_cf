@@ -7,7 +7,7 @@ import PropTypes from "prop-types";
 import Button from "react-bootstrap/Button";
 import { Card, CardDeck } from "react-bootstrap";
 import { setUserFavoriteMovie } from "../../actions/actions";
-// import { connect } from "react-redux";
+import { connect } from "react-redux";
 
 import { Link } from "react-router-dom";
 export class MovieCard extends React.Component {
@@ -44,6 +44,7 @@ export class MovieCard extends React.Component {
   };
 
   render() {
+    // console.log(this.props.setUserFavoriteMovie);
     const { movie, added } = this.props;
     const { addFavMovBtn } = this.state;
     return (

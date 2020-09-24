@@ -51746,6 +51746,8 @@ var _reactBootstrap = require("react-bootstrap");
 
 var _actions = require("../../actions/actions");
 
+var _reactRedux = require("react-redux");
+
 var _reactRouterDom = require("react-router-dom");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -51817,6 +51819,7 @@ var MovieCard = /*#__PURE__*/function (_React$Component) {
     value: function render() {
       var _this2 = this;
 
+      // console.log(this.props.setUserFavoriteMovie);
       var _this$props = this.props,
           movie = _this$props.movie,
           added = _this$props.added;
@@ -51871,7 +51874,7 @@ MovieCard.propTypes = {
     added: _propTypes.default.bool
   }).isRequired
 };
-},{"react":"../../../../../node_modules/react/index.js","axios":"../node_modules/axios/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","../../actions/actions":"actions/actions.jsx","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/movie-list/movie-list.jsx":[function(require,module,exports) {
+},{"react":"../../../../../node_modules/react/index.js","axios":"../node_modules/axios/index.js","prop-types":"../node_modules/prop-types/index.js","react-bootstrap/Button":"../node_modules/react-bootstrap/esm/Button.js","react-bootstrap":"../node_modules/react-bootstrap/esm/index.js","../../actions/actions":"actions/actions.jsx","react-redux":"../node_modules/react-redux/es/index.js","react-router-dom":"../node_modules/react-router-dom/esm/react-router-dom.js"}],"components/movie-list/movie-list.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -53033,7 +53036,8 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       var _this$props = this.props,
           movies = _this$props.movies,
           userProfile = _this$props.userProfile,
-          favoriteMovies = _this$props.favoriteMovies; // seguimos almacenando estas dos en un state local talvez es parte del problema
+          favoriteMovies = _this$props.favoriteMovies,
+          _setUserFavoriteMovie = _this$props.setUserFavoriteMovie; // seguimos almacenando estas dos en un state local talvez es parte del problema
 
       var _this$state = this.state,
           user = _this$state.user,
@@ -53041,6 +53045,7 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
       });
+      debugger;
       return _react.default.createElement(_reactRouterDom.BrowserRouter, {
         basename: "/client"
       }, _react.default.createElement("div", {
@@ -53094,7 +53099,10 @@ var MainView = /*#__PURE__*/function (_React$Component) {
               key: m._id,
               movie: m,
               favMovbtn: addFavMovBtn,
-              added: favoriteMovies.includes(m._id)
+              added: favoriteMovies.includes(m._id),
+              setUserFavoriteMovie: function setUserFavoriteMovie() {
+                return _setUserFavoriteMovie;
+              }
             });
           });
         }
@@ -53396,7 +53404,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64034" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56827" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

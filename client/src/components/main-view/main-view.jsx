@@ -145,12 +145,17 @@ export class MainView extends React.Component {
 
   render() {
     // #2
-    let { movies, userProfile, favoriteMovies } = this.props;
+    let {
+      movies,
+      userProfile,
+      favoriteMovies,
+      setUserFavoriteMovie
+    } = this.props;
     // seguimos almacenando estas dos en un state local talvez es parte del problema
     let { user, addFavMovBtn } = this.state;
 
     if (!movies) return <div className="main-view" />;
-
+    debugger;
     return (
       <Router basename="/client">
         <div class="fixed-top">
@@ -203,6 +208,7 @@ export class MainView extends React.Component {
                   movie={m}
                   favMovbtn={addFavMovBtn}
                   added={favoriteMovies.includes(m._id)}
+                  setUserFavoriteMovie={() => setUserFavoriteMovie}
                 />
               ));
             }}
