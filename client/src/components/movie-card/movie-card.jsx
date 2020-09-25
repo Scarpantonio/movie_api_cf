@@ -1,6 +1,3 @@
-// aqui deberiamos agregar lalogica de redux, para cuando se le click al boton, lo envie a redux. o el estado quede almacenado en el redux store.
-// You need to call this method on the button handling: setUserFavoriteMovie
-
 import React from "react";
 import axios from "axios";
 import PropTypes from "prop-types";

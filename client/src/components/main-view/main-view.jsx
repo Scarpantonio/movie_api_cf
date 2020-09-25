@@ -155,7 +155,7 @@ export class MainView extends React.Component {
     let { user, addFavMovBtn } = this.state;
 
     if (!movies) return <div className="main-view" />;
-    debugger;
+
     return (
       <Router basename="/client">
         <div class="fixed-top">
@@ -197,20 +197,19 @@ export class MainView extends React.Component {
             render={() => {
               if (!user)
                 return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
-              return <MoviesList movies={movies} />;
+              return (
+                <MoviesList
+                  key={movies._id}
+                  movies={movies}
+                  // favMovbtn={addFavMovBtn}
+                  added={favoriteMovies.includes(movies._id)}
+                  setUserFavoriteMovie={() => setUserFavoriteMovie}
+                />
+              );
               // return <MovieCard movies={movies} />;
               if (!favoriteMovies) {
                 return null;
               }
-              return movies.map(m => (
-                <MovieCard
-                  key={m._id}
-                  movie={m}
-                  favMovbtn={addFavMovBtn}
-                  added={favoriteMovies.includes(m._id)}
-                  setUserFavoriteMovie={() => setUserFavoriteMovie}
-                />
-              ));
             }}
           />
           <Route path="/register" render={() => <RegisterView />} />

@@ -51903,7 +51903,9 @@ var mapStateToProps = function mapStateToProps(state) {
 
 function MoviesList(props) {
   var movies = props.movies,
-      visibilityFilter = props.visibilityFilter;
+      visibilityFilter = props.visibilityFilter,
+      added = props.added,
+      _setUserFavoriteMovie = props.setUserFavoriteMovie;
   var filteredMovies = movies;
 
   if (visibilityFilter !== "") {
@@ -51922,7 +51924,11 @@ function MoviesList(props) {
   }), filteredMovies.map(function (m) {
     return _react.default.createElement(_movieCard.MovieCard, {
       key: m._id,
-      movie: m
+      movie: m,
+      added: added,
+      setUserFavoriteMovie: function setUserFavoriteMovie() {
+        return _setUserFavoriteMovie;
+      }
     });
   }));
 }
@@ -53045,7 +53051,6 @@ var MainView = /*#__PURE__*/function (_React$Component) {
       if (!movies) return _react.default.createElement("div", {
         className: "main-view"
       });
-      debugger;
       return _react.default.createElement(_reactRouterDom.BrowserRouter, {
         basename: "/client"
       }, _react.default.createElement("div", {
@@ -53087,24 +53092,18 @@ var MainView = /*#__PURE__*/function (_React$Component) {
             }
           });
           return _react.default.createElement(_movieList.default, {
-            movies: movies
+            key: movies._id,
+            movies: movies // favMovbtn={addFavMovBtn}
+            ,
+            added: favoriteMovies.includes(movies._id),
+            setUserFavoriteMovie: function setUserFavoriteMovie() {
+              return _setUserFavoriteMovie;
+            }
           }); // return <MovieCard movies={movies} />;
 
           if (!favoriteMovies) {
             return null;
           }
-
-          return movies.map(function (m) {
-            return _react.default.createElement(_movieCard.MovieCard, {
-              key: m._id,
-              movie: m,
-              favMovbtn: addFavMovBtn,
-              added: favoriteMovies.includes(m._id),
-              setUserFavoriteMovie: function setUserFavoriteMovie() {
-                return _setUserFavoriteMovie;
-              }
-            });
-          });
         }
       }), _react.default.createElement(_reactRouterDom.Route, {
         path: "/register",
@@ -53404,7 +53403,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56827" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63198" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};
