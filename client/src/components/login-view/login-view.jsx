@@ -1,5 +1,3 @@
-// creo que es aqui donde debemos centralizar la respuesta para recojerla y mandarla al store.
-
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
@@ -44,7 +42,7 @@ export function LoginView(props) {
           />
         </Form.Group>
 
-        <Form.Row controlId="formBasicPassword">
+        <Form.Row>
           <Form.Label>Password</Form.Label>
           <Form.Control
             size="md"

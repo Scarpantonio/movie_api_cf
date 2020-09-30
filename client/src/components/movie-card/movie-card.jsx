@@ -6,6 +6,12 @@ import { Card, CardDeck } from "react-bootstrap";
 import { setUserFavoriteMovie } from "../../actions/actions";
 import { connect } from "react-redux";
 
+let mapStateToProps = state => {
+  return {
+    favoriteMovies: state.userFavoriteMovies
+  };
+};
+
 import { Link } from "react-router-dom";
 export class MovieCard extends React.Component {
   constructor() {
@@ -28,12 +34,12 @@ export class MovieCard extends React.Component {
           headers: { Authorization: `Bearer ${token}` }
         }
       )
-      .then(res => {
+      .then(response => {
         this.setState({
           addFavMovBtn: "You loved it",
           selectedMovie: movieId
         });
-        this.props.setUserFavoriteMovie(res.data.FavoriteMovies);
+        this.props.setUserFavoriteMovie(response.data.FavoriteMovies);
       })
       .catch(function(error) {
         console.log(error);
@@ -45,7 +51,14 @@ export class MovieCard extends React.Component {
     const { movie, added } = this.props;
     const { addFavMovBtn } = this.state;
     return (
-      <CardDeck style={{ width: "45rem" }}>
+      <CardDeck
+        style={{
+          width: "800px",
+          margin: "0 auto",
+          marginBottom: "50px",
+          marginTop: "70px"
+        }}
+      >
         <Card style={{ width: "16rem" }}>
           <Card.Img variant="top" src={movie.ImagePath} />
           <Card.Body>
@@ -70,15 +83,7 @@ export class MovieCard extends React.Component {
   }
 }
 
-// let mapStateToProps = state => {
-//   return {
-//     favoriteMovies: state.userFavoriteMovies
-//   };
-// };
-
-// export default connect(mapStateToProps, {
-//   setUserFavoriteMovie
-// })(MovieCard);
+export default connect(mapStateToProps, { setUserFavoriteMovie })(MovieCard);
 
 MovieCard.propTypes = {
   movie: PropTypes.shape({

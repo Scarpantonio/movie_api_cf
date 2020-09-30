@@ -11,7 +11,12 @@ const mapStateToProps = state => {
 };
 
 function MoviesList(props) {
-  const { movies, visibilityFilter, added, setUserFavoriteMovie } = props;
+  const {
+    movies,
+    visibilityFilter,
+    favoriteMovies,
+    setUserFavoriteMovie
+  } = props;
 
   let filteredMovies = movies;
 
@@ -28,8 +33,8 @@ function MoviesList(props) {
         <MovieCard
           key={m._id}
           movie={m}
-          added={added}
-          setUserFavoriteMovie={() => setUserFavoriteMovie}
+          added={favoriteMovies.includes(m._id)}
+          setUserFavoriteMovie={movies => setUserFavoriteMovie(movies)}
         />
       ))}
     </div>

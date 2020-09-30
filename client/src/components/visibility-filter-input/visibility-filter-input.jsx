@@ -8,7 +8,7 @@ import { setFilter } from "../../actions/actions";
 
 function VisibilityFilterInput(props) {
   return (
-    <div class="fixed-bottom">
+    <div className="fixed-bottom">
       <Form.Control
         className="barfilter"
         onChange={e => props.setFilter(e.target.value)}
@@ -19,4 +19,5 @@ function VisibilityFilterInput(props) {
   );
 }
 
+// Here mapStateToProps is null, because we are indicating where the reducer is going to take or send its value. and in this asi is from value={props.visibilityFilter}
 export default connect(null, { setFilter })(VisibilityFilterInput);

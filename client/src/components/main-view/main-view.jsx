@@ -1,6 +1,3 @@
-// redactar un keep para repasar como funciona esto en moviecard: favMovbtn={addFavMovBtn} added={favoriteMovies.includes(m._id)}
-// entender y reparar como funciona movie list que no esta filtrando bien las peliculas.
-
 import React from "react";
 import axios from "axios";
 import {
@@ -15,7 +12,7 @@ import {
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import PropTypes from "prop-types";
-//Redux
+
 import { connect } from "react-redux";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 // #0
@@ -24,8 +21,8 @@ import {
   setUserProfile,
   setUserFavoriteMovie,
   setLoggedInUser
-} from "../../actions/actions"; // aqui importamos la funcion que utilizamos para darle a nuestra accion el valor del api.
-// we haven't written this one yet
+} from "../../actions/actions";
+
 import MoviesList from "../movie-list/movie-list";
 import "./main-view.scss";
 import { LoginView } from "../login-view/login-view";
@@ -45,7 +42,6 @@ export class MainView extends React.Component {
     this.state = {
       movies: [],
       user: null,
-      addFavMovBtn: "I loved it",
       userProfile: null,
       favoriteMovies: null
     };
@@ -64,8 +60,6 @@ export class MainView extends React.Component {
         console.log(error);
       });
   }
-
-  // I'll need to create another API call for this favoriteMovies: this.props.setUserFavoriteMovie(response.data.FavoriteMovies)
 
   getUser(token) {
     const username = localStorage.getItem("user");
@@ -158,7 +152,7 @@ export class MainView extends React.Component {
 
     return (
       <Router basename="/client">
-        <div class="fixed-top">
+        <div className="fixed-top">
           <Navbar bg="dark" variant="dark" expand="lg">
             <Navbar.Brand as={Link} to="/">
               FLIX
@@ -174,16 +168,12 @@ export class MainView extends React.Component {
                   {!user ? null : "Profile"}
                 </Nav.Link>
 
-                <Nav.Link>
-                  {!user ? null : (
-                    <Link
-                      size="sm"
-                      className="loggout"
-                      onClick={() => this.onLoggedOut()}
-                    >
-                      <b>Log Out</b>
-                    </Link>
-                  )}
+                <Nav.Link
+                  className="loggout"
+                  onClick={() => this.onLoggedOut()}
+                  to="/"
+                >
+                  {!user ? null : <b>Log Out</b>}
                 </Nav.Link>
               </Nav>
             </Navbar.Collapse>
@@ -198,12 +188,12 @@ export class MainView extends React.Component {
               if (!user)
                 return <LoginView onLoggedIn={user => this.onLoggedIn(user)} />;
               return (
+                // is always false because we are not looping in the movies
                 <MoviesList
                   key={movies._id}
                   movies={movies}
-                  // favMovbtn={addFavMovBtn}
-                  added={favoriteMovies.includes(movies._id)}
-                  setUserFavoriteMovie={() => setUserFavoriteMovie}
+                  favoriteMovies={favoriteMovies}
+                  setUserFavoriteMovie={setUserFavoriteMovie}
                 />
               );
               // return <MovieCard movies={movies} />;
@@ -278,9 +268,6 @@ export class MainView extends React.Component {
 
 // #3
 let mapStateToProps = state => {
-  // Nameofstate in component: state location in store.(name created by store function)
-  // Seems we asign the state name here. and we grab the state from the store indicating the reducer  name.
-  // when I call the reducers function I make a call to the new state of the application.
   return {
     movies: state.movies,
     userProfile: state.userProfile,
@@ -290,7 +277,6 @@ let mapStateToProps = state => {
 };
 
 export default connect(mapStateToProps, {
-  // allows us to send Act. as props
   setMovies,
   setUserProfile,
   setUserFavoriteMovie,

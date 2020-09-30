@@ -95,8 +95,8 @@ export class ProfileView extends React.Component {
 
               <ul>
                 {(favMovies || []).map((fm, index) => (
-                  <div>
-                    <li key={index}>
+                  <div key={index}>
+                    <li>
                       {movies.find(m => m._id === fm).Title}
                       <button
                         className="btn"
@@ -136,7 +136,7 @@ ProfileView.propTypes = {
   userProfile: PropTypes.shape({
     Username: PropTypes.string.isRequired,
     Email: PropTypes.string.isRequired,
-    Birthday: PropTypes.number.isRequired,
+    Birthday: PropTypes.string.isRequired,
     favoriteMovies: PropTypes.shape({
       FavoriteMovies: PropTypes.string.isRequired
     }),

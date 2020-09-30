@@ -1,4 +1,9 @@
 .loggout {
-  margin-left: 810px;
   color: white;
+}
+
+@media only screen and (min-width: 900px) {
+  .loggout {
+    margin-left: 700px;
+  }
 }
