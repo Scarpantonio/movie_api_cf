@@ -1,0 +1,108 @@
+.barfilter {
+  z-index: 2;
+  margin-top: 55px;
+}
+.loggout {
+  color: white;
+}
+
+@media only screen and (min-width: 900px) {
+  .loggout {
+    margin-left: 700px;
+  }
+}
+.formStyle {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 100px;
+  height: 100%;
+  border: 2px solid lightgray;
+  border-radius: 20px;
+}
+
+.inputStyles {
+  margin-left: 20px;
+  padding: 50px;
+  color: black;
+  font-weight: bold;
+}
+
+.r-title {
+  position: relative;
+  top: 30px;
+  left: 20px;
+  bottom: 10px;
+  font-weight: 100;
+  font-size: 40px;
+}
+
+.S-Btn {
+  position: relative;
+  margin-top: 30px;
+}
+
+.newUserLink {
+  position: relative;
+  top: 25px;
+  left: 15px;
+}
+.formStyle {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 100px;
+  height: 100%;
+  border: 2px solid lightgray;
+  border-radius: 20px;
+}
+
+.inputStyles {
+  margin-left: 20px;
+  padding: 50px;
+  color: black;
+  font-weight: bold;
+}
+
+.r-title {
+  position: relative;
+  top: 30px;
+  left: 20px;
+  bottom: 10px;
+  font-weight: 100;
+  font-size: 40px;
+}
+
+.S-Btn {
+  position: relative;
+  margin-top: 30px;
+}
+.formStyle {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 100px;
+  height: 100%;
+  border: 2px solid lightgray;
+  border-radius: 20px;
+}
+
+.inputStyles {
+  margin-left: 20px;
+  padding: 50px;
+  color: black;
+  font-weight: bold;
+}
+
+.r-title {
+  position: relative;
+  top: 30px;
+  left: 20px;
+  bottom: 10px;
+  font-weight: 100;
+  font-size: 40px;
+}
+
+.S-Btn {
+  position: relative;
+  margin-top: 30px;
+}
+
+/*# sourceMappingURL=/src.78399e21.css.map */
