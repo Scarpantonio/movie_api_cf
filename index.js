@@ -9,6 +9,7 @@ const Users = Models.User;
 const { check, validationResult } = require("express-validator");
 uuid = require("uuid");
 const cors = require("cors");
+const path = require("path");
 const passport = require("passport");
 require("./passport");
 require("dotenv").config();
@@ -17,6 +18,10 @@ app.use(cors());
 app.use(morgan("common"));
 app.set("view engine", "ejs");
 app.use(express.static("public"));
+app.use("/client", express.static(path.join(__dirname, "client", "dist")));
+app.get("/client/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "dist", "index.html"));
+});
 app.use(bodyParser.json());
 
 let auth = require("./auth")(app);
